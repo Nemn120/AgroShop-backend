@@ -3,11 +3,13 @@ package com.agroshop.app.model.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.repository.IProductRepository;
 import com.agroshop.app.model.service.IProductService;
 
+@Service
 public class ProductServiceImpl implements IProductService {
 	
 	@Autowired
