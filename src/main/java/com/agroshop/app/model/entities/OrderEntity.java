@@ -1,8 +1,6 @@
 package com.agroshop.app.model.entities;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="order")
+@Table(name="order_entity")
 public class OrderEntity extends MainEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -29,12 +27,13 @@ public class OrderEntity extends MainEntity {
 	private String phone;
 	private String reference;
 	@ManyToOne
-	@JoinColumn(name = "client_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 	@ManyToOne
-	@JoinColumn(name = "company_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "company_id")
 	private CompanyEntity company;
 	private LocalDateTime deliveredDate;
+	
 	
 	
 	public Integer getId() {
@@ -55,12 +54,7 @@ public class OrderEntity extends MainEntity {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public List<OrderDetailEntity> getOrderDetail() {
-		return orderDetail;
-	}
-	public void setOrderDetail(List<OrderDetailEntity> orderDetail) {
-		this.orderDetail = orderDetail;
-	}
+
 	public LocalDateTime getDeliveryDate() {
 		return deliveryDate;
 	}

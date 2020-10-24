@@ -13,19 +13,12 @@ import javax.persistence.Table;
 @Table(name="product_sales")
 public class ProductSalesEntity extends MainEntity {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Integer id;
-	
-	
 	@ManyToOne
-	@JoinColumn(name = "product_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	private ProductEntity product;
 	private Double price;
 	private Integer totalQuantity;

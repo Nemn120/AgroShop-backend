@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,12 +11,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "client")
-public class ClientEntity {
+public class ClientEntity extends MainEntity{
+	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 	
 	public Integer getId() {

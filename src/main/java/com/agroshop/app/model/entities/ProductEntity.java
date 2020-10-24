@@ -14,9 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="product")
 public class ProductEntity extends MainEntity  {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

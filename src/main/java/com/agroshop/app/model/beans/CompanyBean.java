@@ -116,14 +116,6 @@ public class CompanyBean extends MainBean {
 	public void setImagePanel(byte[] imagePanel) {
 		this.imagePanel = imagePanel;
 	}
-	
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public Double getQualification() {
 		return qualification;

@@ -1,7 +1,9 @@
 package com.agroshop.app.model.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,12 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
-@Table(name="user")
-public class UserEntity extends MainEntity {
+@Table(name="user_main")
+public class UserEntity extends MainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id",nullable=false)
 	private Integer id;
 	private String name;
 	private String password;
@@ -28,10 +33,14 @@ public class UserEntity extends MainEntity {
 	private LocalDate birthdate;
 	private String lastName;
 	private String enableUser;
+	@JsonIgnore
+	@Column(name = "photo", updatable = false)
 	private byte[] photo;
 	@ManyToOne
-	@JoinColumn(name = "profile_id", nullable = false, referencedColumnName = "idProfile")
+	@JoinColumn(name = "profile_id", referencedColumnName = "id_profile")
 	private ProfileEntity profile;
+	
+	
 
 	public Integer getId() {
 		return id;

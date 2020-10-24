@@ -19,7 +19,7 @@ public class DriverEntity extends MainEntity{
 	private String yearsOfExperience;
 	private Double qualification;
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 	
 	public Integer getId() {

@@ -9,7 +9,6 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class MainEntity  implements Serializable  {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "create_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime createDate;
 	@Column(name = "update_date", columnDefinition = "TIMESTAMP")

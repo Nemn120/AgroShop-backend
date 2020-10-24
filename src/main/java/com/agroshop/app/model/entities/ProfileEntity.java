@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +14,11 @@ public class ProfileEntity extends MainEntity {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_profile")
 	private Integer idProfile;
+	@Column(name = "name", length = 30)
 	private String name;
+	@Column(name = "description", length = 50)
 	private String description;
 
 	public Integer getIdProfile() {

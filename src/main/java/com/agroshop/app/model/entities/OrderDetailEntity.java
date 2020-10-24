@@ -17,10 +17,10 @@ public class OrderDetailEntity extends MainEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne
-	@JoinColumn(name = "order_id", nullable = false, referencedColumnName = "id")
-	private OrderEntity order;
+	@JoinColumn(name = "custom_order_id", nullable = false)
+	private OrderEntity customOrder;
 	@ManyToOne
-	@JoinColumn(name = "product_sales_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "product_sales_id", nullable = false)
 	private ProductSalesEntity productSales;
 	private Integer quantity;
 	private Integer price;
@@ -32,11 +32,14 @@ public class OrderDetailEntity extends MainEntity {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public OrderEntity getOrder() {
-		return order;
+	
+	
+
+	public OrderEntity getCustomOrder() {
+		return customOrder;
 	}
-	public void setOrder(OrderEntity order) {
-		this.order = order;
+	public void setCustomOrder(OrderEntity customOrder) {
+		this.customOrder = customOrder;
 	}
 	public ProductSalesEntity getProductSales() {
 		return productSales;

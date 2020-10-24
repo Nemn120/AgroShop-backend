@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,34 +10,38 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="menu_option")
+@Table(name = "menu_option")
 public class MenuOptionEntity extends MainEntity {
+
+	private static final long serialVersionUID = 1L;
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_menu")
 	private Integer idMenu;
 	private String iconMenu;
 	private String nameMenu;
 	private String urlMenu;
-	private Integer order;
+	private Integer orderNumber;
 	@ManyToOne
-	@JoinColumn(name = "parent_id", referencedColumnName = "idMenu")
-	private MenuOptionEntity parent;
-	
-	public Integer getOrder() {
-		return order;
-	}
+	@JoinColumn(name = "parent_id")
+	private ParentMenuOptionEntity parent;
 
-	public void setOrder(Integer order) {
-		this.order = order;
-	}
-
-	public MenuOptionEntity getParent() {
+	public ParentMenuOptionEntity getParent() {
 		return parent;
 	}
 
-	public void setParent(MenuOptionEntity parent) {
+	public void setParent(ParentMenuOptionEntity parent) {
 		this.parent = parent;
+	}
+
+	public Integer getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(Integer orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public Integer getIdMenu() {

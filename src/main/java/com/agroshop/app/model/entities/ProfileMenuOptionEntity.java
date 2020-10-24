@@ -10,17 +10,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="profile_menu_option")
-public class ProfileMenuOptionEntity extends MainEntity {
+public class ProfileMenuOptionEntity extends MainEntity{
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer profileMenuId;
 	@ManyToOne
-	@JoinColumn(name = "profile_id", nullable = false, referencedColumnName = "idProfile")
+	@JoinColumn(name = "profile_id")
 	private ProfileEntity profile;
 	@ManyToOne
-	@JoinColumn(name = "menu_id", nullable = false, referencedColumnName = "idMenu")
+	@JoinColumn(name = "menu_id")
 	private MenuOptionEntity menu;
 
 	public Integer getProfileMenuId() {
