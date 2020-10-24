@@ -1,5 +1,8 @@
 package com.agroshop.app.model.service;
 
-public interface IUserService {
+import com.agroshop.app.model.entities.UserEntity;
 
+public interface IUserService extends GenericCRUD<UserEntity, Integer>{
+
+	
 }
