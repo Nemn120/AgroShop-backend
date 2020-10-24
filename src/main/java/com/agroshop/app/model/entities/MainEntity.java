@@ -1,10 +1,18 @@
-package com.agroshop.app.model.beans;
+package com.agroshop.app.model.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class MainBean {
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
+@MappedSuperclass
+public class MainEntity  implements Serializable  {
+
+	private static final long serialVersionUID = 1L;
+	@Column(name = "create_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime createDate;
+	@Column(name = "update_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime updateDate;
 	private Integer userCreateId;
 	private Integer userUpdatedId;

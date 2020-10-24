@@ -1,29 +1,41 @@
-package com.agroshop.app.model.beans;
+package com.agroshop.app.model.entities;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-public class OrderBean extends MainBean {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="order")
+public class OrderEntity extends MainEntity {
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer id;
 	private Double total;
 	private Integer quantity;
-	private List<OrderDetailBean> orderDetail;
 	
 	private LocalDateTime deliveryDate;
 	private LocalDateTime attendDate;
 	private String address;
 	private String phone;
 	private String reference;
-	private ClientBean client;
-	private CompanyBean company;
-	private PlaceBean place;
+	@ManyToOne
+	@JoinColumn(name = "client_id", nullable = false, referencedColumnName = "id")
+	private ClientEntity client;
+	@ManyToOne
+	@JoinColumn(name = "company_id", nullable = false, referencedColumnName = "id")
+	private CompanyEntity company;
 	private LocalDateTime deliveredDate;
 	
-	private String formaPago;
-	private String numCuotas;
-	private List<PayInstalmentsBean> feePay;
 	
 	public Integer getId() {
 		return id;
@@ -43,10 +55,10 @@ public class OrderBean extends MainBean {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public List<OrderDetailBean> getOrderDetail() {
+	public List<OrderDetailEntity> getOrderDetail() {
 		return orderDetail;
 	}
-	public void setOrderDetail(List<OrderDetailBean> orderDetail) {
+	public void setOrderDetail(List<OrderDetailEntity> orderDetail) {
 		this.orderDetail = orderDetail;
 	}
 	public LocalDateTime getDeliveryDate() {
@@ -79,24 +91,19 @@ public class OrderBean extends MainBean {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-	public ClientBean getClient() {
+	public ClientEntity getClient() {
 		return client;
 	}
-	public void setClient(ClientBean client) {
+	public void setClient(ClientEntity client) {
 		this.client = client;
 	}
-	public CompanyBean getCompany() {
+	public CompanyEntity getCompany() {
 		return company;
 	}
-	public void setCompany(CompanyBean company) {
+	public void setCompany(CompanyEntity company) {
 		this.company = company;
 	}
-	public PlaceBean getPlace() {
-		return place;
-	}
-	public void setPlace(PlaceBean place) {
-		this.place = place;
-	}
+	
 	public LocalDateTime getDeliveredDate() {
 		return deliveredDate;
 	}

@@ -1,6 +1,6 @@
 package com.agroshop.app.model.beans;
 
-public class ProductSales extends MainBean {
+public class ProductSalesBean extends MainBean {
 
 	private Integer id;
 	private ProductBean product;
@@ -10,6 +10,13 @@ public class ProductSales extends MainBean {
 	private Integer availableQuantity;
 	private String type;
 	private Integer farmerNumber;
+	private String unidadMedida;
+	private String vigencia;
+	private String descuento;
+	private String peso;
+	private Double ofertPrice;
+	
+	
 	
 	public Integer getId() {
 		return id;
