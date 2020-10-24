@@ -12,6 +12,7 @@ public class CompanyBean extends MainBean {
 	private String description;
 	private String address;
 	private String phone;
+	private String status;
 	private LocalDate anniversaryDate;
 	private UserBean userAdmin;
 	private byte[] photo;
