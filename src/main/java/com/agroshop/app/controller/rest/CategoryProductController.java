@@ -32,7 +32,7 @@ public class CategoryProductController{
 			//response.setData(this.categoryProductService.save(request.getData()));
 			response.setResponseMessage("Producto registrado");
 			response.setResponseCode(response.SUCCESS);
-		}catch() {
+		}catch(Error e){} {
 			response.setResponseMessage("Error al guardar categoria");
 			response.setResponseCode(response.ERROR);
 		}
