@@ -6,22 +6,23 @@ public class MenuOptionBean extends MainBean {
 	private String iconMenu;
 	private String nameMenu;
 	private String urlMenu;
-	private Integer order;
-	private MenuOptionBean parent;
+	private Integer orderNumber;
+	private ParentMenuOptionBean parent;
 	
-	public Integer getOrder() {
-		return order;
+	
+	public Integer getOrderNumber() {
+		return orderNumber;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setOrderNumber(Integer orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
-	public MenuOptionBean getParent() {
+	public ParentMenuOptionBean getParent() {
 		return parent;
 	}
 
-	public void setParent(MenuOptionBean parent) {
+	public void setParent(ParentMenuOptionBean parent) {
 		this.parent = parent;
 	}
 

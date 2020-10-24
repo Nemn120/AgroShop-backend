@@ -52,12 +52,5 @@ public class DriverEntity extends MainEntity{
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }

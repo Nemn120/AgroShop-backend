@@ -3,7 +3,7 @@ package com.agroshop.app.model.beans;
 public class OrderDetailBean extends MainBean {
 
 	private Integer id;
-	private OrderBean order;
+	private OrderBean customOrder;
 	private ProductSalesBean productSales;
 	private Integer quantity;
 	private Integer price;
@@ -15,11 +15,12 @@ public class OrderDetailBean extends MainBean {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public OrderBean getOrder() {
-		return order;
+	
+	public OrderBean getCustomOrder() {
+		return customOrder;
 	}
-	public void setOrder(OrderBean order) {
-		this.order = order;
+	public void setCustomOrder(OrderBean customOrder) {
+		this.customOrder = customOrder;
 	}
 	public ProductSalesBean getProductSales() {
 		return productSales;

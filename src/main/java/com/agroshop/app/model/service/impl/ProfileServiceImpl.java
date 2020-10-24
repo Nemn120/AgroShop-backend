@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agroshop.app.model.entities.ProfileEntity;
+import com.agroshop.app.model.entities.ProfileMenuOptionEntity;
 import com.agroshop.app.model.repository.IProfileRepository;
 import com.agroshop.app.model.service.IProfileService;
 
@@ -22,7 +23,7 @@ public class ProfileServiceImpl implements IProfileService{
 
 	@Override
 	public ProfileEntity getOneById(Integer id) {
-		return profileRepo.getOne(id);
+		return profileRepo.findById(id).orElse(new ProfileEntity());
 	}
 
 	@Override

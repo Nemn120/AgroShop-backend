@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.FarmerEntity;
 import com.agroshop.app.model.entities.MenuOptionEntity;
 import com.agroshop.app.model.repository.IMenuOptionRepository;
 import com.agroshop.app.model.service.IMenuOptionService;
@@ -22,7 +23,7 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 
 	@Override
 	public MenuOptionEntity getOneById(Integer id) {
-		return menuOptionRepo.getOne(id);
+		return menuOptionRepo.findById(id).orElse(new MenuOptionEntity());
 	}
 
 	@Override

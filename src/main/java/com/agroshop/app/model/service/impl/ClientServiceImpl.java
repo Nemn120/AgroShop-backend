@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.repository.IClientRepository;
 import com.agroshop.app.model.service.IClientService;
@@ -22,7 +23,7 @@ public class ClientServiceImpl implements IClientService {
 
 	@Override
 	public ClientEntity getOneById(Integer id) {
-		return clientRepository.getOne(id);
+		return clientRepository.findById(id).orElse(new ClientEntity());
 	}
 
 	@Override

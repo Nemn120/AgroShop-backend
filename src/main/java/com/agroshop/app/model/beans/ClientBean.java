@@ -1,6 +1,6 @@
 package com.agroshop.app.model.beans;
 
-public class ClientBean {
+public class ClientBean extends MainBean{
 	private Integer id;
 	private UserBean user;
 	

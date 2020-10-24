@@ -10,13 +10,11 @@ public class ProductSalesBean extends MainBean {
 	private Integer availableQuantity;
 	private String type;
 	private Integer farmerNumber;
-	private String unidadMedida;
-	private String vigencia;
-	private String descuento;
-	private String peso;
-	private Double ofertPrice;
-	
-	
+	private String measureUnite;
+	private String validity; //validez
+	private String discount;
+	private String weight; //peso
+	private Double offerPrice;
 	
 	public Integer getId() {
 		return id;
@@ -66,6 +64,37 @@ public class ProductSalesBean extends MainBean {
 	public void setFarmerNumber(Integer farmerNumber) {
 		this.farmerNumber = farmerNumber;
 	}
+	public String getMeasureUnite() {
+		return measureUnite;
+	}
+	public void setMeasureUnite(String measureUnite) {
+		this.measureUnite = measureUnite;
+	}
+	public String getValidity() {
+		return validity;
+	}
+	public void setValidity(String validity) {
+		this.validity = validity;
+	}
+	public String getDiscount() {
+		return discount;
+	}
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+	public String getWeight() {
+		return weight;
+	}
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+	public Double getOfferPrice() {
+		return offerPrice;
+	}
+	public void setOfferPrice(Double offerPrice) {
+		this.offerPrice = offerPrice;
+	}
+	
 	
 	
 }

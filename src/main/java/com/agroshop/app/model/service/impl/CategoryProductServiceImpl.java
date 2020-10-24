@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.CatalogEntity;
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.repository.ICategoryProductRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
@@ -17,7 +18,7 @@ public class CategoryProductServiceImpl implements ICategoryProductService {
 	
 	@Override
 	public CategoryProductEntity getOneById(Integer id) {
-		return categoryRepo.getOne(id);
+		return categoryRepo.findById(id).orElse(new CategoryProductEntity());
 	}
 
 	@Override

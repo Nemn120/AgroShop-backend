@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "company")
-public class CompanyEntity extends MainEntity {
+public class CompanyEntity extends MainEntity{
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -25,6 +25,7 @@ public class CompanyEntity extends MainEntity {
 	private String description;
 	private String address;
 	private String phone;
+	@Column(name="anniversary_date",columnDefinition="DATE")
 	private LocalDate anniversaryDate;
 	private UserEntity userAdmin;
 	private byte[] photo;

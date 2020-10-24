@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.IProductSalesService;
@@ -17,7 +18,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	
 	@Override
 	public ProductSalesEntity getOneById(Integer id) {
-		return salesRepository.getOne(id);
+		return salesRepository.findById(id).orElse(new ProductSalesEntity());
 	}
 
 	@Override

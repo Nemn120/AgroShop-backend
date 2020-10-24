@@ -26,9 +26,9 @@ public class ProductSalesEntity extends MainEntity {
 	private String type;
 	private Integer farmerNumber;
 	private String measureUnite;
-	private String validity;
+	private String validity; //validez
 	private String discount;
-	private String weight;
+	private String weight; //peso
 	private Double offerPrice;
 	
 		

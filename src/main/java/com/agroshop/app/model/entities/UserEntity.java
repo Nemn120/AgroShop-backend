@@ -30,6 +30,7 @@ public class UserEntity extends MainEntity implements Serializable {
 	private String email;
 	private String documentTypeId;
 	private String documentNumber;
+	@Column(name = "birth_date", columnDefinition = "DATE")
 	private LocalDate birthdate;
 	private String lastName;
 	private String enableUser;

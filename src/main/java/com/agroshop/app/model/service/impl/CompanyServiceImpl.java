@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.repository.ICompanyRepository;
 import com.agroshop.app.model.service.ICompanyService;
@@ -22,7 +23,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
 	@Override
 	public CompanyEntity getOneById(Integer id) {
-		return companyRepo.getOne(id);
+		return companyRepo.findById(id).orElse(new CompanyEntity());
 	}
 
 	@Override

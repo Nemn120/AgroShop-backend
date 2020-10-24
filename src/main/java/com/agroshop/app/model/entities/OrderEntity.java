@@ -2,6 +2,7 @@ package com.agroshop.app.model.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,19 +21,20 @@ public class OrderEntity extends MainEntity {
 	public Integer id;
 	private Double total;
 	private Integer quantity;
-	
+	@Column(name = "delivery_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime deliveryDate;
+	@Column(name = "attend_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime attendDate;
 	private String address;
 	private String phone;
 	private String reference;
-	private List<OrderDetailEntity> orderDetail;
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 	@ManyToOne
 	@JoinColumn(name = "company_id")
 	private CompanyEntity company;
+	@Column(name = "delivered_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime deliveredDate;
 	
 	

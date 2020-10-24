@@ -22,7 +22,7 @@ public class CatalogDetailServiceImpl implements ICatalogDetailService {
 
 	@Override
 	public CatalogDetailEntity getOneById(Integer id) {
-		return catalogDetailRepo.getOne(id);
+		return catalogDetailRepo.findById(id).orElse(new CatalogDetailEntity());
 	}
 
 	@Override

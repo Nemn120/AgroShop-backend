@@ -1,8 +1,6 @@
 package com.agroshop.app.model.beans;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 public class CompanyBean extends MainBean {
 
 	private Integer id;

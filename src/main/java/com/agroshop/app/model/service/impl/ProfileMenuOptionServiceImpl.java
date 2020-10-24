@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProfileMenuOptionEntity;
 import com.agroshop.app.model.repository.IProfileMenuOptionRepository;
 import com.agroshop.app.model.service.IProfileMenuOptionService;
@@ -21,7 +23,7 @@ public class ProfileMenuOptionServiceImpl implements IProfileMenuOptionService {
 
 	@Override
 	public ProfileMenuOptionEntity getOneById(Integer id) {
-		return profileMenuOptionRepo.getOne(id);
+		return profileMenuOptionRepo.findById(id).orElse(new ProfileMenuOptionEntity());
 	}
 
 	@Override

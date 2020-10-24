@@ -6,6 +6,15 @@ public class CatalogBean extends MainBean {
 	private String code;
 	private String name;
 	private String description;
+	private String iconPath;
+
+	public String getIconPath() {
+		return iconPath;
+	}
+
+	public void setIconPath(String iconPath) {
+		this.iconPath = iconPath;
+	}
 
 	public Integer getId() {
 		return id;

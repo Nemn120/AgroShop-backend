@@ -1,6 +1,6 @@
 package com.agroshop.app.model.beans;
 
-public class DriverBean {
+public class DriverBean extends MainBean{
 	
 	private Integer id;
 	private String driverLicenseNumber;
@@ -38,12 +38,4 @@ public class DriverBean {
 	public void setUser(UserBean user) {
 		this.user = user;
 	}
-	
-	
-	
-	
-	
-	
-	
-
 }

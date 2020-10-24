@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.repository.IDriverRepository;
 import com.agroshop.app.model.service.IDriverService;
@@ -22,7 +23,7 @@ public class DriverServiceImpl implements IDriverService{
 
 	@Override
 	public DriverEntity getOneById(Integer id) {
-		return driverRepo.getOne(id);
+		return driverRepo.findById(id).orElse(new DriverEntity());
 	}
 
 	@Override
