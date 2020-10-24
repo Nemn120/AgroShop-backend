@@ -26,6 +26,7 @@ public class OrderEntity extends MainEntity {
 	private String address;
 	private String phone;
 	private String reference;
+	private List<OrderDetailEntity> orderDetail;
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;

@@ -1,5 +1,11 @@
 package com.agroshop.app.model.service;
 
-public interface IUserService {
+import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.entities.UserEntity;
+
+@Service
+public interface IUserService extends GenericCRUD<UserEntity, Integer>{
+
+	
 }
