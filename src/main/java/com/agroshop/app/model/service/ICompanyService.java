@@ -11,4 +11,8 @@ import com.agroshop.app.model.entities.CompanyEntity;
 public interface ICompanyService extends GenericCRUD<CompanyEntity, Integer>{
 
 	List<CompanyBean> getCompanyListByStatus(CompanyBean bean);
+	
+	Boolean acceptCompany(CompanyBean bean); 
+	
+	List<CompanyBean> acceptCompanyList(List<CompanyBean> beans);
 }

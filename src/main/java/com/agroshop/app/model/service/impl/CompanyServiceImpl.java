@@ -12,6 +12,7 @@ import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.repository.ICompanyRepository;
 import com.agroshop.app.model.service.ICompanyService;
+import com.agroshop.app.util.Constants;
 
 @Service
 public class CompanyServiceImpl implements ICompanyService {
@@ -51,6 +52,38 @@ public class CompanyServiceImpl implements ICompanyService {
 			listBean.add(aux);
 		}
 		return listBean;
+	}
+
+	@Override
+	public Boolean acceptCompany(CompanyBean bean) {
+		try {
+			//companyRepo.acceptCompany(Constants.COMPANY_STATUS__ACCEPTED,bean.getId());
+			Integer id = bean.getId();
+			CompanyEntity company = getOneById(id);
+			if(company.getCreateDate()!=null) {
+				company.setStatus(Constants.COMPANY_STATUS__ACCEPTED);
+				save(company);
+				return true;
+			}else
+				throw new RuntimeException("Empresa no encontrada");
+		}catch(Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public List<CompanyBean> acceptCompanyList(List<CompanyBean> beans) {
+		
+		List<CompanyBean> rejected = new ArrayList<CompanyBean>() ;
+		
+			
+			for(CompanyBean bean : beans) {
+				if(!acceptCompany(bean))
+					rejected.add(bean);
+			}
+			
+			return rejected;
+		
 	}
 
 }
