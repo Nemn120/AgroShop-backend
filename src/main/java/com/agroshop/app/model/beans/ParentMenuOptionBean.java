@@ -3,8 +3,7 @@ package com.agroshop.app.model.beans;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="parent_menu_option")
+
 public class ParentMenuOptionBean {
 	private Integer id;
 	private String iconMenu;

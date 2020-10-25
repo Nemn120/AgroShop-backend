@@ -27,7 +27,7 @@ public class CompanyEntity extends MainEntity{
 	private String phone;
 	@Column(name="anniversary_date",columnDefinition="DATE")
 	private LocalDate anniversaryDate;
-	private UserEntity userAdmin;
+	
 	private byte[] photo;
 	private byte[] imagePanel;
 	private String companyStatus;
@@ -104,14 +104,6 @@ public class CompanyEntity extends MainEntity{
 
 	public void setAnniversaryDate(LocalDate anniversaryDate) {
 		this.anniversaryDate = anniversaryDate;
-	}
-
-	public UserEntity getUserAdmin() {
-		return userAdmin;
-	}
-
-	public void setUserAdmin(UserEntity userAdmin) {
-		this.userAdmin = userAdmin;
 	}
 
 	public byte[] getPhoto() {
