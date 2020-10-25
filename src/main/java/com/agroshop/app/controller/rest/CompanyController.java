@@ -32,8 +32,11 @@ public class CompanyController {
 		try {
 			CompanyBean bean = request.getData();
 			List<CompanyBean> list = companyService.getCompanyListByStatus(bean); 
+			if(list.isEmpty())
+				response.setResponseMessage("No se encontraron empresas");
+			else
+				response.setResponseMessage("Se listó las empresas con exito");
 			response.setDatalist(list);
-			response.setResponseMessage("Se listó las empresas con exito");
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
