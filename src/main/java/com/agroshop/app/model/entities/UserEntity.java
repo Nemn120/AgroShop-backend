@@ -34,14 +34,21 @@ public class UserEntity extends MainEntity implements Serializable {
 	private LocalDate birthdate;
 	private String lastName;
 	private String enableUser;
+	private String typeUser;
 	@JsonIgnore
 	@Column(name = "photo", updatable = false)
 	private byte[] photo;
 	@ManyToOne
 	@JoinColumn(name = "profile_id", referencedColumnName = "id_profile")
 	private ProfileEntity profile;
-	
-	
+
+	public String getTypeUser() {
+		return typeUser;
+	}
+
+	public void setTypeUser(String typeUser) {
+		this.typeUser = typeUser;
+	}
 
 	public Integer getId() {
 		return id;

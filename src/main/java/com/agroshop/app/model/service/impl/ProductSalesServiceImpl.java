@@ -39,7 +39,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public List<ProductSalesEntity> findByIdSalesOrderByPriceAsc(int idSales) {
-		return salesRepository.findByIdSalesOrderByPriceAsc(idSales);
+		return null; //salesRepository.findByIdSalesOrderByPriceAsc(idSales);
 	}
 	
 }
