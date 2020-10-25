@@ -1,10 +1,13 @@
 package com.agroshop.app.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.beans.CompanyBean;
 import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.repository.ICompanyRepository;
@@ -34,6 +37,20 @@ public class CompanyServiceImpl implements ICompanyService {
 	@Override
 	public void deleteById(Integer id) {
 		companyRepo.deleteById(id);
+	}
+
+	@Override
+	public List<CompanyBean> getCompanyListByStatus(CompanyBean bean) {
+		List<CompanyEntity> list = companyRepo.findByStatus(bean.getStatus());
+		List<CompanyBean> listBean = new ArrayList<CompanyBean>();
+		
+		
+		for(CompanyEntity l: list) {
+			CompanyBean aux = new CompanyBean();
+			BeanUtils.copyProperties(l,aux);
+			listBean.add(aux);
+		}
+		return listBean;
 	}
 
 }
