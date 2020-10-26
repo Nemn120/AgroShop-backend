@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agroshop.app.model.entities.CatalogEntity;
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.repository.ICategoryProductRepository;
 import com.agroshop.app.model.service.ICategoryProductService;

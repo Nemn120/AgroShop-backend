@@ -1,9 +1,11 @@
 package com.agroshop.app.model.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import com.agroshop.app.model.entities.DriverEntity;
 
-public interface IDriverRepository extends JpaRepository<DriverEntity, Integer>{
+import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface IDriverRepository extends JpaRepository<DriverEntity, Integer>{
+    List<DriverEntity> findByStatus(String status);
 }

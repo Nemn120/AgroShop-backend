@@ -1,9 +1,10 @@
 package com.agroshop.app.model.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import com.agroshop.app.model.entities.CompanyEntity;
 
-public interface ICompanyRepository extends JpaRepository<CompanyEntity, Integer> {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface ICompanyRepository extends JpaRepository<CompanyEntity, Integer> {
 }

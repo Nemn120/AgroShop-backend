@@ -1,7 +1,6 @@
 package com.agroshop.app.model.beans;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class OrderBean extends MainBean {

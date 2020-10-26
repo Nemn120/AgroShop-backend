@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.agroshop.app.model.entities.ProfileEntity;
 import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IUserRepository;
 import com.agroshop.app.model.service.IUserService;
