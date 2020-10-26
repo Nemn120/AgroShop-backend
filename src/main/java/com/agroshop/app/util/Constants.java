@@ -10,6 +10,4 @@ public class Constants {
     public static final String DRIVER_BY_STATUS_NOT_AVAILABLE = "Conductor no disponible";
     public static final String ERROR_ACCEPTING_DRIVER = "Error al registrar conductor";
 
-    //COMPANY
-    public static final String COMPANY_BY_ID_NOT_AVAILABLE = "Compañia no disponible";
 }

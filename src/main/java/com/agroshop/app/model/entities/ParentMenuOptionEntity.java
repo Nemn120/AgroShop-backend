@@ -14,7 +14,7 @@ public class ParentMenuOptionEntity  extends MainEntity{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_parent_menu")
+	@Column(name="id")
 	private Integer id;
 	
 	private String iconMenu;

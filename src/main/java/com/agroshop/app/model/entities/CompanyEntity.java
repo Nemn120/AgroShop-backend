@@ -1,7 +1,7 @@
 package com.agroshop.app.model.entities;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,13 +27,12 @@ public class CompanyEntity extends MainEntity{
 	private String phone;
 	@Column(name="anniversary_date",columnDefinition="DATE")
 	private LocalDate anniversaryDate;
-	private UserEntity userAdmin;
+	
 	private byte[] photo;
 	private byte[] imagePanel;
 	private String companyStatus;
 	private Double qualification;
 	private String additionalInformation;
-	private List<DriverEntity> drivers;
 
 	public Integer getId() {
 		return id;
@@ -107,14 +106,6 @@ public class CompanyEntity extends MainEntity{
 		this.anniversaryDate = anniversaryDate;
 	}
 
-	public UserEntity getUserAdmin() {
-		return userAdmin;
-	}
-
-	public void setUserAdmin(UserEntity userAdmin) {
-		this.userAdmin = userAdmin;
-	}
-
 	public byte[] getPhoto() {
 		return photo;
 	}
@@ -145,14 +136,6 @@ public class CompanyEntity extends MainEntity{
 
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
-	}
-
-	public List<DriverEntity> getDrivers() {
-		return drivers;
-	}
-
-	public void setDriver(DriverEntity driver) {
-		this.drivers.add(driver);
 	}
 
 }
