@@ -13,7 +13,4 @@ public interface ICompanyRepository extends JpaRepository<CompanyEntity, Integer
 
 	List<CompanyEntity> findByStatus(String status);
 	
-	@Modifying
-	@Query("UPDATE CompanyEntity set status=:statuss where id=:idd")
-	public void acceptCompany(@Param("statuss") String status, @Param("idd") Integer id);
 }

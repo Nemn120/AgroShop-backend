@@ -12,6 +12,7 @@ import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.repository.ICompanyRepository;
 import com.agroshop.app.model.service.ICompanyService;
+import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
 
 @Service
@@ -19,6 +20,9 @@ public class CompanyServiceImpl implements ICompanyService {
 	
 	@Autowired
 	private ICompanyRepository companyRepo;
+	
+	@Autowired
+	private IUserService userService;
 	
 	@Override
 	public List<CompanyEntity> getAll() {
@@ -57,12 +61,12 @@ public class CompanyServiceImpl implements ICompanyService {
 	@Override
 	public Boolean acceptCompany(CompanyBean bean) {
 		try {
-			//companyRepo.acceptCompany(Constants.COMPANY_STATUS__ACCEPTED,bean.getId());
 			Integer id = bean.getId();
 			CompanyEntity company = getOneById(id);
 			if(company.getCreateDate()!=null) {
 				company.setStatus(Constants.COMPANY_STATUS__ACCEPTED);
 				save(company);
+				userService.acceptUser(bean.getId());
 				return true;
 			}else
 				throw new RuntimeException("Empresa no encontrada");
@@ -78,7 +82,7 @@ public class CompanyServiceImpl implements ICompanyService {
 		
 			
 			for(CompanyBean bean : beans) {
-				if(!acceptCompany(bean))
+				if(!acceptCompany(bean) && !userService.acceptUser(bean.getId()))
 					rejected.add(bean);
 			}
 			
