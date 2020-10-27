@@ -72,7 +72,6 @@ public class DriverController {
 
             response.put("message", "Lista de conductores obtenido con éxito");
             response.put("data", drivers);
-            
         } catch (DataAccessException e) {
             response.put("message", Constants.ERROR_GETTING_DRIVERS);
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
