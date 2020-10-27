@@ -2,7 +2,6 @@ package com.agroshop.app.model.service;
 
 import java.util.List;
 
-import com.agroshop.app.model.beans.DriverBean;
 import com.agroshop.app.model.entities.DriverEntity;
 
 import org.springframework.stereotype.Service;

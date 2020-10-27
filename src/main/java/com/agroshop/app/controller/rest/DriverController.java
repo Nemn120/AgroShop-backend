@@ -1,14 +1,9 @@
 package com.agroshop.app.controller.rest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.agroshop.app.controller.request.GenericRequest;
-import com.agroshop.app.controller.response.AbstractResponse;
-import com.agroshop.app.controller.response.GenericResponse;
-import com.agroshop.app.model.beans.DriverBean;
 import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.util.Constants;
@@ -29,6 +24,25 @@ public class DriverController {
 
     @Autowired
     private IDriverService driverService;
+
+    @PostMapping(path = "/cd")
+    public ResponseEntity<?> createDriver(@RequestBody DriverEntity driver) {
+
+        DriverEntity driverCreated;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            driverCreated = driverService.save(driver);
+
+            response.put("message","Driver: " + driverCreated.getId() + " creado con éxito");
+            response.put("data", driverCreated);
+        } catch (DataAccessException e) {
+            response.put("message", Constants.ERROR_CREATING_DRIVER);
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+    }
 
     @PostMapping(path = "/glda")
     public ResponseEntity<?> getListDriverAccepted() {
@@ -89,4 +103,5 @@ public class DriverController {
         }
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
+
 }
