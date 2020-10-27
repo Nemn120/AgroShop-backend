@@ -43,20 +43,6 @@ public class DriverServiceImpl implements IDriverService{
 	}
 
 	@Override
-	public DriverEntity MapDriverFromBeantoEntity(DriverBean driver) {
-		DriverEntity driverEntity= new DriverEntity();
-		BeanUtils.copyProperties(driver, driverEntity);
-		return driverEntity;
-	}
-
-	@Override
-	public DriverBean MapDriverFromEntitytoBean(DriverEntity driver) {
-		DriverBean driverBean= new DriverBean();
-		BeanUtils.copyProperties(driver, driverBean);
-		return driverBean;
-	}
-
-	@Override
 	public DriverEntity getDriverById(Integer id) {
 		return driverRepo.findById(id).orElse(null);
 	}
