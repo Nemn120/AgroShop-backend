@@ -34,7 +34,7 @@ public class DriverController {
         try {
             driverCreated = driverService.save(driver);
 
-            response.put("message","Driver: " + driverCreated.getId() + " creado con éxito");
+            response.put("message","Conductor: " + driverCreated.getId() + " creado con éxito");
             response.put("data", driverCreated);
         } catch (DataAccessException e) {
             response.put("message", Constants.ERROR_CREATING_DRIVER);
@@ -52,9 +52,29 @@ public class DriverController {
         try {
             driverService.deleteById(id);
 
-            response.put("message","Driver: " + id + " eliminado con éxito");
+            response.put("message","Conductor: " + id + " eliminado con éxito");
         } catch (DataAccessException e) {
             response.put("message", Constants.ERROR_DELETING_DRIVER);
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/gld")
+    public ResponseEntity<?> getListDriver() {
+
+        Map<String, Object> response = new HashMap<>();
+        List<DriverEntity> drivers;
+
+        try {
+            drivers = driverService.getAll();
+
+            response.put("message", "Lista de conductores obtenido con éxito");
+            response.put("data", drivers);
+            
+        } catch (DataAccessException e) {
+            response.put("message", Constants.ERROR_GETTING_DRIVERS);
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -69,7 +89,7 @@ public class DriverController {
 
         try {
             drivers = driverService.getDriverListByStatus(Constants.DRIVER_STATUS_ACCEPTED);
-            response.put("message", "Lista de drivers aceptados obtenido con éxito");
+            response.put("message", "Lista de conductores aceptados obtenido con éxito");
             response.put("data", drivers);
 
         } catch (DataAccessException e) {
@@ -88,7 +108,7 @@ public class DriverController {
 
         try {
             drivers = driverService.getDriverListByStatus(Constants.DRIVER_STATUS_PENDING);
-            response.put("message", "Lista de drivers pendientes obtenido con éxito");
+            response.put("message", "Lista de conductores pendientes obtenido con éxito");
             response.put("data", drivers);
 
         } catch (DataAccessException e) {
@@ -111,7 +131,7 @@ public class DriverController {
             currentDriver.setStatus(Constants.DRIVER_STATUS_ACCEPTED);
             driverUpdated = driverService.save(currentDriver);
 
-            response.put("message","Driver: " + driverUpdated.getId() + " actualizado con éxito");
+            response.put("message","Conductor: " + driverUpdated.getId() + " actualizado con éxito");
             response.put("data", driverUpdated);
         } catch (DataAccessException e) {
             response.put("message", Constants.ERROR_ACCEPTING_DRIVER);
