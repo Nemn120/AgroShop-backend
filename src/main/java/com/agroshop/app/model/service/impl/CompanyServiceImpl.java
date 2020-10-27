@@ -2,12 +2,10 @@ package com.agroshop.app.model.service.impl;
 
 import java.util.List;
 
-import com.agroshop.app.model.beans.CompanyBean;
 import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.repository.ICompanyRepository;
 import com.agroshop.app.model.service.ICompanyService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

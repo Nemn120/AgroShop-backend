@@ -4,6 +4,7 @@ public class Constants {
 
     //DRIVER
     public static final String ERROR_CREATING_DRIVER = "Error al crear conductor";
+    public static final String ERROR_UPDATING_DRIVER = "Error al actualizar conductor";
     public static final String ERROR_DELETING_DRIVER = "Error al eliminar conductor";
     public static final String ERROR_GETTING_DRIVERS = "Error al listar conductores";
 

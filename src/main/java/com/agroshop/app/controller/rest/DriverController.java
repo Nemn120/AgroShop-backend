@@ -1,16 +1,16 @@
 package com.agroshop.app.controller.rest;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import com.agroshop.app.controller.request.GenericRequest;
+import com.agroshop.app.controller.response.AbstractResponse;
+import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.util.Constants;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,118 +26,164 @@ public class DriverController {
     private IDriverService driverService;
 
     @PostMapping(path = "/cd")
-    public ResponseEntity<?> createDriver(@RequestBody DriverEntity driver) {
+    public GenericResponse<DriverEntity> createDriver(@RequestBody GenericRequest<DriverEntity> request) {
 
-        DriverEntity driverCreated;
-        Map<String, Object> response = new HashMap<>();
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
+        DriverEntity driverCreated = new DriverEntity();
+        List<String> errors = new ArrayList<String>();
+        
+        try {
+            driverCreated = driverService.save(request.getData());
+
+            response.setResponseMessage("Conductor creado con éxito");
+            response.setData(driverCreated);
+            response.setResponseCode(AbstractResponse.SUCCESS);
+        } catch (Error e) {
+            errors.add("Error" + e.getMessage());
+            response.setResponseMessage(Constants.ERROR_CREATING_DRIVER);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
+
+        }
+        return response;
+    }
+
+    @PostMapping(path = "/ud/{id}")
+    public GenericResponse<DriverEntity> updateDriver(@RequestBody GenericRequest<DriverEntity> request, @PathVariable Integer id) {
+
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
+        DriverEntity currentDriver = driverService.getDriverById(id);
+        DriverEntity updatedDriver = null;
+        List<String> errors = new ArrayList<String>();
 
         try {
-            driverCreated = driverService.save(driver);
+            
+            currentDriver.setDriverLicenseNumber(request.getData().getDriverLicenseNumber());
+            currentDriver.setYearsOfExperience(request.getData().getYearsOfExperience());
+            currentDriver.setQualification(request.getData().getQualification());
 
-            response.put("message","Conductor: " + driverCreated.getId() + " creado con éxito");
-            response.put("data", driverCreated);
+			updatedDriver = driverService.save(currentDriver);
+
+            response.setResponseMessage("Conductor: " + id.toString() + " actualizado con éxito");
+            response.setData(updatedDriver);
+            response.setResponseCode(AbstractResponse.SUCCESS);
         } catch (DataAccessException e) {
-            response.put("message", Constants.ERROR_CREATING_DRIVER);
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            errors.add(e.getMessage());
+            response.setResponseMessage(Constants.ERROR_UPDATING_DRIVER);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
+
         }
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        return response;
     }
 
     @PostMapping(path = "/dd/{id}")
-    public ResponseEntity<?> deleteDriver(@PathVariable Integer id) {
+    public GenericResponse<DriverEntity> deleteDriver(@PathVariable Integer id) {
 
-        Map<String, Object> response = new HashMap<>();
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
+        List<String> errors = new ArrayList<String>();
 
         try {
             driverService.deleteById(id);
-
-            response.put("message","Conductor: " + id + " eliminado con éxito");
-        } catch (DataAccessException e) {
-            response.put("message", Constants.ERROR_DELETING_DRIVER);
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponseMessage("Conductor: " + id + " eliminado con éxito");
+            response.setResponseCode(AbstractResponse.SUCCESS);
+        } catch (Error e) {
+            errors.add("Error" + e.getMessage());
+            response.setResponseMessage(Constants.ERROR_DELETING_DRIVER);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
         }
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        return response;
     }
 
     @PostMapping(path = "/gld")
-    public ResponseEntity<?> getListDriver() {
+    public GenericResponse<DriverEntity> getListDriver() {
 
-        Map<String, Object> response = new HashMap<>();
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
         List<DriverEntity> drivers;
+        List<String> errors = new ArrayList<String>();
 
         try {
             drivers = driverService.getAll();
 
-            response.put("message", "Lista de conductores obtenido con éxito");
-            response.put("data", drivers);
-        } catch (DataAccessException e) {
-            response.put("message", Constants.ERROR_GETTING_DRIVERS);
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponseMessage("Lista de conductores obtenido con éxito");
+            response.setDatalist(drivers);
+            response.setResponseCode(AbstractResponse.SUCCESS);
+        } catch (Error e) {
+            errors.add("Error" + e.getMessage());
+            response.setResponseMessage(Constants.ERROR_GETTING_DRIVERS);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
         }
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        return response;
     }
 
     @PostMapping(path = "/glda")
-    public ResponseEntity<?> getListDriverAccepted() {
+    public GenericResponse<DriverEntity> getListDriverAccepted() {
        
-        Map<String, Object> response = new HashMap<>();
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
         List<DriverEntity> drivers;
+        List<String> errors = new ArrayList<String>();
 
         try {
             drivers = driverService.getDriverListByStatus(Constants.DRIVER_STATUS_ACCEPTED);
-            response.put("message", "Lista de conductores aceptados obtenido con éxito");
-            response.put("data", drivers);
-
-        } catch (DataAccessException e) {
-            response.put("message", Constants.ERROR_DRIVER_ACCEPTED);
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponseCode("Lista de conductores aceptados obtenido con éxito");
+            response.setDatalist(drivers);
+            response.setResponseCode(AbstractResponse.SUCCESS);
+        } catch (Error e) {
+            errors.add("Error" + e.getMessage());
+            response.setResponseMessage(Constants.ERROR_DRIVER_ACCEPTED);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
         }
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        return response;
     }
 
     @PostMapping(path = "/gldp")
-    public ResponseEntity<?> getListDriverPending() {
+    public GenericResponse<DriverEntity> getListDriverPending() {
     
-        Map<String, Object> response = new HashMap<>();
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
         List<DriverEntity> drivers;
+        List<String> errors = new ArrayList<String>();
 
         try {
             drivers = driverService.getDriverListByStatus(Constants.DRIVER_STATUS_PENDING);
-            response.put("message", "Lista de conductores pendientes obtenido con éxito");
-            response.put("data", drivers);
-
-        } catch (DataAccessException e) {
-            response.put("message", Constants.ERROR_DRIVER_PENDING);
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponseMessage("Lista de conductores pendientes obtenido con éxito");
+            response.setDatalist(drivers);
+            response.setResponseCode(AbstractResponse.SUCCESS);
+        } catch (Error e) {
+            errors.add("Error" + e.getMessage());
+            response.setResponseMessage(Constants.ERROR_DRIVER_PENDING);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
         }
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        return response;
     }
 
-    @PostMapping(path = "/adr/{id}")
-    public ResponseEntity<?> acceptDriverRegistered(@PathVariable Integer id) {
+    @PostMapping(path = "/adr")
+    public GenericResponse<DriverEntity> acceptDriverRegistered(@RequestBody GenericRequest<List<Integer>> request) {
 
-        DriverEntity driverUpdated;
-        Map<String, Object> response = new HashMap<>();
+        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
+        List<String> errors = new ArrayList<String>();
+        List<DriverEntity> drivers = new ArrayList<DriverEntity>();
 
         try {
-            DriverEntity currentDriver;
-            currentDriver = driverService.getDriverById(id);
-            currentDriver.setStatus(Constants.DRIVER_STATUS_ACCEPTED);
-            driverUpdated = driverService.save(currentDriver);
+            request.getData().forEach( id -> {
+            DriverEntity driverAccepted = driverService.acceptDriverRegistered(id);
+            drivers.add(driverService.save(driverAccepted));
+            });
 
-            response.put("message","Conductor: " + driverUpdated.getId() + " actualizado con éxito");
-            response.put("data", driverUpdated);
-        } catch (DataAccessException e) {
-            response.put("message", Constants.ERROR_ACCEPTING_DRIVER);
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setDatalist(drivers);
+            response.setResponseMessage("Conductores aceptados con éxito");
+            response.setResponseCode(AbstractResponse.SUCCESS);
+
+        } catch (Error e) {
+            errors.add("Error" + e.getMessage());
+            response.setResponseMessage(Constants.ERROR_ACCEPTING_DRIVER);
+            response.setErrorList(errors);
+            response.setResponseCode(AbstractResponse.ERROR);
         }
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        return response;
     }
 
 }
