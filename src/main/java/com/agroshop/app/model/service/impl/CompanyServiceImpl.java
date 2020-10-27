@@ -61,8 +61,7 @@ public class CompanyServiceImpl implements ICompanyService {
 	@Override
 	public Boolean acceptCompany(CompanyBean bean) {
 		try {
-			Integer id = bean.getId();
-			CompanyEntity company = getOneById(id);
+			CompanyEntity company = getOneById(bean.getId());
 			if(company.getCreateDate()!=null) {
 				company.setStatus(Constants.COMPANY_STATUS__ACCEPTED);
 				save(company);

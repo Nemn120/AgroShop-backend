@@ -3,6 +3,7 @@ package com.agroshop.app.controller.response;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -18,6 +19,18 @@ public abstract class AbstractResponse<T> implements Serializable{
 	private List<String> messageList;
 	private List<T> datalist;
 	private T data;
+	private Map<Integer,List<T>> dataMap;
+
+
+
+	public Map<Integer, List<T>> getDataMap() {
+		return dataMap;
+	}
+
+	public void setDataMap(Map<Integer, List<T>> map) {
+		this.dataMap = map;
+	}
+
 	
 	public String getResponseCode() {
 		return responseCode;
