@@ -44,6 +44,23 @@ public class DriverController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
+    @PostMapping(path = "/dd/{id}")
+    public ResponseEntity<?> deleteDriver(@PathVariable Integer id) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            driverService.deleteById(id);
+
+            response.put("message","Driver: " + id + " eliminado con éxito");
+        } catch (DataAccessException e) {
+            response.put("message", Constants.ERROR_DELETING_DRIVER);
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+    }
+
     @PostMapping(path = "/glda")
     public ResponseEntity<?> getListDriverAccepted() {
        
