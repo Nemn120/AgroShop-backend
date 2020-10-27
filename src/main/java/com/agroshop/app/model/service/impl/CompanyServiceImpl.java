@@ -45,17 +45,9 @@ public class CompanyServiceImpl implements ICompanyService {
 	}
 
 	@Override
-	public List<CompanyBean> getCompanyListByStatus(CompanyBean bean) {
-		List<CompanyEntity> list = companyRepo.findByStatus(bean.getStatus());
-		List<CompanyBean> listBean = new ArrayList<CompanyBean>();
-		
-		
-		for(CompanyEntity l: list) {
-			CompanyBean aux = new CompanyBean();
-			BeanUtils.copyProperties(l,aux);
-			listBean.add(aux);
-		}
-		return listBean;
+	public List<CompanyEntity> getCompanyListByStatus(CompanyEntity company) {
+		List<CompanyEntity> list = companyRepo.findByStatus(company.getStatus());
+		return list;
 	}
 
 	@Override

@@ -29,12 +29,13 @@ public class CompanyController {
 	private ICompanyService companyService;
 	
 	@PostMapping(path="/gclbs")
-	public GenericResponse<CompanyBean> getCompanyListByStatus(@RequestBody GenericRequest<CompanyBean> request){
+	public GenericResponse<CompanyEntity> getCompanyListByStatus(@RequestBody GenericRequest<CompanyEntity> request){
+		logger.info("getCompanyListByStatus");
 		
-		GenericResponse<CompanyBean> response = new GenericResponse<CompanyBean>();
+		GenericResponse<CompanyEntity> response = new GenericResponse<CompanyEntity>();
 		try {
-			CompanyBean bean = request.getData();
-			List<CompanyBean> list = companyService.getCompanyListByStatus(bean); 
+			CompanyEntity company = request.getData();
+			List<CompanyEntity> list = companyService.getCompanyListByStatus(company); 
 			if(list.isEmpty())
 				response.setResponseMessage("No se encontraron empresas");
 			else
@@ -45,6 +46,7 @@ public class CompanyController {
 		}catch(Exception e) {
 			response.setResponseMessage("Error al listar las empresas");
 			response.setResponseCode(AbstractResponse.ERROR);
+			logger.error(e);
 		}
 		return response;
 	}

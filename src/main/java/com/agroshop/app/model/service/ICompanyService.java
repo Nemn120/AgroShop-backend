@@ -10,7 +10,7 @@ import com.agroshop.app.model.entities.CompanyEntity;
 @Service
 public interface ICompanyService extends GenericCRUD<CompanyEntity, Integer>{
 
-	List<CompanyBean> getCompanyListByStatus(CompanyBean bean);
+	List<CompanyEntity> getCompanyListByStatus(CompanyEntity company);
 	
 	Boolean acceptCompany(CompanyBean bean); 
 	
