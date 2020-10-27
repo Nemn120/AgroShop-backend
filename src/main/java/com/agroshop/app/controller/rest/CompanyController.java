@@ -52,12 +52,12 @@ public class CompanyController {
 	}
 	
 	@PostMapping(path="/ac")
-	public GenericResponse<CompanyBean> acceptCompany(@RequestBody GenericRequest<CompanyBean> request){
+	public GenericResponse<CompanyEntity> acceptCompany(@RequestBody GenericRequest<CompanyEntity> request){
 
-		GenericResponse<CompanyBean> response = new GenericResponse<CompanyBean>();
+		GenericResponse<CompanyEntity> response = new GenericResponse<CompanyEntity>();
 			
 			if(request.getData() != null) {
-				CompanyBean bean = request.getData();
+				CompanyEntity bean = request.getData();
 				boolean res = companyService.acceptCompany(bean);
 				if(res) { 
 					logger.info(bean);
@@ -73,7 +73,7 @@ public class CompanyController {
 				
 			}else if(!request.getDatalist().isEmpty()) {
 			
-				List<CompanyBean> list = companyService.acceptCompanyList(request.getDatalist());
+				List<CompanyEntity> list = companyService.acceptCompanyList(request.getDatalist());
 				if(list.isEmpty()) {
 					response.setResponseMessage("Se aceptó las empresas con éxito");
 					response.setResponseCode(AbstractResponse.SUCCESS);

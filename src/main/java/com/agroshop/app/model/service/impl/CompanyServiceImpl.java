@@ -51,13 +51,13 @@ public class CompanyServiceImpl implements ICompanyService {
 	}
 
 	@Override
-	public Boolean acceptCompany(CompanyBean bean) {
+	public Boolean acceptCompany(CompanyEntity comp) {
 		try {
-			CompanyEntity company = getOneById(bean.getId());
+			CompanyEntity company = getOneById(comp.getId());
 			if(company.getCreateDate()!=null) {
 				company.setStatus(Constants.COMPANY_STATUS__ACCEPTED);
 				save(company);
-				userService.acceptUser(bean.getId());
+				userService.acceptUser(comp.getId());
 				return true;
 			}else
 				throw new RuntimeException("Empresa no encontrada");
@@ -67,12 +67,12 @@ public class CompanyServiceImpl implements ICompanyService {
 	}
 
 	@Override
-	public List<CompanyBean> acceptCompanyList(List<CompanyBean> beans) {
+	public List<CompanyEntity> acceptCompanyList(List<CompanyEntity> beans) {
 		
-		List<CompanyBean> rejected = new ArrayList<CompanyBean>() ;
+		List<CompanyEntity> rejected = new ArrayList<CompanyEntity>() ;
 		
 			
-			for(CompanyBean bean : beans) {
+			for(CompanyEntity bean : beans) {
 				if(!acceptCompany(bean) && !userService.acceptUser(bean.getId()))
 					rejected.add(bean);
 			}

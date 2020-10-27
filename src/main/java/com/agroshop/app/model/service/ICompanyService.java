@@ -12,7 +12,7 @@ public interface ICompanyService extends GenericCRUD<CompanyEntity, Integer>{
 
 	List<CompanyEntity> getCompanyListByStatus(CompanyEntity company);
 	
-	Boolean acceptCompany(CompanyBean bean); 
+	Boolean acceptCompany(CompanyEntity company); 
 	
-	List<CompanyBean> acceptCompanyList(List<CompanyBean> beans);
+	List<CompanyEntity> acceptCompanyList(List<CompanyEntity> company);
 }
