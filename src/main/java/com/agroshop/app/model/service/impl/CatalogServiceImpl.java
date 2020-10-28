@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.agroshop.app.model.entities.CatalogDetailEntity;
 import com.agroshop.app.model.entities.CatalogEntity;
 import com.agroshop.app.model.repository.ICatalogRepository;
 import com.agroshop.app.model.service.ICatalogService;

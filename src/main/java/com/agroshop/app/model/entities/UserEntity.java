@@ -1,6 +1,5 @@
 package com.agroshop.app.model.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -15,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="user_main")
-public class UserEntity extends MainEntity implements Serializable {
+public class UserEntity extends MainEntity {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

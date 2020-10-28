@@ -2,10 +2,9 @@ package com.agroshop.app.model.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.agroshop.app.model.beans.CompanyBean;
 import com.agroshop.app.model.entities.CompanyEntity;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public interface ICompanyService extends GenericCRUD<CompanyEntity, Integer>{
@@ -15,4 +14,5 @@ public interface ICompanyService extends GenericCRUD<CompanyEntity, Integer>{
 	Boolean acceptCompany(CompanyEntity company); 
 	
 	List<CompanyEntity> acceptCompanyList(List<CompanyEntity> company);
+    CompanyEntity getCompanyById(Integer id);
 }

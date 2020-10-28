@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
-import com.agroshop.app.model.beans.CompanyBean;
 import com.agroshop.app.model.service.ICompanyService;
 import com.agroshop.app.model.entities.CompanyEntity;
 
@@ -89,5 +88,4 @@ public class CompanyController {
 			response.setFinalTimesTamp(LocalDateTime.now());
 			return response;
 	}
-
 }

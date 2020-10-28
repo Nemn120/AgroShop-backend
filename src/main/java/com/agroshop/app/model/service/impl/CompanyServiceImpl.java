@@ -17,13 +17,14 @@ import com.agroshop.app.util.Constants;
 
 @Service
 public class CompanyServiceImpl implements ICompanyService {
-	
+
 	@Autowired
 	private ICompanyRepository companyRepo;
 	
 	@Autowired
 	private IUserService userService;
 	
+
 	@Override
 	public List<CompanyEntity> getAll() {
 		return companyRepo.findAll();
@@ -78,7 +79,10 @@ public class CompanyServiceImpl implements ICompanyService {
 			}
 			
 			return rejected;
+		}
 		
+	public CompanyEntity getCompanyById(Integer id) {
+		return companyRepo.findById(id).orElse(null);
 	}
 
 }
