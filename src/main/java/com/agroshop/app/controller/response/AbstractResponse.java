@@ -31,7 +31,6 @@ public abstract class AbstractResponse<T> implements Serializable{
 		this.dataMap = map;
 	}
 
-	
 	public String getResponseCode() {
 		return responseCode;
 	}
