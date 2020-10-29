@@ -10,11 +10,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="parent_menu_option")
 public class ParentMenuOptionEntity  extends MainEntity{
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
+	
 	private String iconMenu;
 	private String nameMenu;
 	private String urlMenu;

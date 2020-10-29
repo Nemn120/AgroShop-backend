@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agroshop.app.model.entities.ProductEntity;
-import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductRepository;
 import com.agroshop.app.model.service.IProductService;
 
