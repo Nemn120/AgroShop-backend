@@ -32,8 +32,8 @@ public class OrderEntity extends MainEntity {
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 	@ManyToOne
-	@JoinColumn(name = "company_id")
-	private CompanyEntity company;
+	@JoinColumn(name = "farmer_id")
+	private FarmerEntity farmer;
 	@Column(name = "delivered_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime deliveredDate;
 	
@@ -94,11 +94,11 @@ public class OrderEntity extends MainEntity {
 	public void setClient(ClientEntity client) {
 		this.client = client;
 	}
-	public CompanyEntity getCompany() {
-		return company;
+	public FarmerEntity getFarmer() {
+		return farmer;
 	}
-	public void setCompany(CompanyEntity company) {
-		this.company = company;
+	public void setFarmer(FarmerEntity farmer) {
+		this.farmer = farmer;
 	}
 	
 	public LocalDateTime getDeliveredDate() {

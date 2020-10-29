@@ -9,10 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agroshop.app.model.beans.CompanyBean;
 import com.agroshop.app.model.beans.ProductBean;
 import com.agroshop.app.model.beans.ProductSalesBean;
-import com.agroshop.app.model.entities.CompanyEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;

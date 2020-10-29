@@ -17,7 +17,7 @@ public class OrderBean extends MainBean {
 	private String phone;
 	private String reference;
 	private ClientBean client;
-	private CompanyBean company;
+	private FarmerBean farmer;
 	private PlaceBean place;
 	private LocalDateTime deliveredDate;
 	
@@ -85,11 +85,11 @@ public class OrderBean extends MainBean {
 	public void setClient(ClientBean client) {
 		this.client = client;
 	}
-	public CompanyBean getCompany() {
-		return company;
+	public FarmerBean getFarmer() {
+		return farmer;
 	}
-	public void setCompany(CompanyBean company) {
-		this.company = company;
+	public void setFarmer(FarmerBean farmer) {
+		this.farmer = farmer;
 	}
 	public PlaceBean getPlace() {
 		return place;
