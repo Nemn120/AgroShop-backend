@@ -25,7 +25,6 @@ public class VehicleEntity extends MainEntity{
 	private String vehicleBrand;
 	private String vehicleModel;
 	private String vehicleHolder;
-	private String Status;
 	private Integer yearsOfUse;
 	private String fuelType;
 	private Double netWeight;
@@ -86,14 +85,6 @@ public class VehicleEntity extends MainEntity{
 
 	public void setVehicleHolder(String vehicleHolder) {
 		this.vehicleHolder = vehicleHolder;
-	}
-
-	public String getStatus() {
-		return Status;
-	}
-
-	public void setStatus(String status) {
-		Status = status;
 	}
 
 	public byte[] getPhoto() {
