@@ -26,6 +26,7 @@ public class VehicleEntity extends MainEntity{
 	private String vehicleModel;
 	private String vehicleHolder;
 	private Integer yearsOfUse;
+	private String statusCar;
 	private String fuelType;
 	private Double netWeight;
 	private Double grossWeight;
@@ -133,6 +134,14 @@ public class VehicleEntity extends MainEntity{
 
 	public void setGrossWeight(Double grossWeight) {
 		this.grossWeight = grossWeight;
+	}
+
+	public String getStatusCar() {
+		return statusCar;
+	}
+
+	public void setStatusCar(String statusCar) {
+		this.statusCar = statusCar;
 	}
 
 	
