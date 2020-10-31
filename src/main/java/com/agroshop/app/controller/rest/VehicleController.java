@@ -61,4 +61,22 @@ public class VehicleController {
 		return response;
 	}
 	
+	@PostMapping(path="/gvlbd")
+	public GenericResponse<VehicleEntity> getVehicleListByDriver(@RequestBody GenericRequest<VehicleEntity> request){
+		
+		GenericResponse<VehicleEntity> response = new GenericResponse<VehicleEntity>();
+		try {
+			response.setDatalist(vehicleService.getVehicleListByDriver(request.getData().getId()));
+			response.setResponseMessage("Vehiculos mostrados exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar vehiculos");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		
+		
+		return response;
+	}
+	
 }
