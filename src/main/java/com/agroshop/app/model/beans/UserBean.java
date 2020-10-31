@@ -19,6 +19,16 @@ public class UserBean extends MainBean {
 	private String enableUser;
 	private byte[] photo;
 	private ProfileBean profile;
+	private String type;
+	
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public Integer getId() {
 		return id;
