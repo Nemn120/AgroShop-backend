@@ -36,6 +36,8 @@ public class RepositoryAudiTracking {
 		        .getContext()
 		        .getAuthentication()
 		        .getPrincipal());
+		        
+	
 		
 		
 		Object ob = null;
@@ -46,15 +48,10 @@ public class RepositoryAudiTracking {
 			}
 			
 			PropertyUtils.setProperty(entity, "updateDate",LocalDateTime.now());
+			if(userSession != null)
 			PropertyUtils.setProperty(entity, "userUpdatedId",userSession.getId());
 			
-			
-			if(PropertyUtils.getProperty(entity, "organizationId") == null && userSession.getOrganizationId()!=null) {
-				PropertyUtils.setProperty(entity, "organizationId",userSession.getOrganizationId());
-			
-			}
-			
-			if(PropertyUtils.getProperty(entity, "userCreateId") == null) {
+			if(PropertyUtils.getProperty(entity, "userCreateId") == null && userSession != null) {
 				PropertyUtils.setProperty(entity, "userCreateId",userSession.getId());
 			}
 			

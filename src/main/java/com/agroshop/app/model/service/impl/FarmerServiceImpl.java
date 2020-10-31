@@ -4,15 +4,24 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.agroshop.app.controller.response.AbstractResponse;
+import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.FarmerEntity;
+import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IFarmerRepository;
 import com.agroshop.app.model.service.IFarmerService;
+import com.agroshop.app.model.service.IUserService;
+import com.agroshop.app.util.Constants;
 
 @Service
 public class FarmerServiceImpl implements IFarmerService{
 	
 	@Autowired
 	private IFarmerRepository farmerRepo;
+	
+	@Autowired
+	private IUserService userService;
 	
 	@Override
 	public List<FarmerEntity> getAll() {
@@ -31,6 +40,13 @@ public class FarmerServiceImpl implements IFarmerService{
 	@Override
 	public void deleteById(Integer id) {
 		farmerRepo.deleteById(id);
+	}
+
+	@Override
+	public FarmerEntity register(FarmerEntity farmer) {
+		UserEntity userRegister = this.userService.register(farmer.getUser());
+		farmer.setUser(userRegister);
+		return this.save(farmer);     
 	}
 
 }

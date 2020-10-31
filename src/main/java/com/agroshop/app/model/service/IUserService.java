@@ -7,5 +7,5 @@ import com.agroshop.app.model.entities.UserEntity;
 public interface IUserService extends GenericCRUD<UserEntity, Integer>{
 
 	Boolean acceptUser(Integer id); 
-	Boolean register(UserEntity user);
+	UserEntity register(UserEntity user);
 }

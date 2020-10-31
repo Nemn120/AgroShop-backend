@@ -53,19 +53,12 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public Boolean register(UserEntity user) {
-		try {
+	public UserEntity  register(UserEntity user) {
 			user.setPassword(bcrypt.encode(user.getPassword()));
 			ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
 			user.setProfile(new ProfileEntity());
 			user.setProfile(profileSelect);
-			user.setStatus(Constants.STATUS_OFF_ENTITY);
-			userRepo.save(user);
-			return true;
-		}catch(Exception e) {
-			return false;
-			
-		}
+			return userRepo.save(user);
 	}
 
 	public Boolean acceptUser(Integer bean) {
