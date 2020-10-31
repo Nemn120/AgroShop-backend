@@ -17,6 +17,7 @@ import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
@@ -87,7 +88,7 @@ public class ProductSalesController {
 		try {
 			productSalesService.deleteById(request.getData().getId());
 			response.setFinalTimesTamp(LocalDateTime.now());
-			response.setResponseMessage(Constants.SUCCESS_REGISTER);
+			response.setResponseMessage(Constants.ERROR_DELETING_PRODUCT_SALES);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
 			
 		}catch(Exception e) {
@@ -95,6 +96,24 @@ public class ProductSalesController {
 			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
 			logger.error(e.getMessage());
 		}
+		
+		return response;
+	}
+	
+	@PostMapping(path="/glpsbf")
+	public GenericResponse<ProductSalesEntity> getListProductSalesByFarmer(@RequestBody GenericRequest<ProductSalesEntity> request){
+		
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setDatalist(productSalesService.getListProductSalesByFarmer(request.getData().getFarmerNumber()));
+			response.setResponseMessage("productos mostrados exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar productos");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		
 		
 		return response;
 	}

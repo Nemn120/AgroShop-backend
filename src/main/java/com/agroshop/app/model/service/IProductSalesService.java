@@ -12,4 +12,6 @@ public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, In
 	List<ProductSalesEntity> findByIdSalesOrderByPriceAsc(int idSales);
 	
 	Map<Integer,List<ProductSalesEntity>> getListSearchProductSales(String searchProduct, String status);
+	
+	List<ProductSalesEntity> getListProductSalesByFarmer(Integer id);
 }

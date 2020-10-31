@@ -66,7 +66,7 @@ public class VehicleController {
 		
 		GenericResponse<VehicleEntity> response = new GenericResponse<VehicleEntity>();
 		try {
-			response.setDatalist(vehicleService.getVehicleListByDriver(request.getData().getId()));
+			response.setDatalist(vehicleService.getVehicleListByDriver(request.getData().getDriver().getId()));
 			response.setResponseMessage("Vehiculos mostrados exitosamente");
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);

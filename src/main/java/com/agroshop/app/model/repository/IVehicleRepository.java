@@ -10,6 +10,6 @@ import com.agroshop.app.model.entities.VehicleEntity;
 
 public interface IVehicleRepository extends JpaRepository<VehicleEntity, Integer>{
 
-	@Query("SELECT v FROM VehicleEntity v WHERE  v.driver.id=:id ")
+	@Query("SELECT v FROM VehicleEntity v WHERE  v.driver.id=:id AND v.isDeleted=False ")
 	public List<VehicleEntity> getListVehicleByDriver(@Param("id") Integer id);
 }

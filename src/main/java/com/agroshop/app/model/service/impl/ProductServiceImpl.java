@@ -1,5 +1,6 @@
 package com.agroshop.app.model.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,11 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public void deleteById(Integer id) {
-		productRepo.deleteById(id);
+		ProductEntity pro = productRepo.findById(id).orElse(new ProductEntity());
+		if(!pro.getName().isEmpty() && pro.getIsDeleted() != true) {
+			pro.setIsDeleted(true);
+			productRepo.save(pro);
+		}
 	}
 
 	@Override
