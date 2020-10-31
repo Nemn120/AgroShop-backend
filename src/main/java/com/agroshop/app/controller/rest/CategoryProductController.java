@@ -45,4 +45,11 @@ public class CategoryProductController{
 		return response;
 	}
 	
+	@PostMapping(path="/gcp")
+	public GenericResponse<CategoryProductEntity> getAllCategoryProduct(@RequestBody GenericRequest<CategoryProductEntity> request){
+		GenericResponse<CategoryProductEntity> response = new GenericResponse<CategoryProductEntity>();
+		response.setDatalist(categoryProductService.getAll());
+		return response;
+	}
+	
 }

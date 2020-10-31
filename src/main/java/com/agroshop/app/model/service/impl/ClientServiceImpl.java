@@ -2,17 +2,25 @@ package com.agroshop.app.model.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.agroshop.app.model.entities.ClientEntity;
+import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IClientRepository;
 import com.agroshop.app.model.service.IClientService;
+import com.agroshop.app.model.service.IUserService;
 
 @Service
+@Transactional
 public class ClientServiceImpl implements IClientService {
 	
 	@Autowired
 	private IClientRepository clientRepository;
+	
+	@Autowired
+	private IUserService userService;
 	
 	@Override
 	public List<ClientEntity> getAll() {
@@ -32,6 +40,12 @@ public class ClientServiceImpl implements IClientService {
 	@Override
 	public void deleteById(Integer id) {
 		clientRepository.deleteById(id);
+	}
+
+	@Override
+	public ClientEntity register(ClientEntity client) {
+		client.setUser(this.userService.register(client.getUser()));
+		return this.save(client);   
 	}
 
 }

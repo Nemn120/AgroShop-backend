@@ -104,6 +104,4 @@ public class ProductSalesEntity extends MainEntity {
 	public void setFarmerNumber(Integer farmerNumber) {
 		this.farmerNumber = farmerNumber;
 	}
-	
-	
 }

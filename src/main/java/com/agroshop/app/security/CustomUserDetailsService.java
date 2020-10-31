@@ -1,4 +1,5 @@
 package com.agroshop.app.security;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IUserRepository;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
@@ -30,18 +32,18 @@ public class CustomUserDetailsService implements UserDetailsService{
 			throw new UsernameNotFoundException(String.format("Usuario no existe", username));
 		}
 		
-		/*
+		
 		List<GrantedAuthority> roles = new ArrayList<>();
 			roles.add(new SimpleGrantedAuthority(user.getProfile().getName()));
-		UserDetails userDetails = new User(user.getUsername(), user.getPassword(), roles);
-		*/
+		return  new User(user.getUsername(), user.getPassword(), roles);
+		
 		
 		
 		//UserPrincipal userPrincipal= new UserPrincipal(user);
 		//logger.info(userDetails.toString());
 		
 		
-		return new UserPrincipal(user);
+		//return new UserPrincipal(user);
 		
 	}
 	

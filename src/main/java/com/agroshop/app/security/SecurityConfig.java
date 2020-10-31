@@ -57,20 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// aqui esta todos los datos del usuario que inicia sesion,
 
 		auth.userDetailsService(customDetailService).passwordEncoder(bcrypt);
-		//auth.authenticationProvider(authenticationProvider());
-		/*auth.parentAuthenticationManager(this.authenticationManager()).
-		userDetailsService(customDetailService).passwordEncoder(bcrypt);
-		*/
 	}
 	
-	/*@Bean
-	DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setPasswordEncoder(bcrypt);
-		daoAuthenticationProvider.setUserDetailsService(customDetailService);
-		return daoAuthenticationProvider;
-	}
-	*/
+
 	
 	
 	@Override

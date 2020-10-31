@@ -34,4 +34,9 @@ public class ProfileServiceImpl implements IProfileService{
 	public void deleteById(Integer id) {
 		profileRepo.deleteById(id);
 	}
+
+	@Override
+	public ProfileEntity findProfileByName(String name) {
+		return profileRepo.findOneByName(name);
+	}
 }

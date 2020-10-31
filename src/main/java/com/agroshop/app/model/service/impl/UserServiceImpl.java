@@ -1,14 +1,20 @@
 package com.agroshop.app.model.service.impl;
 
 
+import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.agroshop.app.model.entities.ProfileEntity;
 import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IUserRepository;
+import com.agroshop.app.model.service.IProfileService;
 import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
 
@@ -20,6 +26,11 @@ public class UserServiceImpl implements IUserService{
 
 	@Autowired
 	private IUserRepository userRepo;
+	
+	@Autowired
+	private PasswordEncoder  bcrypt;
+	@Autowired
+	private IProfileService profileService;
 	
 	@Override
 	public List<UserEntity> getAll() {
@@ -41,7 +52,14 @@ public class UserServiceImpl implements IUserService{
 		userRepo.deleteById(id);
 	}
 
-
+	@Override
+	public UserEntity  register(UserEntity user) {
+			user.setPassword(bcrypt.encode(user.getPassword()));
+			ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
+			user.setProfile(new ProfileEntity());
+			user.setProfile(profileSelect);
+			return userRepo.save(user);
+	}
 
 
 }

@@ -3,6 +3,7 @@ package com.agroshop.app.model.beans;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 public class OrderBean extends MainBean {
 
 	public Integer id;
@@ -16,7 +17,6 @@ public class OrderBean extends MainBean {
 	private String phone;
 	private String reference;
 	private ClientBean client;
-	private FarmerBean farmer;
 	private PlaceBean place;
 	private LocalDateTime deliveredDate;
 	
@@ -84,12 +84,7 @@ public class OrderBean extends MainBean {
 	public void setClient(ClientBean client) {
 		this.client = client;
 	}
-	public FarmerBean getFarmer() {
-		return farmer;
-	}
-	public void setFarmer(FarmerBean farmer) {
-		this.farmer = farmer;
-	}
+
 	public PlaceBean getPlace() {
 		return place;
 	}

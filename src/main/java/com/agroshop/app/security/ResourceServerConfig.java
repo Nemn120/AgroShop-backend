@@ -36,13 +36,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/v2/api-docs/**" ).permitAll()
                 .antMatchers("/product/**" ).permitAll()                
-                .antMatchers("/categorymenu/**" ).permitAll()
-                .antMatchers("/branchoffice/**" ).permitAll()
-                .antMatchers("/company/**" ).permitAll()
-                .antMatchers("/menuDay/**" ).permitAll()
+                .antMatchers("/categoryproduct/**" ).permitAll()
                 .antMatchers("/order/**" ).permitAll()
-                .antMatchers("/orderDetail/**" ).permitAll()
-                .antMatchers("/menuDayProduct/**" ).permitAll();
+                .antMatchers("/orderDetail/**" ).permitAll();
 
     }    
 

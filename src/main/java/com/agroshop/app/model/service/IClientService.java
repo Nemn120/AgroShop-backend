@@ -6,5 +6,5 @@ import com.agroshop.app.model.entities.ClientEntity;
 
 @Service
 public interface IClientService extends GenericCRUD<ClientEntity, Integer>{
-
+	ClientEntity register(ClientEntity client); 
 }
