@@ -1,26 +1,28 @@
 package com.agroshop.app.model.service.impl;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.agroshop.app.model.beans.UserBean;
 import com.agroshop.app.model.entities.ProfileEntity;
 import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IUserRepository;
-import com.agroshop.app.model.service.IClientService;
-import com.agroshop.app.model.service.IDriverService;
-import com.agroshop.app.model.service.IFarmerService;
 import com.agroshop.app.model.service.IProfileService;
 import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
 
 @Service
 public class UserServiceImpl implements IUserService{
+	
+
+	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);	
 
 	@Autowired
 	private IUserRepository userRepo;
@@ -51,7 +53,7 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public boolean register(UserEntity user) {
+	public Boolean register(UserEntity user) {
 		try {
 			user.setPassword(bcrypt.encode(user.getPassword()));
 			ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
@@ -66,4 +68,20 @@ public class UserServiceImpl implements IUserService{
 		}
 	}
 
+	public Boolean acceptUser(Integer bean) {
+		try {
+			
+			UserEntity user = userRepo.getUserCompanyManager(bean, Constants.ADMIN_COMPANY_USER_ROL);
+			if(user.getCreateDate()!=null) {
+				user.setStatus(Constants.USER_STATUS__ACCEPTED);
+				save(user);
+				logger.info("Aceptado:" + bean);
+				return true;
+			}else
+				throw new RuntimeException("usuario no encontrado");
+		}catch(Exception e) {
+			logger.warn("Error usuario no encontrado");
+			return false;
+		}
+	}
 }
