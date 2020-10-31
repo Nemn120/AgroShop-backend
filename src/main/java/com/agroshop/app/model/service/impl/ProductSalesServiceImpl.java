@@ -25,7 +25,12 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public void deleteById(Integer id) {
-		salesRepository.deleteById(id);
+		ProductSalesEntity pro = salesRepository.findById(id).orElse(new ProductSalesEntity());
+		if(pro.getIsDeleted()!=null && pro.getIsDeleted()!=true && pro.getCreateDate()!=null) {
+			pro.setIsDeleted(true);
+			salesRepository.save(pro);
+		}
+		//salesRepository.deleteById(id);
 		
 	}
 

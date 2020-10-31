@@ -59,4 +59,44 @@ public class ProductSalesController {
 		return response;
 	}
 	
+	@PostMapping(path="/sps")
+	public GenericResponse<ProductSalesEntity> saveProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
+		logger.info("saveProductSales");
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		
+		try {
+			response.setData(productSalesService.save(request.getData()));
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseMessage(Constants.SUCCESS_REGISTER);
+			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+			
+		}catch(Exception e) {
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
+			logger.error(e.getMessage());
+		}
+		
+		return response;
+	}
+	
+	@PostMapping(path="/dps")
+	public GenericResponse<ProductSalesEntity> deleteProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
+		logger.info("deleteProductSales");
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		
+		try {
+			productSalesService.deleteById(request.getData().getId());
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseMessage(Constants.SUCCESS_REGISTER);
+			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+			
+		}catch(Exception e) {
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
+			logger.error(e.getMessage());
+		}
+		
+		return response;
+	}
+	
 }
