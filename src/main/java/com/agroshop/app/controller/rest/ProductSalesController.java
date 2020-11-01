@@ -38,9 +38,10 @@ public class ProductSalesController {
 		
 		try {
 			ProductSalesEntity pro = request.getData();
+			logger.info("El producto es: "+ pro.getProduct().getName());
 			Map<Integer,List<ProductSalesEntity>> res = productSalesService.getListSearchProductSales(pro.getProduct().getName(), 
 					Constants.PRODUCT_SALES_STATUS_AVAILABLE);
-			logger.info("El producto es: "+ pro.getProduct().getName());
+			
 
 			if(!res.isEmpty())
 				response.setResponseMessage("Se encontró el producto buscado");
