@@ -71,6 +71,11 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	public List<ProductSalesEntity> getListProductSalesByFarmer(Integer id) {
 		return salesRepository.getListProductSalesByFarmer(id);
 	}
+
+	@Override
+	public List<ProductSalesEntity> getListProductSalesByFarmerAndStatus(Integer id, String status) {
+		return salesRepository.getListProductSalesByFarmerAndStatus(id, status);
+	}
 	
 
 

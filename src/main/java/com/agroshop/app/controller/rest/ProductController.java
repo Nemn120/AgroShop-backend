@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agroshop.app.controller.request.GenericRequest;
+import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
@@ -62,6 +63,23 @@ public class ProductController {
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(Constants.ERROR_DELETING_PRODUCT);
 			logger.error(e.getMessage());
+		}
+		
+		return response;
+	}
+	
+	@PostMapping(path="/glpbf")
+	public GenericResponse<ProductEntity> getListProductByFarmer(@RequestBody GenericRequest<ProductEntity> request){
+		
+		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
+		try {
+			response.setDatalist(productService.getListProductByFarmer(request.getData().getUserCreateId()));
+			response.setResponseMessage("productos mostrados exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar productos");
+			response.setResponseCode(AbstractResponse.ERROR);
 		}
 		
 		return response;

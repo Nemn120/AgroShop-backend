@@ -44,5 +44,10 @@ public class ProductServiceImpl implements IProductService {
 	public List<ProductEntity> findByCategoryId(Integer categoryId) {
 		return productRepo.findByCategoryId(categoryId);
 	}
+
+	@Override
+	public List<ProductEntity> getListProductByFarmer(Integer id) {
+		return productRepo.getListProductByFarmer(id);
+	}
 	
 }

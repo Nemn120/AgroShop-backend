@@ -114,6 +114,22 @@ public class ProductSalesController {
 			response.setResponseCode(AbstractResponse.ERROR);
 		}
 		
+		return response;
+	}
+	
+	@PostMapping(path="/glpsbfas")
+	public GenericResponse<ProductSalesEntity> getListProductSalesByFarmerAndStatus(@RequestBody GenericRequest<ProductSalesEntity> request){
+		
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setDatalist(productSalesService.getListProductSalesByFarmerAndStatus(request.getData().getFarmerNumber(),request.getData().getStatus()));
+			response.setResponseMessage("productos mostrados exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar productos");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
 		
 		return response;
 	}

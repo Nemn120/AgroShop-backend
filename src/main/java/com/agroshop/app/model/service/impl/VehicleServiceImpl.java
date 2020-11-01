@@ -35,11 +35,11 @@ public class VehicleServiceImpl implements IVehicleService{
 	@Override
 	public void deleteById(Integer id) {
 		VehicleEntity ve = vehicleRepository.findById(id).orElse(new VehicleEntity());
-		if(ve.getIsDeleted()!= null && ve.getIsDeleted() != true) {
+		if(ve.getDriver()!= null && ve.getIsDeleted() == false) {
 			ve.setIsDeleted(true);
 			vehicleRepository.save(ve);
 		}
-		vehicleRepository.deleteById(id);
+		//vehicleRepository.deleteById(id);
 		
 	}
 
