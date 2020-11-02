@@ -34,6 +34,11 @@ public class ProfileMenuOptionServiceImpl implements IProfileMenuOptionService {
 		profileMenuOptionRepo.deleteById(id);
 	}
 
+	@Override
+	public List<ProfileMenuOptionEntity> getOptionsByProfileId(Integer profileId) {
+		return profileMenuOptionRepo.getOptionsByProfileId(profileId);
+	}
+
 	
 	
 	

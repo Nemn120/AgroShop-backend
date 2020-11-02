@@ -9,6 +9,6 @@ import com.agroshop.app.model.entities.FarmerEntity;
 public interface IFarmerService extends GenericCRUD<FarmerEntity, Integer>{
 
 	FarmerEntity register(FarmerEntity farmer);
-		
+	FarmerEntity getUserByUsername(String username);	
 	
 }

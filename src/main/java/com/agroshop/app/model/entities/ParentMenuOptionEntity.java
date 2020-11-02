@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="parent_menu_option")
-public class ParentMenuOptionEntity  extends MainEntity{
+public class ParentMenuOptionEntity{
 	
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -19,7 +19,6 @@ public class ParentMenuOptionEntity  extends MainEntity{
 	
 	private String iconMenu;
 	private String nameMenu;
-	private String urlMenu;
 	private Integer orderNumber;
 
 
@@ -53,13 +52,5 @@ public class ParentMenuOptionEntity  extends MainEntity{
 
 	public void setNameMenu(String nameMenu) {
 		this.nameMenu = nameMenu;
-	}
-
-	public String getUrlMenu() {
-		return urlMenu;
-	}
-
-	public void setUrlMenu(String urlMenu) {
-		this.urlMenu = urlMenu;
 	}
 }
