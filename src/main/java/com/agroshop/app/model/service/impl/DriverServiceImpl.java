@@ -87,5 +87,11 @@ public class DriverServiceImpl implements IDriverService{
 		driver.setUser(this.userService.register(driver.getUser()));
 		return this.save(driver);  
 	}
+
+	@Override
+	public DriverEntity acceptDriverRegistered(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

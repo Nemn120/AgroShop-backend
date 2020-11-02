@@ -27,9 +27,6 @@ public class DriverController {
 
     @Autowired
     private IDriverService driverService;
-    
-    private static final Logger logger = LogManager.getLogger(DriverController.class);
-
     private GenericResponse<DriverEntity> response;
     private List<String> errors;
     private static final Logger logger = LogManager.getLogger(DriverController.class);
