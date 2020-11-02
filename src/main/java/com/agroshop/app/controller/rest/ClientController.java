@@ -1,3 +1,4 @@
+
 package com.agroshop.app.controller.rest;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,21 +24,5 @@ public class ClientController {
 	
 	private GenericResponse<ClientEntity> response; 
 	private static final Logger logger = LogManager.getLogger(ClientController.class);
-	
-	@PostMapping(path = "/rcl")
-    public GenericResponse<ClientEntity> register(@RequestBody GenericRequest<ClientEntity> request) {
-		this.response = new GenericResponse<ClientEntity>();
-		try {
-			response.setData(this.clientService.register(request.getData()));
-			response.setResponseMessage(Constants.SUCCESS_REGISTER);
-			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
-		}catch(Exception e) {
-			logger.error(e.getMessage());
-			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
-			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
-		}
-        return response;
-    }
-		
 	
 }

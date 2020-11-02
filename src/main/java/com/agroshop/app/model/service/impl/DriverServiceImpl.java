@@ -3,8 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.agroshop.app.model.entities.DriverEntity;
+import com.agroshop.app.model.entities.FarmerEntity;
+import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IDriverRepository;
 import com.agroshop.app.model.service.IDriverService;
+import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ public class DriverServiceImpl implements IDriverService{
 	
 	@Autowired
 	private IDriverRepository driverRepo;
+	
+	@Autowired
+	private IUserService userService;
 	
 	@Override
 	public List<DriverEntity> getAll() {
@@ -68,6 +74,18 @@ public class DriverServiceImpl implements IDriverService{
 			} 
 		});
 		return driverAccepted;
+	}
+
+	@Override
+	public DriverEntity getUserByUsername(String username) {
+		return driverRepo.getUserByUsername(username);
+	}
+
+	@Override
+	public DriverEntity register(DriverEntity driver) {
+		driver.getUser().setTypeUser(Constants.USER_TYPE_DRIVER);
+		driver.setUser(this.userService.register(driver.getUser()));
+		return this.save(driver);  
 	}
 }
 

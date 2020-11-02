@@ -8,10 +8,13 @@ import org.apache.logging.log4j.Logger;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.util.Constants;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +27,8 @@ public class DriverController {
 
     @Autowired
     private IDriverService driverService;
+    
+    private static final Logger logger = LogManager.getLogger(DriverController.class);
 
     private GenericResponse<DriverEntity> response;
     private List<String> errors;

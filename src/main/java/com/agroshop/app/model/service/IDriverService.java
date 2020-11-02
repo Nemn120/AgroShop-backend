@@ -12,4 +12,8 @@ public interface IDriverService extends GenericCRUD<DriverEntity, Integer>{
     DriverEntity getDriverById(Integer id);
     Boolean isAcceptedDriver(DriverEntity driver);
     List<DriverEntity> acceptDriverRegistered(List<Integer> ids);
+    DriverEntity acceptDriverRegistered(Integer id);
+    DriverEntity getUserByUsername(String username);
+    DriverEntity register(DriverEntity farmer);
+
 }

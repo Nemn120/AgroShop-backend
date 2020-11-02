@@ -42,10 +42,13 @@ public class Constants {
 	public static final String SUCCESS_DELETED= "Registro eliminado con éxito";
 	public static final String SUCCESS_SHOW_LIST= "Lista obtenida con éxito";
     
-    public static final String SUCCESS_PETITION_REQUEST= "SUCESS";
+    public static final String SUCCESS_PETITION_REQUEST= "SUCCESS";
     public static final String ERROR_PETITION_REQUEST= "ERROR";
     
     public static final String ERROR_REGISTER_MESSAGE= "Ocurrio un error al momento de registrar";
+    
+    public static final String ERROR_PETITION_MESSAGE= "Ocurrio un error al momento de realizar la petición";
+    
     
     
 

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="profile")
-public class ProfileEntity extends MainEntity {
+public class ProfileEntity {
 
 	private static final long serialVersionUID = 1L;
 	@Id
