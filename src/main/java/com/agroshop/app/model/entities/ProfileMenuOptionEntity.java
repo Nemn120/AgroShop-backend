@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="profile_menu_option")
-public class ProfileMenuOptionEntity extends MainEntity{
+public class ProfileMenuOptionEntity{
 
 	private static final long serialVersionUID = 1L;
 	@Id

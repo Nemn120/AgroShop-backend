@@ -1,11 +1,20 @@
 package com.agroshop.app.model.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.agroshop.app.controller.rest.FarmerController;
 import com.agroshop.app.model.entities.MenuOptionEntity;
+import com.agroshop.app.model.entities.ParentMenuOptionEntity;
 import com.agroshop.app.model.repository.IMenuOptionRepository;
+import com.agroshop.app.model.repository.IParentMenuOptionRepository;
 import com.agroshop.app.model.service.IMenuOptionService;
 
 @Service
@@ -14,6 +23,11 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 	@Autowired
 	private IMenuOptionRepository menuOptionRepo;
 	
+	@Autowired
+	private IParentMenuOptionRepository parentRepo;
+	
+	private static final Logger logger = LogManager.getLogger(MenuOptionEntity.class);
+
 	@Override
 	public List<MenuOptionEntity> getAll() {
 		return menuOptionRepo.findAll();
@@ -32,6 +46,34 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 	@Override
 	public void deleteById(Integer id) {
 		menuOptionRepo.deleteById(id);
+	}
+
+	@Override
+	public List<MenuOptionEntity> getListMenuOptionByProfileId(Integer profileId) {
+		List<MenuOptionEntity> menus = new ArrayList<>();
+		Map<Integer,ParentMenuOptionEntity> parentMap = new HashMap<Integer, ParentMenuOptionEntity>();
+		
+		menuOptionRepo.getOptionsByProfileId(profileId).forEach(x -> {	
+			MenuOptionEntity m = new MenuOptionEntity();
+			m.setIdMenu(Integer.parseInt(String.valueOf(x[0])));
+			m.setIconMenu(String.valueOf(x[1]));
+			m.setNameMenu(String.valueOf(x[2]));
+			m.setOrderNumber(Integer.parseInt(String.valueOf(x[3])));
+			m.setUrlMenu(String.valueOf(x[4]));
+			m.setParent(new ParentMenuOptionEntity());
+			
+			Integer idParent=Integer.parseInt(String.valueOf(x[5]));
+			if(parentMap.containsKey(idParent))
+				m.setParent(parentMap.get(idParent));
+			else {
+				ParentMenuOptionEntity parent = parentRepo.findById(idParent).get();
+				if(parent != null)
+				parentMap.put(idParent,parent);
+				m.setParent(parent);
+			}
+			menus.add(m);
+		});
+		return menus;
 	}
 
 }

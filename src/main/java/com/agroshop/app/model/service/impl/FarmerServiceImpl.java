@@ -44,9 +44,14 @@ public class FarmerServiceImpl implements IFarmerService{
 
 	@Override
 	public FarmerEntity register(FarmerEntity farmer) {
-		UserEntity userRegister = this.userService.register(farmer.getUser());
-		farmer.setUser(userRegister);
+		farmer.getUser().setTypeUser(Constants.USER_TYPE_FARMER);
+		farmer.setUser(this.userService.register(farmer.getUser()));
 		return this.save(farmer);     
+	}
+
+	@Override
+	public FarmerEntity getUserByUsername(String username) {
+		return farmerRepo.getUserByUsername(username);
 	}
 
 }

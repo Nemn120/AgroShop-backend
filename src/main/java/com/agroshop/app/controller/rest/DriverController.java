@@ -2,21 +2,24 @@ package com.agroshop.app.controller.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.util.Constants;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.dao.DataAccessException;
 
 @RestController
 @RequestMapping("/driver")
@@ -24,22 +27,23 @@ public class DriverController {
 
     @Autowired
     private IDriverService driverService;
+    private GenericResponse<DriverEntity> response;
+    private List<String> errors;
+    private static final Logger logger = LogManager.getLogger(DriverController.class);
 
     @PostMapping(path = "/cd")
-    public GenericResponse<DriverEntity> createDriver(@RequestBody GenericRequest<DriverEntity> request) {
+    public GenericResponse<DriverEntity> registerDriver(@RequestBody GenericRequest<DriverEntity> request) {
 
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        DriverEntity driverCreated = new DriverEntity();
-        List<String> errors = new ArrayList<String>();
+        this.response = new GenericResponse<DriverEntity>();
+        this.errors = new ArrayList<String>();
         
         try {
-            driverCreated = driverService.save(request.getData());
-
-            response.setResponseMessage("Conductor creado con éxito");
-            response.setData(driverCreated);
+            response.setData(this.driverService.save(request.getData()));
+            response.setResponseMessage(Constants.SUCCESS_REGISTER);
             response.setResponseCode(AbstractResponse.SUCCESS);
         } catch (Error e) {
-            errors.add("Error" + e.getMessage());
+            logger.error(e.getMessage());
+            errors.add(e.getMessage());
             response.setResponseMessage(Constants.ERROR_CREATING_DRIVER);
             response.setErrorList(errors);
             response.setResponseCode(AbstractResponse.ERROR);
@@ -48,47 +52,19 @@ public class DriverController {
         return response;
     }
 
-    @PostMapping(path = "/ud/{id}")
-    public GenericResponse<DriverEntity> updateDriver(@RequestBody GenericRequest<DriverEntity> request, @PathVariable Integer id) {
+    @PostMapping(path = "/dd")
+    public GenericResponse<DriverEntity> deleteDriver(@RequestBody GenericRequest<Integer> request) {
 
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        DriverEntity currentDriver = driverService.getDriverById(id);
-        DriverEntity updatedDriver = null;
-        List<String> errors = new ArrayList<String>();
+        this.response = new GenericResponse<DriverEntity>();
+        this.errors = new ArrayList<String>();
 
         try {
-            
-            currentDriver.setDriverLicenseNumber(request.getData().getDriverLicenseNumber());
-            currentDriver.setYearsOfExperience(request.getData().getYearsOfExperience());
-            currentDriver.setQualification(request.getData().getQualification());
-
-			updatedDriver = driverService.save(currentDriver);
-
-            response.setResponseMessage("Conductor: " + id.toString() + " actualizado con éxito");
-            response.setData(updatedDriver);
-            response.setResponseCode(AbstractResponse.SUCCESS);
-        } catch (DataAccessException e) {
-            errors.add(e.getMessage());
-            response.setResponseMessage(Constants.ERROR_UPDATING_DRIVER);
-            response.setErrorList(errors);
-            response.setResponseCode(AbstractResponse.ERROR);
-
-        }
-        return response;
-    }
-
-    @PostMapping(path = "/dd/{id}")
-    public GenericResponse<DriverEntity> deleteDriver(@PathVariable Integer id) {
-
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        List<String> errors = new ArrayList<String>();
-
-        try {
-            driverService.deleteById(id);
-            response.setResponseMessage("Conductor: " + id + " eliminado con éxito");
+            driverService.deleteById(request.getData());
+            response.setResponseMessage(Constants.SUCCESS_DELETED);
             response.setResponseCode(AbstractResponse.SUCCESS);
         } catch (Error e) {
-            errors.add("Error" + e.getMessage());
+            logger.error(e.getMessage());
+            errors.add(e.getMessage());
             response.setResponseMessage(Constants.ERROR_DELETING_DRIVER);
             response.setErrorList(errors);
             response.setResponseCode(AbstractResponse.ERROR);
@@ -96,64 +72,28 @@ public class DriverController {
         return response;
     }
 
-    @PostMapping(path = "/gld")
-    public GenericResponse<DriverEntity> getListDriver() {
-
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        List<DriverEntity> drivers;
-        List<String> errors = new ArrayList<String>();
-
-        try {
-            drivers = driverService.getAll();
-
-            response.setResponseMessage("Lista de conductores obtenido con éxito");
-            response.setDatalist(drivers);
-            response.setResponseCode(AbstractResponse.SUCCESS);
-        } catch (Error e) {
-            errors.add("Error" + e.getMessage());
-            response.setResponseMessage(Constants.ERROR_GETTING_DRIVERS);
-            response.setErrorList(errors);
-            response.setResponseCode(AbstractResponse.ERROR);
-        }
-        return response;
-    }
-
-    @PostMapping(path = "/glda")
-    public GenericResponse<DriverEntity> getListDriverAccepted() {
-       
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        List<DriverEntity> drivers;
-        List<String> errors = new ArrayList<String>();
-
-        try {
-            drivers = driverService.getDriverListByStatus(Constants.DRIVER_STATUS_ACCEPTED);
-            response.setResponseCode("Lista de conductores aceptados obtenido con éxito");
-            response.setDatalist(drivers);
-            response.setResponseCode(AbstractResponse.SUCCESS);
-        } catch (Error e) {
-            errors.add("Error" + e.getMessage());
-            response.setResponseMessage(Constants.ERROR_DRIVER_ACCEPTED);
-            response.setErrorList(errors);
-            response.setResponseCode(AbstractResponse.ERROR);
-        }
-        return response;
-    }
-
-    @PostMapping(path = "/gldp")
-    public GenericResponse<DriverEntity> getListDriverPending() {
+    @PostMapping(path = "/gldbs")
+    public GenericResponse<DriverEntity> getListDriverByStatus(@RequestBody GenericRequest<String> request) {
     
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        List<DriverEntity> drivers;
-        List<String> errors = new ArrayList<String>();
+        this.response = new GenericResponse<DriverEntity>();
+        List<DriverEntity> drivers = new ArrayList<DriverEntity>();
+        this.errors = new ArrayList<String>();
+
+        if(request.getData() == null) {
+            response.setResponseMessage(Constants.ERROR_REQUEST);
+            response.setResponseCode(AbstractResponse.ERROR);
+            return response;
+        }
 
         try {
-            drivers = driverService.getDriverListByStatus(Constants.DRIVER_STATUS_PENDING);
-            response.setResponseMessage("Lista de conductores pendientes obtenido con éxito");
+            drivers = driverService.getDriverListByStatus(request.getData());
             response.setDatalist(drivers);
+            response.setResponseMessage(Constants.SUCCESS_SHOW_LIST);
             response.setResponseCode(AbstractResponse.SUCCESS);
         } catch (Error e) {
-            errors.add("Error" + e.getMessage());
-            response.setResponseMessage(Constants.ERROR_DRIVER_PENDING);
+            logger.error(e.getMessage());
+            errors.add(e.getMessage());
+            response.setResponseMessage(Constants.ERROR_GETTING_DRIVERS);
             response.setErrorList(errors);
             response.setResponseCode(AbstractResponse.ERROR);
         }
@@ -163,22 +103,19 @@ public class DriverController {
     @PostMapping(path = "/adr")
     public GenericResponse<DriverEntity> acceptDriverRegistered(@RequestBody GenericRequest<List<Integer>> request) {
 
-        GenericResponse<DriverEntity> response = new GenericResponse<DriverEntity>();
-        List<String> errors = new ArrayList<String>();
+        this.response = new GenericResponse<DriverEntity>();
+        this.errors = new ArrayList<String>();
         List<DriverEntity> drivers = new ArrayList<DriverEntity>();
 
         try {
-            request.getData().forEach( id -> {
-            DriverEntity driverAccepted = driverService.acceptDriverRegistered(id);
-            drivers.add(driverService.save(driverAccepted));
-            });
-
+            drivers = driverService.acceptDriverRegistered(request.getData());
             response.setDatalist(drivers);
-            response.setResponseMessage("Conductores aceptados con éxito");
+            response.setResponseMessage(Constants.SUCCESS_REGISTER);
             response.setResponseCode(AbstractResponse.SUCCESS);
 
         } catch (Error e) {
-            errors.add("Error" + e.getMessage());
+            logger.error(e.getMessage());
+            errors.add(e.getMessage());
             response.setResponseMessage(Constants.ERROR_ACCEPTING_DRIVER);
             response.setErrorList(errors);
             response.setResponseCode(AbstractResponse.ERROR);
