@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
@@ -29,11 +31,13 @@ public class ProductController {
 	IProductService productService;
 	
 	@PostMapping(path="/sp")
-	public GenericResponse<ProductEntity> saveProduct(@RequestBody GenericRequest<ProductEntity> request){
+	public GenericResponse<ProductEntity> saveProduct(@RequestPart GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
 		logger.info("saveProduct");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
 		try {
+			if(file.getBytes().length >0)
+				request.getData().setPhoto(file.getBytes());
 			response.setData(productService.save(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
