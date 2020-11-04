@@ -53,4 +53,10 @@ public class ParentMenuOptionEntity{
 	public void setNameMenu(String nameMenu) {
 		this.nameMenu = nameMenu;
 	}
+
+	@Override
+	public String toString() {
+		return "ParentMenuOptionEntity [id=" + id + ", iconMenu=" + iconMenu + ", nameMenu=" + nameMenu
+				+ ", orderNumber=" + orderNumber + "]";
+	}
 }

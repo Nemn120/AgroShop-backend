@@ -25,7 +25,7 @@ public class UserController {
 	
 	
 	@PostMapping(value="/gubu")
-	public GenericResponse<Object> getUserByUsername(@RequestBody LoginDTO request ){
+	public GenericResponse<Object> getUserByUsernameAndUserType(@RequestBody LoginDTO request ){
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
 			logger.info(request.getUsername());
