@@ -31,6 +31,23 @@ public class Constants {
     public static final String ERROR_CREATING_DRIVER = "Error al crear conductor";
     public static final String ERROR_DELETING_DRIVER = "Error al eliminar conductor";
     public static final String ERROR_GETTING_DRIVERS = "Error al listar conductores";
+    
+    public static final String ERROR_CREATING_PRODUCT = "Error al crear producto";
+    public static final String ERROR_UPDATING_PRODUCT = "Error al actualizar producto";
+    public static final String ERROR_DELETING_PRODUCT = "Error al eliminar producto";
+    public static final String ERROR_GETTING_PRODUCT = "Error al listar productos";
+    
+    public static final String ERROR_CREATING_PRODUCT_SALES = "Error al crear producto sales";
+    public static final String ERROR_UPDATING_PRODUCT_SALES = "Error al actualizar producto sales";
+    public static final String ERROR_DELETING_PRODUCT_SALES = "Error al eliminar producto sales";
+    public static final String ERROR_GETTING_PRODUCT_SALES = "Error al listar productos sales";
+    
+    public static final String ERROR_CREATING_CATEGORY_PRODUCT = "Error al crear categoia ";
+    public static final String ERROR_UPDATING_CATEGORY_PRODUCT = "Error al actualizar categoria ";
+    public static final String ERROR_DELETING_CATEGORY_PRODUCT = "Error al eliminar categoria";
+    public static final String ERROR_GETTING_CATEGORY_PRODUCT = "Error al listar categorias";
+    
+    
 
     public static final String DRIVER_STATUS_ACCEPTED = "Aceptado";
     public static final String DRIVER_STATUS_PENDING = "Pendiente";
