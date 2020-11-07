@@ -3,6 +3,7 @@ package com.agroshop.app.controller.rest;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.service.IVehicleService;
 
@@ -75,6 +77,23 @@ public class VehicleController {
 			response.setResponseCode(AbstractResponse.ERROR);
 		}
 		
+		
+		return response;
+	}
+	
+	@PostMapping(path = "/gp", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public GenericResponse<byte[]> getPhoto(@RequestBody GenericRequest<VehicleEntity> request) {
+		GenericResponse<byte[]> response = new GenericResponse<byte[]>();
+		try {
+			VehicleEntity c = vehicleService.getOneById(request.getId());
+			response.setData(c.getPhoto());
+			response.setResponseMessage("foto obtenida exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar foto");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
 		
 		return response;
 	}

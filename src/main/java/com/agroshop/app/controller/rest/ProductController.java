@@ -5,6 +5,11 @@ import java.time.LocalDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +88,23 @@ public class ProductController {
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
 			response.setResponseMessage("Error al mostrar productos");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		
+		return response;
+	}
+	
+	@PostMapping(path = "/gp", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public GenericResponse<byte[]> getPhoto(@RequestBody GenericRequest<ProductEntity> request) {
+		GenericResponse<byte[]> response = new GenericResponse<byte[]>();
+		try {
+			ProductEntity c = productService.getOneById(request.getId());
+			response.setData(c.getPhoto());
+			response.setResponseMessage("foto obtenida exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar foto");
 			response.setResponseCode(AbstractResponse.ERROR);
 		}
 		

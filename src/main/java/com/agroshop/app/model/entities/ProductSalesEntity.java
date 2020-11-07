@@ -29,8 +29,15 @@ public class ProductSalesEntity extends MainEntity {
 	private String discount;
 	private String weight; //peso
 	private Double offerPrice;
+	private String statusSales;
 	
 		
+	public String getStatusSales() {
+		return statusSales;
+	}
+	public void setStatusSales(String statusSales) {
+		this.statusSales = statusSales;
+	}
 	public String getMeasureUnite() {
 		return measureUnite;
 	}

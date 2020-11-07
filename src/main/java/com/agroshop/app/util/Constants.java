@@ -27,6 +27,9 @@ public class Constants {
 	
 	public static final String PRODUCT_SALES_STATUS_NOT_AVAILABLE="No disponible";
 	public static final String PRODUCT_SALES_STATUS_AVAILABLE="Disponible";
+	
+	public static final String PRODUCT_SALES_STATUS_INACTIVE="No activo";
+	public static final String PRODUCT_SALES_STATUS_ACTIVE="Activo";
 
     public static final String ERROR_CREATING_DRIVER = "Error al crear conductor";
     public static final String ERROR_DELETING_DRIVER = "Error al eliminar conductor";
