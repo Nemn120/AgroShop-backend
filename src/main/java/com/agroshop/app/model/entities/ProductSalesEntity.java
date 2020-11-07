@@ -23,7 +23,7 @@ public class ProductSalesEntity extends MainEntity {
 	private Integer totalQuantity;
 	private Integer availableQuantity;
 	private String type;
-	private Integer farmerNumber;
+	private Integer farmerNumber; //id del farmer
 	private String measureUnite;
 	private String validity; //validez
 	private String discount;
@@ -104,6 +104,4 @@ public class ProductSalesEntity extends MainEntity {
 	public void setFarmerNumber(Integer farmerNumber) {
 		this.farmerNumber = farmerNumber;
 	}
-	
-	
 }

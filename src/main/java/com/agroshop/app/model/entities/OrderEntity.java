@@ -103,7 +103,7 @@ public class OrderEntity extends MainEntity {
 	public void setClient(ClientEntity client) {
 		this.client = client;
 	}
-	
+
 	public FarmerEntity getFarmer() {
 		return farmer;
 	}

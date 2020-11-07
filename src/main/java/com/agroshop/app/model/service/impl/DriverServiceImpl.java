@@ -2,16 +2,17 @@ package com.agroshop.app.model.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.agroshop.app.model.entities.DriverEntity;
-import com.agroshop.app.model.entities.FarmerEntity;
-import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IDriverRepository;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class DriverServiceImpl implements IDriverService{

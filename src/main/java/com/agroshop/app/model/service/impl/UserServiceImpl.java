@@ -78,22 +78,7 @@ public class UserServiceImpl implements IUserService{
 			return userRepo.save(user);
 	}
 
-	public Boolean acceptUser(Integer bean) {
-		try {
-			
-			UserEntity user = userRepo.getUserCompanyManager(bean, Constants.ADMIN_COMPANY_USER_ROL);
-			if(user.getCreateDate()!=null) {
-				user.setStatus(Constants.USER_STATUS__ACCEPTED);
-				save(user);
-				logger.info("Aceptado:" + bean);
-				return true;
-			}else
-				throw new RuntimeException("usuario no encontrado");
-		}catch(Exception e) {
-			logger.warn("Error usuario no encontrado");
-			return false;
-		}
-	}
+
 
 	@Override
 	public Object getTypeUserByUsernameAndType(String username, String type) {
@@ -129,5 +114,5 @@ public class UserServiceImpl implements IUserService{
 		return null;
 	}
 	
-	
+
 }

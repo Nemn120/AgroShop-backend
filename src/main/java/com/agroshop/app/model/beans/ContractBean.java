@@ -9,7 +9,6 @@ public class ContractBean extends MainBean{
 	private String contractPath;
 	private Integer contractDay;
 	private DriverBean driver;
-	private CompanyBean company;
 	private FarmerBean farmer;
 	private String info;
 	
@@ -49,12 +48,6 @@ public class ContractBean extends MainBean{
 	}
 	public void setDriver(DriverBean driver) {
 		this.driver = driver;
-	}
-	public CompanyBean getCompany() {
-		return company;
-	}
-	public void setCompany(CompanyBean company) {
-		this.company = company;
 	}
 	public FarmerBean getFarmer() {
 		return farmer;

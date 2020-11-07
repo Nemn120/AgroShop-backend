@@ -9,4 +9,5 @@ import com.agroshop.app.model.entities.ProductEntity;
 @Service
 public interface IProductService extends GenericCRUD<ProductEntity, Integer>{
 	List<ProductEntity> findByCategoryId(Integer categoryId);
+	List<ProductEntity> getListProductByFarmer(Integer id);
 }
