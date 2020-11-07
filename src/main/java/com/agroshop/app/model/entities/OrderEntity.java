@@ -1,6 +1,7 @@
 package com.agroshop.app.model.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="order_entity")
@@ -32,13 +34,20 @@ public class OrderEntity extends MainEntity {
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 	@ManyToOne
-	@JoinColumn(name = "company_id")
-	private CompanyEntity company;
+	@JoinColumn(name = "farmer_id")
+	private FarmerEntity farmer;
 	@Column(name = "delivered_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime deliveredDate;
 	
+	@Transient
+	private List<OrderDetailEntity> orderDetailList;
 	
-	
+	public List<OrderDetailEntity> getOrderDetailList() {
+		return orderDetailList;
+	}
+	public void setOrderDetailList(List<OrderDetailEntity> orderDetailList) {
+		this.orderDetailList = orderDetailList;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -94,20 +103,18 @@ public class OrderEntity extends MainEntity {
 	public void setClient(ClientEntity client) {
 		this.client = client;
 	}
-	public CompanyEntity getCompany() {
-		return company;
-	}
-	public void setCompany(CompanyEntity company) {
-		this.company = company;
-	}
 	
+	public FarmerEntity getFarmer() {
+		return farmer;
+	}
+	public void setFarmer(FarmerEntity farmer) {
+		this.farmer = farmer;
+	}
 	public LocalDateTime getDeliveredDate() {
 		return deliveredDate;
 	}
 	public void setDeliveredDate(LocalDateTime deliveredDate) {
 		this.deliveredDate = deliveredDate;
 	}
-	
-	
 
 }
