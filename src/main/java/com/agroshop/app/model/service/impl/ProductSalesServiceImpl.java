@@ -54,8 +54,8 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	}
 
 	@Override
-	public Map<Integer, List<ProductSalesEntity>> getListSearchProductSales(String searchProduct, String status) {
-		List<ProductSalesEntity> productSearch = salesRepository.getListSearchProductSales(searchProduct, status);
+	public Map<Integer, List<ProductSalesEntity>> getListSearchProductSales(String searchProduct, String status, String sales) {
+		List<ProductSalesEntity> productSearch = salesRepository.getListSearchProductSales(searchProduct, status, sales);
 		
 		 Map<Integer,List<ProductSalesEntity>> mapSearch= new HashMap<Integer,List<ProductSalesEntity>>();
 		 
