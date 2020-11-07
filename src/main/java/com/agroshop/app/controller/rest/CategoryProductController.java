@@ -30,12 +30,11 @@ public class CategoryProductController{
 	private ICategoryProductService categoryProductService;
 	private static final Logger logger = LogManager.getLogger(CategoryProductController.class);	
 	@PostMapping(path="/scp")
-	public  GenericResponse<CategoryProductEntity> saveCategoryProduct(@RequestPart GenericRequest<CategoryProductEntity> request, @RequestPart("file") MultipartFile file){
+	public  GenericResponse<CategoryProductEntity> saveCategoryProduct(@RequestBody GenericRequest<CategoryProductEntity> request){
 		
 		GenericResponse<CategoryProductEntity> response = new GenericResponse<CategoryProductEntity>();
 		try {
-			if(file.getBytes().length >0)
-				request.getData().setPhoto(file.getBytes());
+			
 			response.setData(categoryProductService.save(request.getData()));
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
