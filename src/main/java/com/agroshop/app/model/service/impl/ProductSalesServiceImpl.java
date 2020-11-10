@@ -14,6 +14,7 @@ import com.agroshop.app.controller.rest.ProductSalesController;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.IProductSalesService;
+import com.agroshop.app.util.Constants;
 
 @Service
 public class ProductSalesServiceImpl implements IProductSalesService {
@@ -45,6 +46,11 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public ProductSalesEntity save(ProductSalesEntity t) {
+		t.setAvailableQuantity(t.getTotalQuantity());
+		if(t.getTotalQuantity()>0)
+			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
+		if(t.getStatus() == null)
+			t.setStatus(Constants.PRODUCT_SALES_STATUS_INACTIVE);
 		return salesRepository.save(t);
 	}
 
@@ -82,6 +88,11 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	@Override
 	public List<ProductSalesEntity> getListProductSalesByFarmerAndStatus(Integer id, String status) {
 		return salesRepository.getListProductSalesByFarmerAndStatus(id, status);
+	}
+
+	@Override
+	public ProductSalesEntity getProdutSalesByIdAndStatusAndStatusSales(Integer id, String status, String statusSales) {
+		return salesRepository.findByIdAndStatusAndStatusSales(id, status, statusSales);
 	}
 	
 

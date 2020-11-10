@@ -28,7 +28,7 @@ public class VehicleController {
 	private IVehicleService vehicleService;
 	
 	@PostMapping(path="/sv")
-	public GenericResponse<VehicleEntity> saveVehicle(@RequestPart GenericRequest<VehicleEntity> request, @RequestPart("file") MultipartFile file){
+	public GenericResponse<VehicleEntity> saveVehicle(@RequestPart("request") GenericRequest<VehicleEntity> request, @RequestPart("file") MultipartFile file){
 		
 		GenericResponse<VehicleEntity> response = new GenericResponse<VehicleEntity>();
 		try {

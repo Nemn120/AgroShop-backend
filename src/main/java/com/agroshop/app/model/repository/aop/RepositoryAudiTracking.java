@@ -32,14 +32,6 @@ public class RepositoryAudiTracking {
 	}
 	@Around(value="saveMethodExecution(entity)")
 	public Object aroundSaveMethodExecution(ProceedingJoinPoint joinPoint, Object entity) throws Throwable {
-		UserEntity userSession = userRepo.findOneByUsername((String)SecurityContextHolder
-		        .getContext()
-		        .getAuthentication()
-		        .getPrincipal());
-		        
-	
-		
-		
 		Object ob = null;
 		try {
 			if(PropertyUtils.getProperty(entity, "createDate") == null) {
@@ -48,16 +40,11 @@ public class RepositoryAudiTracking {
 			}
 			
 			PropertyUtils.setProperty(entity, "updateDate",LocalDateTime.now());
-			if(userSession != null)
-			PropertyUtils.setProperty(entity, "userUpdatedId",userSession.getId());
-			
-			if(PropertyUtils.getProperty(entity, "userCreateId") == null && userSession != null) {
-				PropertyUtils.setProperty(entity, "userCreateId",userSession.getId());
-			}
-			
 			ob=joinPoint.proceed();
 		}catch(Exception e) {
-			log.error(e.getMessage());
+			log.error(e);
+			throw new Throwable("Eror al realizar AOP");
+			
 		}
 		return ob;
 	}
