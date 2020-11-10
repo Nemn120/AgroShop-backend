@@ -20,4 +20,6 @@ public interface IProductSalesRepository extends JpaRepository<ProductSalesEntit
 	
 	@Query("SELECT p FROM ProductSalesEntity p WHERE  p.farmerNumber=:id AND p.isDeleted=False AND p.status=:status ")
 	public List<ProductSalesEntity> getListProductSalesByFarmerAndStatus(@Param("id") Integer id, @Param("status") String status);
+	
+	ProductSalesEntity findByIdAndStatusAndStatusSales(Integer id, String status,String statusSales);
 }

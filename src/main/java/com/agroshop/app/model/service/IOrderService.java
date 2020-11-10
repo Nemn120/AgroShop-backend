@@ -9,8 +9,8 @@ import com.agroshop.app.model.entities.OrderEntity;
 @Service
 public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	
-	public List<OrderEntity> saveOrderByManyFarmer(OrderEntity order);
+	public List<OrderEntity> saveOrderByManyFarmer(OrderEntity order)  throws Throwable ;
 	
-	public OrderEntity saveOrderByFarmer(OrderEntity order);
+	public OrderEntity saveOrderByFarmer(OrderEntity order)  throws Throwable ;
 
 }

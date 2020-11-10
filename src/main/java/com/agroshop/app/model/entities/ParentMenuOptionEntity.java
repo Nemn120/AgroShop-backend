@@ -16,7 +16,6 @@ public class ParentMenuOptionEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
-	
 	private String iconMenu;
 	private String nameMenu;
 	private Integer orderNumber;

@@ -135,4 +135,22 @@ public class ProductSalesController {
 		return response;
 	}
 	
+	@PostMapping(path="/glps")
+	public GenericResponse<ProductSalesEntity> getAllProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setDatalist(productSalesService.getAll());
+			response.setResponseMessage("productos mostrados exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar productos");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+	}
+	
+	
+	
+	
 }
