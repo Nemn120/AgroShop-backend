@@ -1,6 +1,7 @@
 package com.agroshop.app.controller.rest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,9 @@ public class ProductController {
 	IProductService productService;
 	
 	@PostMapping(path="/sp")
-	public GenericResponse<ProductEntity> saveProduct(@RequestPart GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
+	public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
+	//public GenericResponse<ProductEntity> saveProduct(@RequestBody GenericRequest<ProductEntity> request){	
+		
 		logger.info("saveProduct");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
@@ -55,6 +58,11 @@ public class ProductController {
 		}
 		
 		return response;
+	}
+	
+	@GetMapping(path="/gap")
+	public 	List<ProductEntity> getAllProduct(){
+		return productService.getAll();
 	}
 	
 	@PostMapping(path="/dp")

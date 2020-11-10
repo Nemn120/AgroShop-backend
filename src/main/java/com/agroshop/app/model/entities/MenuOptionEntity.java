@@ -76,4 +76,12 @@ public class MenuOptionEntity {
 		this.urlMenu = urlMenu;
 	}
 
+	@Override
+	public String toString() {
+		return "MenuOptionEntity [idMenu=" + idMenu + ", iconMenu=" + iconMenu + ", nameMenu=" + nameMenu + ", urlMenu="
+				+ urlMenu + ", orderNumber=" + orderNumber + ", parent=" + parent + "]";
+	}
+	
+	
+
 }

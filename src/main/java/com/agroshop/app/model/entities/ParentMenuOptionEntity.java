@@ -16,7 +16,6 @@ public class ParentMenuOptionEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
-	
 	private String iconMenu;
 	private String nameMenu;
 	private Integer orderNumber;
@@ -52,5 +51,11 @@ public class ParentMenuOptionEntity{
 
 	public void setNameMenu(String nameMenu) {
 		this.nameMenu = nameMenu;
+	}
+
+	@Override
+	public String toString() {
+		return "ParentMenuOptionEntity [id=" + id + ", iconMenu=" + iconMenu + ", nameMenu=" + nameMenu
+				+ ", orderNumber=" + orderNumber + "]";
 	}
 }

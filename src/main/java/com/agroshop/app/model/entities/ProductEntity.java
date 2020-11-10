@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +23,13 @@ public class ProductEntity extends MainEntity  {
 	private String description;
 	private String pathPhoto;
 	@JsonIgnore
+	@Column(name = "photo", updatable = false)
 	private byte[] photo;
 	@ManyToOne
-	@JoinColumn(name = "category_id", nullable = false, referencedColumnName = "id")
+	@JoinColumn(name = "category_id" ,referencedColumnName = "id")
 	private CategoryProductEntity category;
 
+	
 	public Integer getId() {
 		return id;
 	}

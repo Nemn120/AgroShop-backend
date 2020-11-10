@@ -1,9 +1,13 @@
 package com.agroshop.app.model.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.xml.crypto.Data;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agroshop.app.controller.rest.FarmerController;
+import com.agroshop.app.model.DTO.MenuOptionDTO;
 import com.agroshop.app.model.entities.MenuOptionEntity;
 import com.agroshop.app.model.entities.ParentMenuOptionEntity;
 import com.agroshop.app.model.repository.IMenuOptionRepository;
@@ -26,7 +31,7 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 	@Autowired
 	private IParentMenuOptionRepository parentRepo;
 	
-	private static final Logger logger = LogManager.getLogger(MenuOptionEntity.class);
+	private static final Logger logger = LogManager.getLogger(MenuOptionServiceImpl.class);
 
 	@Override
 	public List<MenuOptionEntity> getAll() {
@@ -49,29 +54,39 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 	}
 
 	@Override
-	public List<MenuOptionEntity> getListMenuOptionByProfileId(Integer profileId) {
-		List<MenuOptionEntity> menus = new ArrayList<>();
-		Map<Integer,ParentMenuOptionEntity> parentMap = new HashMap<Integer, ParentMenuOptionEntity>();
+	public List<MenuOptionDTO> getListMenuOptionByProfileId(Integer profileId) {
+		List<MenuOptionDTO> menus = new ArrayList<MenuOptionDTO>();
 		
 		menuOptionRepo.getOptionsByProfileId(profileId).forEach(x -> {	
-			MenuOptionEntity m = new MenuOptionEntity();
-			m.setIdMenu(Integer.parseInt(String.valueOf(x[0])));
-			m.setIconMenu(String.valueOf(x[1]));
-			m.setNameMenu(String.valueOf(x[2]));
+			logger.info(String.valueOf(x[2]));
+			MenuOptionDTO m = new MenuOptionDTO();
+			m.setFaIcon(String.valueOf(x[1]));
+			m.setLabel(String.valueOf(x[2]));
 			m.setOrderNumber(Integer.parseInt(String.valueOf(x[3])));
-			m.setUrlMenu(String.valueOf(x[4]));
-			m.setParent(new ParentMenuOptionEntity());
+			m.setLink(String.valueOf(x[4]));
 			
 			Integer idParent=Integer.parseInt(String.valueOf(x[5]));
-			if(parentMap.containsKey(idParent))
-				m.setParent(parentMap.get(idParent));
+			
+		
+			List<MenuOptionDTO> menuSelects=menus.stream().filter(data ->data.getId() ==idParent)
+					.collect(Collectors.toList());
+		
+			if(menuSelects.size()>0) {
+				menuSelects.get(0).getItems().add(m);
+				logger.info(m.toString());
+			}
 			else {
 				ParentMenuOptionEntity parent = parentRepo.findById(idParent).get();
-				if(parent != null)
-				parentMap.put(idParent,parent);
-				m.setParent(parent);
+				if(parent != null) {
+					MenuOptionDTO mParent= new MenuOptionDTO(parent.getId(),
+							parent.getNameMenu(),parent.getIconMenu(),parent.getOrderNumber());
+					mParent.setItems(new ArrayList<MenuOptionDTO>());
+					mParent.getItems().add(m);
+					menus.add(mParent);
+				}
+				logger.info(parent.toString());
+				
 			}
-			menus.add(m);
 		});
 		return menus;
 	}

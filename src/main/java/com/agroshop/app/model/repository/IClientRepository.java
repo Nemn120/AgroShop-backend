@@ -8,6 +8,6 @@ import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.FarmerEntity;
 
 public interface IClientRepository extends JpaRepository<ClientEntity, Integer>{
-	@Query("SELECT farm FROM ClientEntity farm INNER JOIN  UserEntity u WHERE u.username=:username")
+	@Query("SELECT client FROM ClientEntity client INNER JOIN  client.user u WHERE u.username=:username")
 	public ClientEntity getUserByUsername(@Param("username") String username);
 }

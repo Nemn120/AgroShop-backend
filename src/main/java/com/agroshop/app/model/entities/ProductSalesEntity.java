@@ -31,7 +31,6 @@ public class ProductSalesEntity extends MainEntity {
 	private Double offerPrice;
 	private String statusSales;
 	
-		
 	public String getStatusSales() {
 		return statusSales;
 	}

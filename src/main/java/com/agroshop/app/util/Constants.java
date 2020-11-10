@@ -69,6 +69,15 @@ public class Constants {
     
     public static final String ERROR_PETITION_MESSAGE= "Ocurrio un error al momento de realizar la petición";
     
+    public static final String ORDER_STATUS_PENDING="Pendiente";
+    public static final String ORDER_STATUS_WITHOUT_DRIVER="Sin conductor";
+	public static final String ORDER_STATUS_ATTENT="Atendido";
+	public static final String ORDER_STATUS_DELIVERY="En camino";
+	public static final String ORDER_STATUS_DELIVERED="Entregado";
+	public static final String ORDER_STATUS_DELAY="Entregado";
+    
+    
+    
     
     
 

@@ -40,7 +40,7 @@ public class ProductSalesController {
 			ProductSalesEntity pro = request.getData();
 			logger.info("El producto es: "+ pro.getProduct().getName());
 			Map<Integer,List<ProductSalesEntity>> res = productSalesService.getListSearchProductSales(pro.getProduct().getName(), 
-					Constants.PRODUCT_SALES_STATUS_AVAILABLE, Constants.PRODUCT_SALES_STATUS_ACTIVE);
+					 Constants.PRODUCT_SALES_STATUS_ACTIVE, Constants.PRODUCT_SALES_STATUS_AVAILABLE);
 			
 
 			if(!res.isEmpty())
@@ -134,5 +134,23 @@ public class ProductSalesController {
 		
 		return response;
 	}
+	
+	@PostMapping(path="/glps")
+	public GenericResponse<ProductSalesEntity> getAllProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setDatalist(productSalesService.getAll());
+			response.setResponseMessage("productos mostrados exitosamente");
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar productos");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+	}
+	
+	
+	
 	
 }
