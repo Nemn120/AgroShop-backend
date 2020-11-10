@@ -23,8 +23,8 @@ public class OrderDetailEntity extends MainEntity {
 	@JoinColumn(name = "product_sales_id", nullable = false)
 	private ProductSalesEntity productSales;
 	private Integer quantity;
-	private Integer price;
-	private Integer total;
+	private Double price;
+	private Double total;
 	
 	public Integer getId() {
 		return id;
@@ -53,19 +53,16 @@ public class OrderDetailEntity extends MainEntity {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Integer getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(Integer total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
-	
-	
-	
 }

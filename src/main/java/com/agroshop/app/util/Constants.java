@@ -27,6 +27,9 @@ public class Constants {
 	
 	public static final String PRODUCT_SALES_STATUS_NOT_AVAILABLE="No disponible";
 	public static final String PRODUCT_SALES_STATUS_AVAILABLE="Disponible";
+	
+	public static final String PRODUCT_SALES_STATUS_INACTIVE="No activo";
+	public static final String PRODUCT_SALES_STATUS_ACTIVE="Activo";
 
     public static final String ERROR_CREATING_DRIVER = "Error al crear conductor";
     public static final String ERROR_DELETING_DRIVER = "Error al eliminar conductor";
@@ -65,6 +68,15 @@ public class Constants {
     public static final String ERROR_REGISTER_MESSAGE= "Ocurrio un error al momento de registrar";
     
     public static final String ERROR_PETITION_MESSAGE= "Ocurrio un error al momento de realizar la petición";
+    
+    public static final String ORDER_STATUS_PENDING="Pendiente";
+    public static final String ORDER_STATUS_WITHOUT_DRIVER="Sin conductor";
+	public static final String ORDER_STATUS_ATTENT="Atendido";
+	public static final String ORDER_STATUS_DELIVERY="En camino";
+	public static final String ORDER_STATUS_DELIVERED="Entregado";
+	public static final String ORDER_STATUS_DELAY="Entregado";
+    
+    
     
     
     
