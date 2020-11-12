@@ -24,6 +24,7 @@ import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.service.IProductService;
 import com.agroshop.app.util.Constants;
 
@@ -46,7 +47,7 @@ public class ProductController {
 		
 		try {
 			
-			//ProductEntity pr = new ProductEntity();
+			/*ProductEntity pr = new ProductEntity();
 			logger.info(file.getBytes());
 			//pr.setPhoto(file.getBytes());
 			/*CategoryProductEntity c = new CategoryProductEntity();
@@ -100,8 +101,12 @@ public class ProductController {
 		
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		try {
-			response.setDatalist(productService.getListProductByFarmer(request.getData().getUserCreateId()));
-			response.setResponseMessage("productos mostrados exitosamente");
+			List<ProductEntity> list = productService.getListProductByFarmer(request.getData().getUserCreateId());
+			if(!list.isEmpty())
+				response.setResponseMessage("productos mostrados exitosamente");
+			else
+				response.setResponseMessage("No se encontraron productos");
+			response.setDatalist(list);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {

@@ -37,7 +37,7 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public ProductEntity save(ProductEntity t) {
-		if(t.getPhoto() != null &&  t.getPhoto().length>0) {
+		if(t.getPhoto() != null &&  t.getPhoto().length>0 && t.getId()!=null) {
 			productRepo.updatePhoto(t.getId(),t.getPhoto());
 		}
 		return productRepo.save(t);

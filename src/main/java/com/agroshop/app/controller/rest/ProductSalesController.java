@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.service.IProductSalesService;
@@ -106,8 +107,12 @@ public class ProductSalesController {
 		
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		try {
-			response.setDatalist(productSalesService.getListProductSalesByFarmer(request.getData().getFarmerNumber()));
-			response.setResponseMessage("productos mostrados exitosamente");
+			List<ProductSalesEntity> list = productSalesService.getListProductSalesByFarmer(request.getData().getFarmerNumber());
+			if(!list.isEmpty())
+				response.setResponseMessage("productos mostrados exitosamente");
+			else
+				response.setResponseMessage("No se encontraron productos");
+			response.setDatalist(list);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
@@ -123,8 +128,12 @@ public class ProductSalesController {
 		
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		try {
-			response.setDatalist(productSalesService.getListProductSalesByFarmerAndStatus(request.getData().getFarmerNumber(),request.getData().getStatus()));
-			response.setResponseMessage("productos mostrados exitosamente");
+			List<ProductSalesEntity> list = productSalesService.getListProductSalesByFarmerAndStatus(request.getData().getFarmerNumber(),request.getData().getStatus());
+			if(!list.isEmpty())
+				response.setResponseMessage("productos mostrados exitosamente");
+			else
+				response.setResponseMessage("No se encontraron productos");
+			response.setDatalist(list);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
