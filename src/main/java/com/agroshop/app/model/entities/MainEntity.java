@@ -17,10 +17,8 @@ public class MainEntity  implements Serializable  {
 	private LocalDateTime updateDate;
 	private Integer userCreateId;
 	private Integer userUpdatedId;
-	private Integer organizationId;
 	private String status;
 	private Boolean isDeleted;
-	
 	
 	public LocalDateTime getCreateDate() {
 		return createDate;
@@ -44,14 +42,6 @@ public class MainEntity  implements Serializable  {
 
 	public void setUserUpdatedId(Integer userUpdatedId) {
 		this.userUpdatedId = userUpdatedId;
-	}
-
-	public Integer getOrganizationId() {
-		return organizationId;
-	}
-
-	public void setOrganizationId(Integer organizationId) {
-		this.organizationId = organizationId;
 	}
 
 	public String getStatus() {

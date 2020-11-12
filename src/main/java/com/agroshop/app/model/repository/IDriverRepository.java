@@ -12,6 +12,6 @@ import org.springframework.data.repository.query.Param;
 public interface IDriverRepository extends JpaRepository<DriverEntity, Integer>{
     List<DriverEntity> findByStatus(String status);
     
-	@Query("SELECT driver FROM DriverEntity driver INNER JOIN  UserEntity u WHERE u.username=:username")
+	@Query("SELECT driver FROM DriverEntity driver INNER JOIN  driver.user u WHERE u.username=:username")
 	public DriverEntity getUserByUsername(@Param("username") String username);
 }

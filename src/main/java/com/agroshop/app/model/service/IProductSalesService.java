@@ -11,9 +11,11 @@ import com.agroshop.app.model.entities.ProductSalesEntity;
 public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, Integer> {
 	List<ProductSalesEntity> findByIdSalesOrderByPriceAsc(int idSales);
 	
-	Map<Integer,List<ProductSalesEntity>> getListSearchProductSales(String searchProduct, String status);
+	Map<Integer,List<ProductSalesEntity>> getListSearchProductSales(String searchProduct, String status, String sales);
 	
 	List<ProductSalesEntity> getListProductSalesByFarmer(Integer id);
 	
 	List<ProductSalesEntity> getListProductSalesByFarmerAndStatus(Integer id, String status);
+	
+	ProductSalesEntity getProdutSalesByIdAndStatusAndStatusSales(Integer id,String status, String statusSales);
 }

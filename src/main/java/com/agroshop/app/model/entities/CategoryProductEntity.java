@@ -1,10 +1,13 @@
 package com.agroshop.app.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "category_product")
@@ -16,9 +19,7 @@ public class CategoryProductEntity extends MainEntity {
 	private Integer id;
 	private String name;
 	private String description;
-	private String pathPhoto;
 	private String iconPath;
-	private byte[] photo;
 
 	public Integer getId() {
 		return id;
@@ -42,22 +43,6 @@ public class CategoryProductEntity extends MainEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getPathPhoto() {
-		return pathPhoto;
-	}
-
-	public void setPathPhoto(String pathPhoto) {
-		this.pathPhoto = pathPhoto;
-	}
-
-	public byte[] getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
 	}
 
 	public String getIconPath() {

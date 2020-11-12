@@ -29,6 +29,9 @@ public class VehicleServiceImpl implements IVehicleService{
 	@Override
 	public VehicleEntity save(VehicleEntity t) {
 		t.setIsDeleted(false);
+		if(t.getPhoto() != null &&  t.getPhoto().length>0) {
+			vehicleRepository.updatePhoto(t.getId(),t.getPhoto());
+		}
 		return vehicleRepository.save(t);
 	}
 
