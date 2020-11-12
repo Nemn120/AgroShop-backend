@@ -1,6 +1,7 @@
 package com.agroshop.app.controller.rest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,7 @@ import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.service.IVehicleService;
+
 
 @RestController
 @RequestMapping("/vehicle")
@@ -75,8 +77,12 @@ public class VehicleController {
 		
 		GenericResponse<VehicleEntity> response = new GenericResponse<VehicleEntity>();
 		try {
-			response.setDatalist(vehicleService.getVehicleListByDriver(request.getData().getDriver().getId()));
-			response.setResponseMessage("Vehiculos mostrados exitosamente");
+			List<VehicleEntity> list = vehicleService.getVehicleListByDriver(request.getData().getDriver().getId());
+			if(!list.isEmpty())
+				response.setResponseMessage("Vehiculos mostrados exitosamente");
+			else
+				response.setResponseMessage("No se encontraron vehiculos");
+			response.setDatalist(list);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {

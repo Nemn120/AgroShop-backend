@@ -24,6 +24,7 @@ import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.service.IProductService;
 import com.agroshop.app.util.Constants;
 
@@ -38,24 +39,25 @@ public class ProductController {
 	IProductService productService;
 	
 	@PostMapping(path="/sp")
-	//public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
-	public GenericResponse<ProductEntity> saveProduct(@RequestBody  MultipartFile file){	
+	public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
+	//public GenericResponse<ProductEntity> saveProduct(@RequestBody  MultipartFile file){	
 		
 		logger.info("saveProduct");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
 		try {
-			//if(file.getBytes().length >0)
-			ProductEntity pr = new ProductEntity();
+			
+			/*ProductEntity pr = new ProductEntity();
 			logger.info(file.getBytes());
 			pr.setPhoto(file.getBytes());
 			CategoryProductEntity c = new CategoryProductEntity();
 			c.setId(1);
 			pr.setCategory(c);
 			
-			response.setData(productService.save(pr));
-			//	request.getData().setPhoto(file.getBytes());
-			//response.setData(productService.save(request.getData()));
+			response.setData(productService.save(pr));*/
+			if(file.getBytes().length >0)
+				request.getData().setPhoto(file.getBytes());
+			response.setData(productService.save(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
@@ -99,8 +101,12 @@ public class ProductController {
 		
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		try {
-			response.setDatalist(productService.getListProductByFarmer(request.getData().getUserCreateId()));
-			response.setResponseMessage("productos mostrados exitosamente");
+			List<ProductEntity> list = productService.getListProductByFarmer(request.getData().getUserCreateId());
+			if(!list.isEmpty())
+				response.setResponseMessage("productos mostrados exitosamente");
+			else
+				response.setResponseMessage("No se encontraron productos");
+			response.setDatalist(list);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
