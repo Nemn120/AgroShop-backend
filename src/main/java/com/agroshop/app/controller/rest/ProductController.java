@@ -23,7 +23,6 @@ import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductEntity;
-import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.service.IProductService;
 import com.agroshop.app.util.Constants;
 
@@ -38,8 +37,10 @@ public class ProductController {
 	IProductService productService;
 	
 	@PostMapping(path="/sp")
+
+
 	public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
-	//public GenericResponse<ProductEntity> saveProduct(@RequestBody  MultipartFile file){	
+
 		logger.info("saveProduct");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
