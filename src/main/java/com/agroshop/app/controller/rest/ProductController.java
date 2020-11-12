@@ -44,15 +44,6 @@ public class ProductController {
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
 		try {
-
-			/*ProductEntity pr = new ProductEntity();
-			logger.info(file.getBytes());
-			//pr.setPhoto(file.getBytes());
-			/*CategoryProductEntity c = new CategoryProductEntity();
-			c.setId(1);
-			pr.setCategory(c);			
-			response.setData(productService.save(pr));*/
-			
 			if(file.getBytes().length >0)
 				request.getData().setPhoto(file.getBytes());
 			response.setData(productService.save(request.getData()));
@@ -114,27 +105,6 @@ public class ProductController {
 		
 		return response;
 	}
-	
-	/*@PostMapping(path = "/gp", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public GenericResponse<byte[]> getPhoto(@RequestBody GenericRequest<ProductEntity> request) {
-		GenericResponse<byte[]> response = new GenericResponse<byte[]>();
-		try {
-			
-			ProductEntity c = productService.getOneById(request.getId());
-			logger.info(c.getName());
-			logger.info(c.getPhoto());
-			byte[]	data = c.getPhoto();
-			response.setData(data);
-			response.setResponseMessage("foto obtenida exitosamente");
-			response.setFinalTimesTamp(LocalDateTime.now());
-			response.setResponseCode(AbstractResponse.SUCCESS);
-		}catch(Exception e) {
-			response.setResponseMessage("Error al mostrar foto");
-			response.setResponseCode(AbstractResponse.ERROR);
-		}
-		
-		return response;
-	}*/
 	
 	@GetMapping(value = "/gp/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<byte[]> getPhoto(@PathVariable("id") Integer id) {
