@@ -22,7 +22,7 @@ public class ProductEntity extends MainEntity  {
 	private String name;
 	private String description;
 	private String pathPhoto;
-	@JsonIgnore
+	//@JsonIgnore
 	@Column(name = "photo", updatable = false)
 	private byte[] photo;
 	@ManyToOne

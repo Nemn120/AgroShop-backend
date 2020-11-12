@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.service.IProductService;
@@ -37,16 +38,24 @@ public class ProductController {
 	IProductService productService;
 	
 	@PostMapping(path="/sp")
-	public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
-	//public GenericResponse<ProductEntity> saveProduct(@RequestBody GenericRequest<ProductEntity> request){	
+	//public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
+	public GenericResponse<ProductEntity> saveProduct(@RequestBody  MultipartFile file){	
 		
 		logger.info("saveProduct");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
 		try {
-			if(file.getBytes().length >0)
-				request.getData().setPhoto(file.getBytes());
-			response.setData(productService.save(request.getData()));
+			//if(file.getBytes().length >0)
+			ProductEntity pr = new ProductEntity();
+			logger.info(file.getBytes());
+			pr.setPhoto(file.getBytes());
+			CategoryProductEntity c = new CategoryProductEntity();
+			c.setId(1);
+			pr.setCategory(c);
+			
+			response.setData(productService.save(pr));
+			//	request.getData().setPhoto(file.getBytes());
+			//response.setData(productService.save(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
@@ -102,12 +111,16 @@ public class ProductController {
 		return response;
 	}
 	
-	@PostMapping(path = "/gp", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	/*@PostMapping(path = "/gp", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public GenericResponse<byte[]> getPhoto(@RequestBody GenericRequest<ProductEntity> request) {
 		GenericResponse<byte[]> response = new GenericResponse<byte[]>();
 		try {
+			
 			ProductEntity c = productService.getOneById(request.getId());
-			response.setData(c.getPhoto());
+			logger.info(c.getName());
+			logger.info(c.getPhoto());
+			byte[]	data = c.getPhoto();
+			response.setData(data);
 			response.setResponseMessage("foto obtenida exitosamente");
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
@@ -117,6 +130,12 @@ public class ProductController {
 		}
 		
 		return response;
-	}
+	}*/
 	
+	@GetMapping(value = "/gp/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public ResponseEntity<byte[]> getPhoto(@PathVariable("id") Integer id) {
+		ProductEntity c = productService.getOneById(id);
+		 byte[]	data = c.getPhoto();
+		return new ResponseEntity<byte[]>(data, HttpStatus.OK);
+	}
 }
