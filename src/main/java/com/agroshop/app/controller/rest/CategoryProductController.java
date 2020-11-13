@@ -29,6 +29,7 @@ public class CategoryProductController{
 	@Autowired
 	private ICategoryProductService categoryProductService;
 	private static final Logger logger = LogManager.getLogger(CategoryProductController.class);	
+	
 	@PostMapping(path="/scp")
 	public  GenericResponse<CategoryProductEntity> saveCategoryProduct(@RequestBody GenericRequest<CategoryProductEntity> request){
 		
@@ -69,7 +70,7 @@ public class CategoryProductController{
 	@PostMapping(path="/gcp")
 	public GenericResponse<CategoryProductEntity> getAllCategoryProduct(@RequestBody GenericRequest<CategoryProductEntity> request){
 		GenericResponse<CategoryProductEntity> response = new GenericResponse<CategoryProductEntity>();
-		response.setDatalist(categoryProductService.getAll());
+		response.setDatalist(categoryProductService.getListCategory(request.getData().getUserCreateId()));
 		return response;
 	}
 	

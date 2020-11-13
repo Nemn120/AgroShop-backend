@@ -8,12 +8,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import com.agroshop.app.controller.rest.ProductController;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.repository.IProductRepository;
 import com.agroshop.app.model.service.IProductService;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements IProductService {
 	
 
@@ -42,17 +44,10 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public ProductEntity save(ProductEntity t) {
-		if(t.getId()!=null) {
-		ProductEntity pro = productRepo.findById(t.getId()).orElse(new ProductEntity());
-		if(t.getPhoto() != null &&  t.getPhoto().length>0 && pro.getName()!=null) {		
-			logger.info("actualizo: "+t.getId());
-			pro.setPhoto(t.getPhoto());
-			return productRepo.save(pro);
-			//productRepo.updatePhoto(t.getId(),t.getPhoto());
-			
-		}
-		}
-		return productRepo.save(t);
+		ProductEntity product = productRepo.save(t);
+		if(t.getPhoto() != null && t.getPhoto().length>0)
+			productRepo.updatePhoto(product.getId(),t.getPhoto());
+		return product; 
 	}
 
 	@Override
