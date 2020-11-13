@@ -55,6 +55,8 @@ public class ProductController {
 			pr.setCategory(c);
 			
 			response.setData(productService.save(pr));*/
+			logger.info("create"+request.getData().getCreateDate());
+			logger.info("id"+request.getData().getId());
 			if(file.getBytes().length >0)
 				request.getData().setPhoto(file.getBytes());
 			response.setData(productService.save(request.getData()));
