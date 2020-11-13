@@ -46,5 +46,11 @@ public class CategoryProductServiceImpl implements ICategoryProductService {
 			
 		return categoryRepo.save(t);
 	}
+
+	@Override
+	public List<CategoryProductEntity> getListCategory(Integer id) {
+		
+		return categoryRepo.getListCategory(id);
+	}
 	
 }

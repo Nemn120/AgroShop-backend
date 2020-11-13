@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import com.agroshop.app.controller.rest.ProductController;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.repository.IProductRepository;
