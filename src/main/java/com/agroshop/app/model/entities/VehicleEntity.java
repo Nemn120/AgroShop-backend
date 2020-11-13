@@ -31,7 +31,7 @@ public class VehicleEntity extends MainEntity{
 	private Double netWeight;
 	private Double grossWeight;
 	
-	//@JsonIgnore
+	@JsonIgnore
 	@Column(name = "photo", updatable = false)
 	private byte[] photo;
 	
