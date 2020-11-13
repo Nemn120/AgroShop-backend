@@ -31,17 +31,10 @@ public class VehicleServiceImpl implements IVehicleService{
 
 	@Override
 	public VehicleEntity save(VehicleEntity t) {
-		if(t.getId()!=null) {
-		t.setIsDeleted(false);
-		VehicleEntity v = vehicleRepository.findById(t.getId()).orElse(new VehicleEntity());
-		if(t.getPhoto() != null &&  t.getPhoto().length>0 && v.getPlateNumber()!=null){
-			logger.info("actualizo");
-			v.setPhoto(t.getPhoto());
-			return vehicleRepository.save(v);
-			//vehicleRepository.updatePhoto(t.getId(),t.getPhoto());
-		}
-		}
-		return vehicleRepository.save(t);
+		VehicleEntity vehicleSave =vehicleRepository.save(t);
+		if(t.getPhoto() != null &&  t.getPhoto().length>0)
+			vehicleRepository.updatePhoto(t.getId(),t.getPhoto());
+			return vehicleSave;
 	}
 
 	@Override
