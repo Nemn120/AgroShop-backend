@@ -42,6 +42,7 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public ProductEntity save(ProductEntity t) {
+		if(t.getId()!=null) {
 		ProductEntity pro = productRepo.findById(t.getId()).orElse(new ProductEntity());
 		if(t.getPhoto() != null &&  t.getPhoto().length>0 && pro.getName()!=null) {		
 			logger.info("actualizo: "+t.getId());
@@ -49,6 +50,7 @@ public class ProductServiceImpl implements IProductService {
 			return productRepo.save(pro);
 			//productRepo.updatePhoto(t.getId(),t.getPhoto());
 			
+		}
 		}
 		return productRepo.save(t);
 	}
