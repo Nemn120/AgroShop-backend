@@ -7,10 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "category_product")
+@Where(clause="is_Deleted = 'False'")
 public class CategoryProductEntity extends MainEntity {
 
 	private static final long serialVersionUID = 1L;

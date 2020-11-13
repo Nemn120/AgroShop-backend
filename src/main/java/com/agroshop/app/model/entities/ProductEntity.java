@@ -9,10 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="product")
+@Where(clause="is_Deleted = 'False'")
 public class ProductEntity extends MainEntity  {
 
 	private static final long serialVersionUID = 1L;

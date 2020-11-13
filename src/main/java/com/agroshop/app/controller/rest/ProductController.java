@@ -44,6 +44,7 @@ public class ProductController {
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
 		try {
+
 			if(file.getBytes().length >0)
 				request.getData().setPhoto(file.getBytes());
 			response.setData(productService.save(request.getData()));

@@ -50,7 +50,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 		if(t.getTotalQuantity()>0)
 			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
 		if(t.getStatus() == null)
-			t.setStatus(Constants.PRODUCT_SALES_STATUS_INACTIVE);
+			t.setStatus(Constants.STATUS_OFF_ENTITY);
 		return salesRepository.save(t);
 	}
 
