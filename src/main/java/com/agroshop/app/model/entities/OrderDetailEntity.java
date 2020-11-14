@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,9 @@ public class OrderDetailEntity extends MainEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne
+	@ManyToOne(cascade={    
+            CascadeType.PERSIST,
+            CascadeType.REFRESH})
 	@JoinColumn(name = "custom_order_id", nullable = false)
 	private OrderEntity customOrder;
 	@ManyToOne

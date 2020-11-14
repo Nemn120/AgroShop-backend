@@ -6,12 +6,16 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @MappedSuperclass
+@JsonInclude(Include.NON_NULL)
 public class MainEntity  implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "create_date", columnDefinition = "TIMESTAMP")
+	@Column(name = "create_date", columnDefinition = "TIMESTAMP", updatable = false)
 	private LocalDateTime createDate;
 	@Column(name = "update_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime updateDate;

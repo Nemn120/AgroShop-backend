@@ -89,6 +89,8 @@ public class OrderServiceImpl implements IOrderService {
 		    OrderEntity orderResponse = this.saveOrderByFarmer(orderRepo.save(orderSave));
 		    if(orderResponse != null) {
 		    	orderResult.add(orderResponse);
+		    }else {
+		    	throw  new RuntimeException("Se produjo un error al realizar el pedido");
 		    }
 		    
 		}
@@ -98,34 +100,31 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public OrderEntity saveOrderByFarmer(OrderEntity order) throws Throwable  {
-	
-		logger.info("OrderServiceImpl.saveOrderByFarmer()");
+	logger.info("OrderServiceImpl.saveOrderByFarmer()");
 		order.getOrderDetailList().forEach(od ->{
 			od.setCustomOrder(new OrderEntity());
 			od.setCustomOrder(order);
 			ProductSalesEntity mp =productSalesService.getProdutSalesByIdAndStatusAndStatusSales(od.getProductSales().getId(),Constants.PRODUCT_SALES_STATUS_ACTIVE,Constants.PRODUCT_SALES_STATUS_AVAILABLE);
 			if(mp== null) {
-				//throw new Throwable("El producto " +od.getProductSales().getProduct().getName()+ " no esta disponible.");
+				throw new RuntimeException("El producto " +od.getProductSales().getProduct().getName()+ " no esta disponible.");
 			}
 				Integer quantityOrder= mp.getAvailableQuantity()-od.getQuantity();
 				if(quantityOrder < 0) {
 					logger.trace("ProductSales: "+mp.getId() + " estado : "+Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
-				//	throw new Throwable ("No existe cantidad de productos suficientes para realizar el pedido");
-				//	throw new Throwable("Eror al realizar AOP");
+					throw  new RuntimeException("No hay stock suficiente para realizar pedido");
 				}
-				mp.setAvailableQuantity(quantityOrder);
 				if(quantityOrder.equals(0))
 					mp.setStatusSales(Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
-				productSalesService.save(mp);
+				mp.setAvailableQuantity(quantityOrder);
 				orderDetailService.save(od);
-				
+				productSalesService.save(mp);
+				od.setCustomOrder(new OrderEntity());
 				order.setTotal(order.getTotal() !=null && order.getTotal() != 0.0? order.getTotal()+od.getPrice():od.getPrice()*od.getQuantity());
 				order.setQuantity(order.getQuantity() !=null? order.getQuantity()+od.getQuantity(): od.getQuantity());
 		});
 		order.setStatus(Constants.ORDER_STATUS_PENDING);
 		
 		return orderRepo.save(order);
-		
 	}
 
 }
