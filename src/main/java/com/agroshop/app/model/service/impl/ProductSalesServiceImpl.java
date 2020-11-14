@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agroshop.app.controller.rest.ProductSalesController;
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.IProductSalesService;
@@ -51,6 +52,12 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
 		if(t.getStatus() == null)
 			t.setStatus(Constants.STATUS_OFF_ENTITY);
+		if(t.getId()!=null) {
+			ProductSalesEntity pro = salesRepository.findById(t.getId()).orElse(new ProductSalesEntity());
+			t.setUserCreateId(pro.getUserCreateId());
+			t.setIsDeleted(pro.getIsDeleted());
+			t.setCreateDate(pro.getCreateDate());
+		}
 		return salesRepository.save(t);
 	}
 

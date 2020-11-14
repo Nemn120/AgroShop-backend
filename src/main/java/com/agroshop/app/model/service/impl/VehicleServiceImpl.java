@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agroshop.app.controller.rest.VehicleController;
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.VehicleEntity;
 import com.agroshop.app.model.repository.IVehicleRepository;
 import com.agroshop.app.model.service.IVehicleService;
@@ -31,10 +32,18 @@ public class VehicleServiceImpl implements IVehicleService{
 
 	@Override
 	public VehicleEntity save(VehicleEntity t) {
-		VehicleEntity vehicleSave =vehicleRepository.save(t);
-		if(t.getPhoto() != null &&  t.getPhoto().length>0)
-			vehicleRepository.updatePhoto(t.getId(),t.getPhoto());
-			return vehicleSave;
+		if(t.getId()!=null) {
+			VehicleEntity pro = vehicleRepository.findById(t.getId()).orElse(new VehicleEntity());
+			t.setUserCreateId(pro.getUserCreateId());
+			t.setIsDeleted(pro.getIsDeleted());
+			t.setCreateDate(pro.getCreateDate());
+			VehicleEntity v = vehicleRepository.save(t);
+			if(t.getPhoto() != null && t.getPhoto().length>0)
+				vehicleRepository.updatePhoto(t.getId(),t.getPhoto());
+			return v;
+		}
+		VehicleEntity v = vehicleRepository.save(t);
+		return v; 
 	}
 
 	@Override
