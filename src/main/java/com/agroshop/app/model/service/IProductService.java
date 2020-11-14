@@ -10,4 +10,5 @@ import com.agroshop.app.model.entities.ProductEntity;
 public interface IProductService extends GenericCRUD<ProductEntity, Integer>{
 	List<ProductEntity> findByCategoryId(Integer categoryId);
 	List<ProductEntity> getListProductByFarmer(Integer id);
+	boolean deleteProduct(Integer Id);
 }
