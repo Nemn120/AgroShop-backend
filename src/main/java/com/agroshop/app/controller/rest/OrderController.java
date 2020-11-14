@@ -18,9 +18,10 @@ import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.service.IOrderService;
+import com.agroshop.app.util.Constants;
 
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/order")
 public class OrderController {
 	
 private static final Logger logger = LogManager.getLogger(OrderController.class);
@@ -28,22 +29,39 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 	@Autowired
 	private IOrderService orderService;
 	
-	/*@PostMapping(path="/sobos")
-	public GenericResponse<?> saveNewOrderByOrganizationId(@RequestBody GenericRequest<OrderEntity> request) {
-		logger.info("OrderController.saveNewOrderByOrganizationId()");
-		Map<String,Object> response = new HashMap<>();
+	@PostMapping(path="/sobos")
+	public ResponseEntity<GenericResponse<OrderEntity>> saveNewOrderByClient(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
+		logger.info("OrderController.saveNewOrderByClient()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
 		try {
-			response.put(Constants.DATA_RESPONSE, orderService.saveOrderByManyOrganization(or));
-			response.put("message", "Pedido registrado con éxito");
-			
-			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+			response.setDatalist(orderService.saveOrderByManyFarmer(request.getData()));
+			response.setResponseMessage("Pedido realizado con exito");
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.CREATED);
 		}catch(Exception e){
-			response.put("error", "Error al realizar pedido");
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage(e.getMessage());
 			logger.error("ERORR ==> ",e);
-			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	
 	}
-	*/
+	
+	@PostMapping(path="/gal")
+	public GenericResponse<OrderEntity> getAll(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
+		logger.info("OrderController.saveNewOrderByClient()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		try {
+			response.setDatalist(orderService.getAll());
+			response.setResponseMessage("Pedido realizado con exito");
+			
+			return response;
+		}catch(Exception e){
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage("Ocurrio un error al realizar el pedido");
+			logger.error("ERORR ==> ",e.getMessage());
+			return response;
+			//return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }

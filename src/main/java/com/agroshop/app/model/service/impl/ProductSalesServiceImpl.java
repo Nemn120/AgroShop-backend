@@ -47,6 +47,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public ProductSalesEntity save(ProductSalesEntity t) {
+		if(t.getAvailableQuantity() == null)
 		t.setAvailableQuantity(t.getTotalQuantity());
 		if(t.getTotalQuantity()>0)
 			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
