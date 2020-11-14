@@ -69,6 +69,7 @@ public class CategoryProductController{
 	
 	@PostMapping(path="/gcp")
 	public GenericResponse<CategoryProductEntity> getAllCategoryProduct(@RequestBody GenericRequest<CategoryProductEntity> request){
+		logger.info("info");
 		GenericResponse<CategoryProductEntity> response = new GenericResponse<CategoryProductEntity>();
 		response.setDatalist(categoryProductService.getListCategory(request.getData().getUserCreateId()));
 		return response;

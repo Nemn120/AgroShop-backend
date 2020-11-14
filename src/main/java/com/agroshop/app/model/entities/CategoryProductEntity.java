@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "category_product")
-@Where(clause="is_Deleted = 'False'")
+//@Where(clause="is_Deleted = 'False'")
 public class CategoryProductEntity extends MainEntity {
 
 	private static final long serialVersionUID = 1L;

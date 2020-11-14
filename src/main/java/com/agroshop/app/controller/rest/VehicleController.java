@@ -43,6 +43,7 @@ public class VehicleController {
 		try {
 			if(file.getBytes().length >0)
 				request.getData().setPhoto(file.getBytes());
+			logger.info(request.getData().getDriver().getId());
 			response.setData(vehicleService.save(request.getData()));
 			response.setResponseMessage("Vehiculo registrado exitosamente");
 			response.setFinalTimesTamp(LocalDateTime.now());

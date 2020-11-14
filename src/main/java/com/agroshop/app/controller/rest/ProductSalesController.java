@@ -56,7 +56,7 @@ public class ProductSalesController {
 		}catch(Exception e) {
 			response.setResponseMessage("Error al buscar producto");
 			response.setResponseCode(AbstractResponse.ERROR);
-			logger.error(e);
+			logger.error(e.getMessage());
 		}
 		
 		return response;
@@ -94,9 +94,11 @@ public class ProductSalesController {
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
 			
 		}catch(Exception e) {
+			logger.info(e.getMessage());
+			logger.info(e.getCause());
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
-			logger.error(e.getMessage());
+
 		}
 		
 		return response;
@@ -149,10 +151,13 @@ public class ProductSalesController {
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		try {
 			response.setDatalist(productSalesService.getAll());
+			
 			response.setResponseMessage("productos mostrados exitosamente");
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
+			logger.info(e.getMessage());
+			logger.info(e.getCause());
 			response.setResponseMessage("Error al mostrar productos");
 			response.setResponseCode(AbstractResponse.ERROR);
 		}

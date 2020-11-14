@@ -42,6 +42,9 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public List<ProductSalesEntity> getAll() {
+		ProductSalesEntity pro = salesRepository.findById(8).orElse(new ProductSalesEntity());
+		pro.setIsDeleted(false);
+		salesRepository.save(pro);
 		return salesRepository.findAll();
 	}
 
