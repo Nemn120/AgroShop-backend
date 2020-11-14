@@ -15,6 +15,7 @@ import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductRepository;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.IProductService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -52,7 +53,7 @@ public class ProductServiceImpl implements IProductService {
 		}else
 			return false;
 	}
-
+	
 	@Override
 	public List<ProductEntity> getAll() {
 		return productRepo.findAll();
