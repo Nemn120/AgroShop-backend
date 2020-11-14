@@ -43,8 +43,14 @@ public class CategoryProductServiceImpl implements ICategoryProductService {
 
 	@Override
 	public CategoryProductEntity save(CategoryProductEntity t) {
-			
-		return categoryRepo.save(t);
+		if(t.getId()!=null) {
+			CategoryProductEntity pro = categoryRepo.findById(t.getId()).orElse(new CategoryProductEntity());
+			t.setUserCreateId(pro.getUserCreateId());
+			t.setIsDeleted(pro.getIsDeleted());
+			t.setCreateDate(pro.getCreateDate());
+		}
+		CategoryProductEntity product = categoryRepo.save(t);
+		return product;
 	}
 
 	@Override

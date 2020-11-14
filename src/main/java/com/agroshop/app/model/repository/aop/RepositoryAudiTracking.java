@@ -34,7 +34,7 @@ public class RepositoryAudiTracking {
 	public Object aroundSaveMethodExecution(ProceedingJoinPoint joinPoint, Object entity) throws Throwable {
 		Object ob = null;
 		try {
-			if(PropertyUtils.getProperty(entity, "createDate") == null) {
+			if( PropertyUtils.getProperty(entity, "id") == null) {
 				PropertyUtils.setProperty(entity, "createDate",LocalDateTime.now());
 				PropertyUtils.setProperty(entity, "isDeleted",false);
 			}
