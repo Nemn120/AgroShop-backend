@@ -20,4 +20,6 @@ public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, In
 	ProductSalesEntity getProdutSalesByIdAndStatusAndStatusSales(Integer id,String status, String statusSales);
 	
 	List<ProductSalesEntity> getProdutSalesByStatusAndStatusSales(String status, String statusSales);
+	
+	ProductSalesEntity checkProductSalesAndSave(ProductSalesEntity t);
 }

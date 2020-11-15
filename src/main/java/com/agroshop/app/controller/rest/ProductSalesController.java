@@ -68,7 +68,7 @@ public class ProductSalesController {
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		
 		try {
-			response.setData(productSalesService.save(request.getData()));
+			response.setData(productSalesService.checkProductSalesAndSave(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);

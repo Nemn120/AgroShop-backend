@@ -47,23 +47,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public ProductSalesEntity save(ProductSalesEntity t) {
-		if(t.getTotalQuantity() == null)
-		t.setTotalQuantity(0);
-		if(t.getAvailableQuantity() == null){
-			t.setAvailableQuantity(t.getTotalQuantity());	
-		}
-		if(t.getTotalQuantity()>0)
-			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
-		if(t.getTotalQuantity() ==0)
-			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
-		if(t.getStatus() == null)
-			t.setStatus(Constants.STATUS_OFF_ENTITY);
-		if(t.getId()!=null) {
-			ProductSalesEntity pro = salesRepository.findById(t.getId()).orElse(new ProductSalesEntity());
-			t.setUserCreateId(pro.getUserCreateId());
-			t.setIsDeleted(pro.getIsDeleted());
-			t.setCreateDate(pro.getCreateDate());
-		}
+	
 		return salesRepository.save(t);
 	}
 
@@ -111,6 +95,28 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	@Override
 	public List<ProductSalesEntity> getProdutSalesByStatusAndStatusSales(String status, String statusSales) {
 		return salesRepository.findByStatusAndStatusSales(status,statusSales);
+	}
+
+	@Override
+	public ProductSalesEntity checkProductSalesAndSave(ProductSalesEntity t) {
+		if (t.getTotalQuantity() == null)
+			t.setTotalQuantity(0);
+		if (t.getAvailableQuantity() == null) {
+			t.setAvailableQuantity(t.getTotalQuantity());
+		}
+		if (t.getAvailableQuantity() > 0)
+			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
+		if (t.getAvailableQuantity() == 0)
+			t.setStatusSales(Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
+		if (t.getStatus() == null)
+			t.setStatus(Constants.STATUS_OFF_ENTITY);
+		if (t.getId() != null) {
+			ProductSalesEntity pro = salesRepository.findById(t.getId()).orElse(new ProductSalesEntity());
+			t.setUserCreateId(pro.getUserCreateId());
+			t.setIsDeleted(pro.getIsDeleted());
+			t.setCreateDate(pro.getCreateDate());
+		}
+		return this.save(t);
 	}
 	
 
