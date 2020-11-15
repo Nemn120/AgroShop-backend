@@ -58,6 +58,7 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 		List<MenuOptionDTO> menus = new ArrayList<MenuOptionDTO>();
 		
 		menuOptionRepo.getOptionsByProfileId(profileId).forEach(x -> {	
+			if(((Boolean)x[6]) == true) {
 			logger.info(String.valueOf(x[2]));
 			MenuOptionDTO m = new MenuOptionDTO();
 			m.setFaIcon(String.valueOf(x[1]));
@@ -86,6 +87,7 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 				}
 				logger.info(parent.toString());
 				
+			}
 			}
 		});
 		return menus;
