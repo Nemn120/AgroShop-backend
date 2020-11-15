@@ -13,7 +13,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "menu_option")
-@Where(clause="is_active = 'True'")
+@Where(clause="isActive = 'true'")
 public class MenuOptionEntity {
 
 	private static final long serialVersionUID = 1L;
