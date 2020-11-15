@@ -119,7 +119,8 @@ public class OrderServiceImpl implements IOrderService {
 				orderDetailService.save(od);
 				productSalesService.save(mp);
 				od.setCustomOrder(new OrderEntity());
-				order.setTotal(order.getTotal() !=null && order.getTotal() != 0.0? order.getTotal()+od.getPrice():od.getPrice()*od.getQuantity());
+				od.setTotal(od.getQuantity()*od.getPrice());
+				order.setTotal(order.getTotal() !=null && order.getTotal() != 0.0? order.getTotal()+od.getTotal():od.getTotal());
 				order.setQuantity(order.getQuantity() !=null? order.getQuantity()+od.getQuantity(): od.getQuantity());
 		});
 		order.setStatus(Constants.ORDER_STATUS_PENDING);
