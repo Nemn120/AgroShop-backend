@@ -72,10 +72,15 @@ public class ProductController {
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		
 		try {
-			productService.deleteById(request.getData().getId());
+			if(productService.deleteProduct(request.getData().getId())) {
+
+				response.setResponseMessage("Se borró el producto con exitoso");
+				response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+			}else {
+				response.setResponseMessage("El producto no se puede borrar");
+				response.setResponseCode(Constants.ERROR_DELETING_PRODUCT);
+			}
 			response.setFinalTimesTamp(LocalDateTime.now());
-			response.setResponseMessage("Se borró el producto con exitoso");
-			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
 			
 		}catch(Exception e) {
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);

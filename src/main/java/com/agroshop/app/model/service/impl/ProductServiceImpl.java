@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.agroshop.app.controller.rest.ProductController;
 import com.agroshop.app.model.entities.ProductEntity;
+import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductRepository;
+import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.IProductService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ public class ProductServiceImpl implements IProductService {
 	private static final Logger logger = LogManager.getLogger(ProductServiceImpl.class);
 	@Autowired
 	private IProductRepository productRepo;
+	@Autowired
+	private IProductSalesRepository salesRepo;
 	
 	@Override
 	public ProductEntity getOneById(Integer id) {
@@ -37,7 +41,18 @@ public class ProductServiceImpl implements IProductService {
 			productRepo.save(pro);
 		}
 	}
-
+	
+	@Override
+	public boolean deleteProduct(Integer Id) {
+		ProductEntity pro = productRepo.findById(Id).orElse(new ProductEntity());
+		List<ProductSalesEntity> lista = salesRepo.getListProductSalesByProductId(pro.getUserCreateId(), pro.getId());
+		if(!pro.getName().isEmpty() && pro.getIsDeleted() != true && lista.isEmpty()) {
+			pro.setIsDeleted(true);
+			productRepo.save(pro);
+			return true;
+		}else
+			return false;
+	}
 	@Override
 	public List<ProductEntity> getAll() {
 		return productRepo.findAll();
