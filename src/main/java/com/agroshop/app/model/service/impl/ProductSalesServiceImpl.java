@@ -108,6 +108,11 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 		return salesRepository.findByIdAndStatusAndStatusSales(id, status, statusSales);
 	}
 	
+	@Override
+	public List<ProductSalesEntity> getProdutSalesByStatusAndStatusSales(String status, String statusSales) {
+		return salesRepository.findByStatusAndStatusSales(status,statusSales);
+	}
+	
 
 
 	
