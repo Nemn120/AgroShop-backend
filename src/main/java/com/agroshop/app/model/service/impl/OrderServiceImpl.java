@@ -113,7 +113,7 @@ public class OrderServiceImpl implements IOrderService {
 					logger.trace("ProductSales: "+mp.getId() + " estado : "+Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
 					throw  new RuntimeException("No hay stock suficiente para realizar pedido");
 				}
-				if(quantityOrder.equals(0))
+				if(quantityOrder == 0)
 					mp.setStatusSales(Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
 				mp.setAvailableQuantity(quantityOrder);
 				orderDetailService.save(od);
