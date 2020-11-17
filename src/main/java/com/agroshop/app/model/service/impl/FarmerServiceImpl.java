@@ -56,7 +56,6 @@ public class FarmerServiceImpl implements IFarmerService{
 
 	@Override
 	public FarmerEntity getFarmerById(Integer id) {
-		
 		return farmerRepo.getFarmerById(id);
 	}
 
