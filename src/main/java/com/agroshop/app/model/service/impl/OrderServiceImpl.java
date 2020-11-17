@@ -113,13 +113,14 @@ public class OrderServiceImpl implements IOrderService {
 					logger.trace("ProductSales: "+mp.getId() + " estado : "+Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
 					throw  new RuntimeException("No hay stock suficiente para realizar pedido");
 				}
-				if(quantityOrder.equals(0))
+				if(quantityOrder == 0)
 					mp.setStatusSales(Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
 				mp.setAvailableQuantity(quantityOrder);
 				orderDetailService.save(od);
 				productSalesService.save(mp);
 				od.setCustomOrder(new OrderEntity());
-				order.setTotal(order.getTotal() !=null && order.getTotal() != 0.0? order.getTotal()+od.getPrice():od.getPrice()*od.getQuantity());
+				od.setTotal(od.getQuantity()*od.getPrice());
+				order.setTotal(order.getTotal() !=null && order.getTotal() != 0.0? order.getTotal()+od.getTotal():od.getTotal());
 				order.setQuantity(order.getQuantity() !=null? order.getQuantity()+od.getQuantity(): od.getQuantity());
 		});
 		order.setStatus(Constants.ORDER_STATUS_PENDING);

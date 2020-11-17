@@ -68,7 +68,7 @@ public class ProductSalesController {
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		
 		try {
-			response.setData(productSalesService.save(request.getData()));
+			response.setData(productSalesService.checkProductSalesAndSave(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
@@ -163,6 +163,22 @@ public class ProductSalesController {
 		}
 		return response;
 	}
+	
+	@PostMapping(path="/glpsaa")
+	public GenericResponse<ProductSalesEntity> getAllProductSalesActiveAndAvailable(@RequestBody GenericRequest<ProductSalesEntity> request){
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setDatalist(productSalesService.getProdutSalesByStatusAndStatusSales(Constants.PRODUCT_SALES_STATUS_ACTIVE, Constants.PRODUCT_SALES_STATUS_AVAILABLE));
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al mostrar  productos activos ");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+		
+	}
+	
 	
 	
 	

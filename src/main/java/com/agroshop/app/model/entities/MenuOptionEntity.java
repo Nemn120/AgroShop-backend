@@ -9,12 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 @Entity
 @Table(name = "menu_option")
+@Where(clause="isActive = 'true'")
 public class MenuOptionEntity {
 
 	private static final long serialVersionUID = 1L;
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +26,21 @@ public class MenuOptionEntity {
 	private String nameMenu;
 	private String urlMenu;
 	private Integer orderNumber;
+	@Column(name="is_active")
+	private Boolean isActive;
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private ParentMenuOptionEntity parent;
 
 	public ParentMenuOptionEntity getParent() {
 		return parent;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public void setParent(ParentMenuOptionEntity parent) {
