@@ -41,11 +41,12 @@ public class VehicleController {
 		
 		GenericResponse<VehicleEntity> response = new GenericResponse<VehicleEntity>();
 		try {
-			if(file.getBytes().length >0)
-				request.getData().setPhoto(file.getBytes());
+			
 			logger.info(request.getData().getDriver().getId());
-			response.setData(vehicleService.save(request.getData()));
+			if(file.getBytes().length >0) 
+				request.getData().setPhoto(file.getBytes());						
 			response.setResponseMessage("Vehiculo registrado exitosamente");
+			response.setData(vehicleService.save(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {

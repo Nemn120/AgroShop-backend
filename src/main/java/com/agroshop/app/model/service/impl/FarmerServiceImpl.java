@@ -54,4 +54,10 @@ public class FarmerServiceImpl implements IFarmerService{
 		return farmerRepo.getUserByUsername(username);
 	}
 
+	@Override
+	public FarmerEntity getFarmerById(Integer id) {
+		
+		return farmerRepo.getFarmerById(id);
+	}
+
 }

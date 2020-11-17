@@ -11,4 +11,6 @@ public interface IFarmerService extends GenericCRUD<FarmerEntity, Integer>{
 	FarmerEntity register(FarmerEntity farmer);
 	FarmerEntity getUserByUsername(String username);	
 	
+	FarmerEntity getFarmerById(Integer id);
+	
 }
