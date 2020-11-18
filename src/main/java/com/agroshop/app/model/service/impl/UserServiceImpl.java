@@ -98,18 +98,23 @@ public class UserServiceImpl implements IUserService{
 	public Object registerUserByTypeUser(RegisterDTO registerUser) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
-		if(Constants.USER_TYPE_FARMER.equals(registerUser.getUserType())){
-			FarmerEntity userFarmer =objectMapper.convertValue(registerUser.getUserRegister(),FarmerEntity.class);
-			return this.farmerService.register(userFarmer);
-		}
-		if(Constants.USER_TYPE_DRIVER.equals(registerUser.getUserType())){				
-			DriverEntity userDriver=objectMapper.convertValue(registerUser.getUserRegister(),DriverEntity.class);
-			return this.driverService.register(userDriver);
-			
-		}
-		if(Constants.USER_TYPE_CLIENT.equals(registerUser.getUserType())){
-			ClientEntity userClient =objectMapper.convertValue(registerUser.getUserRegister(),ClientEntity.class);
-			return this.clientService.register(userClient);
+		FarmerEntity user = objectMapper.convertValue(registerUser.getUserRegister(),FarmerEntity.class);
+		logger.info("Username: "+user.getUser().getUsername());
+		List<UserEntity> u = userRepo.getUserByUsername(user.getUser().getUsername());
+		if(u.isEmpty()) {
+			if(Constants.USER_TYPE_FARMER.equals(registerUser.getUserType())){
+				FarmerEntity userFarmer =objectMapper.convertValue(registerUser.getUserRegister(),FarmerEntity.class);
+				return this.farmerService.register(userFarmer);
+			}
+			if(Constants.USER_TYPE_DRIVER.equals(registerUser.getUserType())){				
+				DriverEntity userDriver=objectMapper.convertValue(registerUser.getUserRegister(),DriverEntity.class);
+				return this.driverService.register(userDriver);
+				
+			}
+			if(Constants.USER_TYPE_CLIENT.equals(registerUser.getUserType())){
+				ClientEntity userClient =objectMapper.convertValue(registerUser.getUserRegister(),ClientEntity.class);
+				return this.clientService.register(userClient);
+			}
 		}
 		return null;
 	}
