@@ -66,6 +66,7 @@ public class Constants {
     public static final String ERROR_PETITION_REQUEST= "ERROR";
     
     public static final String ERROR_REGISTER_MESSAGE= "Ocurrio un error al momento de registrar";
+    public static final String ERROR_REGISTER_MESSAGE_USERNAME_INVALID= "El nombre de usuario ya existe";
     
     public static final String ERROR_PETITION_MESSAGE= "Ocurrio un error al momento de realizar la petición";
     

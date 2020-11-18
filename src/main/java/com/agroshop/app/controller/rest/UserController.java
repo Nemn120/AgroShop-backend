@@ -48,10 +48,17 @@ public class UserController {
 	public GenericResponse<Object> registerUserByUserType(@RequestBody RegisterDTO request ){
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
-			response.setData(userService.registerUserByTypeUser(request));
-			response.setResponseMessage(Constants.SUCCESS_REGISTER);
-			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+			Object o = userService.registerUserByTypeUser(request);
+			if(o!=null) {
+				response.setData(o);
+				response.setResponseMessage(Constants.SUCCESS_REGISTER);
+				response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+			}else {
+				response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE_USERNAME_INVALID);
+				response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			}
 		}catch(Exception e) {
+			
 			logger.error(e.getMessage());
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
