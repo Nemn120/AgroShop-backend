@@ -56,9 +56,7 @@ public class DriverServiceImpl implements IDriverService{
 	@Override
 	public Boolean isAcceptedDriver(DriverEntity driver) {
 		Boolean status = false;
-			if(driver.getStatus() == Constants.DRIVER_STATUS_PENDING) {
-				status = false;
-			} else if (driver.getStatus() == Constants.DRIVER_STATUS_ACCEPTED){
+			if (driver.getStatus().equals(Constants.DRIVER_STATUS_ACCEPTED)){
 				status = true;
 			}
 		return status;
