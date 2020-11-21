@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
-import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.FarmerEntity;
-import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.service.IFarmerService;
 import com.agroshop.app.util.Constants;
 

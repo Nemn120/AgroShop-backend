@@ -22,6 +22,9 @@ public class DriverEntity extends MainEntity{
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
+	@ManyToOne
+	@JoinColumn(name = "job_profile_id", nullable = false)
+	private JobProfileEntity jobProfile;
 	
 	public Integer getId() {
 		return id;
@@ -53,5 +56,12 @@ public class DriverEntity extends MainEntity{
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}
+	public JobProfileEntity getJobProfile() {
+		return jobProfile;
+	}
+	public void setJobProfile(JobProfileEntity jobProfile) {
+		this.jobProfile = jobProfile;
+	}
+	
 
 }
