@@ -59,8 +59,21 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage("Ocurrio un error al realizar el pedido");
 			logger.error("ERORR ==> ",e.getMessage());
+			return response;		}
+	}
+	
+	@PostMapping(path="/gobsf")
+	public GenericResponse<OrderEntity> getOrderByStatusAndFarmerId(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
+		logger.info("OrderController.getOrderByStatusAndFarmerId()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		try {
+			response.setDatalist(orderService.findByStatusAndFarmerId(request.getData().getStatus(),request.getId()));
 			return response;
-			//return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}catch(Exception e){
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage("Ocurrio un error al buscar el pedido");
+			logger.error("ERORR ==> ",e.getMessage());
+			return response;
 		}
 	}
 

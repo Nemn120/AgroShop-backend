@@ -14,4 +14,6 @@ public interface IDriverRepository extends JpaRepository<DriverEntity, Integer>{
     
 	@Query("SELECT driver FROM DriverEntity driver INNER JOIN  driver.user u WHERE u.username=:username")
 	public DriverEntity getUserByUsername(@Param("username") String username);
+	
+	
 }

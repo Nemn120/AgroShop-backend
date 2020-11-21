@@ -12,5 +12,7 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	public List<OrderEntity> saveOrderByManyFarmer(OrderEntity order)  throws Throwable ;
 	
 	public OrderEntity saveOrderByFarmer(OrderEntity order)  throws Throwable ;
+	
+	public List<OrderEntity> findByStatusAndFarmerId(String status,Integer farmerId) throws Throwable ;
 
 }

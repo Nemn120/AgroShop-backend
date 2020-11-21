@@ -1,7 +1,5 @@
 package com.agroshop.app.model.service.impl;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -126,6 +124,11 @@ public class OrderServiceImpl implements IOrderService {
 		order.setStatus(Constants.ORDER_STATUS_PENDING);
 		
 		return orderRepo.save(order);
+	}
+	
+	@Override
+	public List<OrderEntity> findByStatusAndFarmerId(String status, Integer farmerId) throws Throwable {
+		return orderRepo.findByStatusAndFarmerId(status, farmerId);
 	}
 
 }

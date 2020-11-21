@@ -16,15 +16,34 @@ public class JobProfileEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id",nullable=false)
 	private Integer id;
-	
 	private Integer yearsOfExperience;
 	private String  typeOfLicense;
 	private String  typeOfAvailability; // tipo de disponibilidad
 	private Boolean IsHastools; //Tiene herramientas?
 	private String  academicDegree; //grado academico
-	private Boolean IsSpeakEnglish; 
 	private String  personalDescription;
+	private Double minSalaryAccept;
+	private String currentSituation;
+	private String descriptionPerfil;
 	
+	public Double getMinSalaryAccept() {
+		return minSalaryAccept;
+	}
+	public void setMinSalaryAccept(Double minSalaryAccept) {
+		this.minSalaryAccept = minSalaryAccept;
+	}
+	public String getCurrentSituation() {
+		return currentSituation;
+	}
+	public void setCurrentSituation(String currentSituation) {
+		this.currentSituation = currentSituation;
+	}
+	public String getDescriptionPerfil() {
+		return descriptionPerfil;
+	}
+	public void setDescriptionPerfil(String descriptionPerfil) {
+		this.descriptionPerfil = descriptionPerfil;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -60,12 +79,6 @@ public class JobProfileEntity {
 	}
 	public void setAcademicDegree(String academicDegree) {
 		this.academicDegree = academicDegree;
-	}
-	public Boolean getIsSpeakEnglish() {
-		return IsSpeakEnglish;
-	}
-	public void setIsSpeakEnglish(Boolean isSpeakEnglish) {
-		IsSpeakEnglish = isSpeakEnglish;
 	}
 	public String getPersonalDescription() {
 		return personalDescription;

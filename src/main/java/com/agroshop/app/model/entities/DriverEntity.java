@@ -23,7 +23,7 @@ public class DriverEntity extends MainEntity{
 	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 	@ManyToOne
-	@JoinColumn(name = "job_profile_id", nullable = false)
+	@JoinColumn(name = "job_profile_id")
 	private JobProfileEntity jobProfile;
 	
 	public Integer getId() {
