@@ -73,7 +73,7 @@ public class UserServiceImpl implements IUserService{
 	public UserEntity  register(UserEntity user) throws Throwable {
 		List<UserEntity> u = userRepo.getUserByUsername(user.getUsername());
 		if(u.size() >0)
-			throw new RuntimeException("El nombre de usuario ya esta en uso");
+			throw new RuntimeException(Constants.USERNAME_DUPLICATE);
 		user.setPassword(bcrypt.encode(user.getPassword()));
 		ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
 		user.setProfile(new ProfileEntity());

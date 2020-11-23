@@ -77,10 +77,7 @@ public class Constants {
 	public static final String ORDER_STATUS_DELIVERED="Entregado";
 	public static final String ORDER_STATUS_DELAY="Entregado";
     
-    
-    
-    
-    
+	public static final String USERNAME_DUPLICATE="El nombre de usuario ya esta en uso";
 
 }
 

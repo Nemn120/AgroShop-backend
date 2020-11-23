@@ -27,7 +27,6 @@ public class UserController {
 	
 	private static final Logger logger = LogManager.getLogger(ProfileController.class);
 	
-	
 	@PostMapping(value="/gubu")
 	public GenericResponse<Object> getUserByUsernameAndUserType(@RequestBody LoginDTO request ){
 		GenericResponse<Object> response = new GenericResponse<Object>();
@@ -72,12 +71,13 @@ public class UserController {
 				response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			}
 		}catch(Exception e) {
-			
+			if(e.getMessage() == Constants.USERNAME_DUPLICATE)
+				response.setResponseMessage(e.getMessage());
+			else
+				response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
 			logger.error(e.getMessage());
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
-			response.setResponseMessage(e.getMessage());
 		}
-		
 		return response;
 	}	
 	
