@@ -75,7 +75,7 @@ public class UserController {
 			
 			logger.error(e.getMessage());
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
-			response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
+			response.setResponseMessage(e.getMessage());
 		}
 		
 		return response;
