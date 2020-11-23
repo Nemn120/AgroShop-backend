@@ -98,7 +98,7 @@ public class UserController {
 		return response;
 	}	
 	
-	@PostMapping(value="/gubu")
+	@PostMapping(value="/gubus")
 	public GenericResponse<Object> getUserByUsername(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
