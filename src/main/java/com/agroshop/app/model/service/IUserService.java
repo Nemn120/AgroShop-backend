@@ -10,11 +10,11 @@ import com.agroshop.app.model.entities.UserEntity;
 public interface IUserService extends GenericCRUD<UserEntity, Integer>{
 
 	
-	UserEntity register(UserEntity user);
+	UserEntity register(UserEntity user)  throws Throwable;
 	
 	Object getTypeUserByUsernameAndType(String username,String type);
 	
-	Object registerUserByTypeUser(RegisterDTO user);
+	Object registerUserByTypeUser(RegisterDTO user)  throws Throwable;
 	
 	
 }

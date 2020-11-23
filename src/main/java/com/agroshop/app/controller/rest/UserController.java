@@ -59,7 +59,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value="/rubt")
-	public GenericResponse<Object> registerUserByUserType(@RequestBody RegisterDTO request ){
+	public GenericResponse<Object> registerUserByUserType(@RequestBody RegisterDTO request ) throws Throwable{
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
 			Object o = userService.registerUserByTypeUser(request);

@@ -44,7 +44,7 @@ public class ClientServiceImpl implements IClientService {
 	}
 
 	@Override
-	public ClientEntity register(ClientEntity client) {
+	public ClientEntity register(ClientEntity client) throws Throwable {
 		client.getUser().setTypeUser(Constants.USER_TYPE_CLIENT);
 		client.setUser(this.userService.register(client.getUser()));
 		return this.save(client);   
