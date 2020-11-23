@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.DTO.LoginDTO;
 import com.agroshop.app.model.DTO.RegisterDTO;
 import com.agroshop.app.model.entities.DriverEntity;
+import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
@@ -75,6 +77,22 @@ public class UserController {
 				response.setResponseMessage(e.getMessage());
 			else
 				response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
+			logger.error(e.getMessage());
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+		}
+		return response;
+	}
+	
+	@PostMapping(value="/gubi")
+	public GenericResponse<Object> getUserById(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
+		GenericResponse<Object> response = new GenericResponse<Object>();
+		try {
+			UserEntity user = userService.getOneById(request.getId());
+			response.setData(user);
+			response.setResponseMessage(Constants.SUCCESS_REGISTER);
+			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al obtener datos del usuario");
 			logger.error(e.getMessage());
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 		}
