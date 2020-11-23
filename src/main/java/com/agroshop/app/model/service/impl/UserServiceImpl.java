@@ -117,6 +117,11 @@ public class UserServiceImpl implements IUserService{
 		
 		return null;
 	}
+
+	@Override
+	public UserEntity getUserByUsername(String username) throws Throwable {
+		return this.userRepo.findOneByUsername(username);
+	}
 	
 
 }

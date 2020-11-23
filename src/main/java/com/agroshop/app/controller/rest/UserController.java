@@ -89,7 +89,21 @@ public class UserController {
 		try {
 			UserEntity user = userService.getOneById(request.getId());
 			response.setData(user);
-			response.setResponseMessage(Constants.SUCCESS_REGISTER);
+			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al obtener datos del usuario");
+			logger.error(e.getMessage());
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+		}
+		return response;
+	}	
+	
+	@PostMapping(value="/gubu")
+	public GenericResponse<Object> getUserByUsername(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
+		GenericResponse<Object> response = new GenericResponse<Object>();
+		try {
+			UserEntity user = userService.getUserByUsername(request.getData().getUsername());
+			response.setData(user);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
 		}catch(Exception e) {
 			response.setResponseMessage("Error al obtener datos del usuario");

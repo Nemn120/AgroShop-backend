@@ -15,6 +15,6 @@ public interface IUserService extends GenericCRUD<UserEntity, Integer>{
 	Object getTypeUserByUsernameAndType(String username,String type);
 	
 	Object registerUserByTypeUser(RegisterDTO user)  throws Throwable;
-	
+	UserEntity getUserByUsername(String username)   throws Throwable;
 	
 }
