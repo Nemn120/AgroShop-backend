@@ -39,6 +39,7 @@ public class UserController {
 				DriverEntity driver = driverService.getUserByUsername(request.getUsername());
 				if(!driverService.isAcceptedDriver(driver)) {
 					object = null;
+					response.setResponseMessage("Su cuenta se encuentra en espera de validacion, por favor espere 24h");
 				} else {
 					object =userService.getTypeUserByUsernameAndType(request.getUsername(), request.getUserType());				
 				}
