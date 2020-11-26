@@ -92,5 +92,11 @@ public class DriverServiceImpl implements IDriverService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getStatusOfDriver(String username) {
+		DriverEntity driver = getUserByUsername(username);
+		return driver.getStatus();
+	}
 }
 
