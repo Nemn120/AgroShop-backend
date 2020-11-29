@@ -8,7 +8,7 @@ import com.agroshop.app.model.entities.FarmerEntity;
 @Service
 public interface IFarmerService extends GenericCRUD<FarmerEntity, Integer>{
 
-	FarmerEntity register(FarmerEntity farmer);
+	FarmerEntity register(FarmerEntity farmer) throws Throwable;
 	FarmerEntity getUserByUsername(String username);	
 	
 	FarmerEntity getFarmerById(Integer id);

@@ -28,7 +28,7 @@ public class DriverControllerTests {
 	private GenericResponse<DriverEntity> response;
 	
 	//@Test
-	public void testGetListDriverAccepted() {
+	public void testGetListDriverAccepted() throws Throwable {
 		
 		RegisterDTO registerDTO = new RegisterDTO();
 		UserEntity user = new UserEntity();

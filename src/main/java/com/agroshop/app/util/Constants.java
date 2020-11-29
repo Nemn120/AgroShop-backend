@@ -81,10 +81,7 @@ public class Constants {
 	public static final String JOB_OFFER_FINISHED="Finalizado";
 	
     
-    
-    
-    
-    
+	public static final String USERNAME_DUPLICATE="El nombre de usuario ya esta en uso";
 
 }
 

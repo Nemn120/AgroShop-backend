@@ -7,6 +7,6 @@ import com.agroshop.app.model.entities.FarmerEntity;
 
 @Service
 public interface IClientService extends GenericCRUD<ClientEntity, Integer>{
-	ClientEntity register(ClientEntity client); 
+	ClientEntity register(ClientEntity client) throws Throwable; 
 	ClientEntity getUserByUsername(String username);	
 }
