@@ -41,5 +41,21 @@ public class PostulationController {
 		}
 		return response;
 	}
+	
+	@PostMapping(path = "/fpbs")
+	public GenericResponse<PostulationEntity> findPostulationByStatus(@RequestBody GenericRequest<String> request) throws Throwable {
+		logger.info("PostulationController.findPostulationByStatus()");
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+		try {
+			response.setDatalist(postulationService.findPostulationByStatus(request.getData()));
+			response.setResponseCode(AbstractResponse.SUCCESS);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+		} catch (Exception e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+			//throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
+		}
+		return response;
+	}
 
 }

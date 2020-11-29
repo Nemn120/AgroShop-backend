@@ -13,4 +13,6 @@ public interface IPostulationRepository extends JpaRepository<PostulationEntity,
 	@Query("SELECT postulation FROM PostulationEntity postulation WHERE  postulation.jobOffer.id=:idJobOffer AND postulation.driver.id=:idDriver")
 	PostulationEntity findByIdJobOfferAndIdDriver(@Param("idJobOffer")Integer idJobOffer, @Param("idDriver")Integer idDriver);
 	
+	List<PostulationEntity> findByStatusPostulation(String statusPostulation);
+	
 }

@@ -110,4 +110,9 @@ public class PostulationServiceImpl implements IPostulationService {
 		return exists;
 	}
 
+	@Override
+	public List<PostulationEntity> findPostulationByStatus(String statusPostulation) throws Throwable {
+		return postulationRepo.findByStatusPostulation(statusPostulation);
+	}
+
 }
