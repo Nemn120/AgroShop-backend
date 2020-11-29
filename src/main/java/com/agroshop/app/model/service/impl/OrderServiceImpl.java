@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.agroshop.app.model.beans.OrderBean;
+import com.agroshop.app.model.beans.OrderDetailBean;
 import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.FarmerEntity;
 import com.agroshop.app.model.entities.OrderDetailEntity;
@@ -60,10 +62,10 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public List<OrderEntity> saveOrderByManyFarmer(OrderEntity order) throws Throwable  {
+	public List<OrderBean> saveOrderByManyFarmer(OrderEntity order) throws Throwable  {
 		logger.info("OrderServiceImpl.saveOrderByManyFarmer()");
 		Map<Integer,List<OrderDetailEntity>> mapOrderDetail = new HashMap<Integer,List<OrderDetailEntity>>();
-		List<OrderEntity> orderResult = new ArrayList<OrderEntity>();
+		List<OrderBean> orderListResult = new ArrayList<OrderBean>();
 		order.getOrderDetailList().forEach(orderDetail ->{
 			if(orderDetail != null) {
 				if(mapOrderDetail.containsKey(orderDetail.getProductSales().getFarmerNumber())) {
@@ -86,14 +88,20 @@ public class OrderServiceImpl implements IOrderService {
 		    orderSave.getClient().setId(order.getClient().getId());
 		    OrderEntity orderResponse = this.saveOrderByFarmer(orderRepo.save(orderSave));
 		    if(orderResponse != null) {
-		    	orderResult.add(orderResponse);
+		    	OrderBean orderResult = new OrderBean();
+		    	BeanUtils.copyProperties(orderResponse, orderResult);
+		    	orderResponse.getOrderDetailList().forEach(data ->{
+		    		OrderDetailBean odbean = new OrderDetailBean();
+		    		BeanUtils.copyProperties(data, odbean);
+		    	});
+		    	orderListResult.add(orderResult);
 		    }else {
 		    	throw  new RuntimeException("Se produjo un error al realizar el pedido");
 		    }
 		    
 		}
 		
-		return orderResult;
+		return orderListResult;
 	}
 
 	@Override
