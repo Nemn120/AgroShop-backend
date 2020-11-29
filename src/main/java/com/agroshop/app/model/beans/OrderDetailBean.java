@@ -1,14 +1,20 @@
 package com.agroshop.app.model.beans;
 
+import com.agroshop.app.model.DTO.ProductSummaryDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class OrderDetailBean extends MainBean {
 
 	private Integer id;
 	private OrderBean customOrder;
 	private ProductSalesBean productSales;
 	private Integer quantity;
-	private Integer price;
-	private Integer total;
-	
+	private Double price;
+	private Double total;
+	private String productName;
+	private String measureUnite;
 	public Integer getId() {
 		return id;
 	}
@@ -34,19 +40,29 @@ public class OrderDetailBean extends MainBean {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public Integer getPrice() {
+	
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Integer getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(Integer total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
-	
-	
-	
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getMeasureUnite() {
+		return measureUnite;
+	}
+	public void setMeasureUnite(String measureUnite) {
+		this.measureUnite = measureUnite;
+	}
 }

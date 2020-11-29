@@ -11,8 +11,10 @@ import javax.persistence.Transient;
 import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.FarmerEntity;
 import com.agroshop.app.model.entities.OrderDetailEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-
+@JsonInclude(Include.NON_NULL)
 public class OrderBean extends MainBean {
 
 	public Integer id;
