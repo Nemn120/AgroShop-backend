@@ -19,7 +19,6 @@ public class OrderDetailEntity extends MainEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@JsonIgnore
 	@ManyToOne(cascade={    
             CascadeType.PERSIST,
             CascadeType.REFRESH})
