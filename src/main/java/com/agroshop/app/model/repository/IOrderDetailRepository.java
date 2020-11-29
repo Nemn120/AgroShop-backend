@@ -15,4 +15,6 @@ public interface IOrderDetailRepository extends JpaRepository<OrderDetailEntity,
 	
 	@Query("Select SUM(od.productSales.weight) FROM OrderDetailEntity od WHERE  od.customOrder.id=:orderId and od.isDeleted=False ")
 	Double TotalWeight(@Param("orderId")Integer orderId);
+	
+	
 }

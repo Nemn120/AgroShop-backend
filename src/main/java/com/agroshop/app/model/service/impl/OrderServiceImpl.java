@@ -12,8 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.agroshop.app.model.DTO.ProductSummaryDTO;
 import com.agroshop.app.model.beans.FarmerBean;
 import com.agroshop.app.model.beans.OrderBean;
 import com.agroshop.app.model.beans.OrderDetailBean;

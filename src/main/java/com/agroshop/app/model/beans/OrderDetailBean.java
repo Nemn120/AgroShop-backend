@@ -1,6 +1,4 @@
 package com.agroshop.app.model.beans;
-
-import com.agroshop.app.model.DTO.ProductSummaryDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

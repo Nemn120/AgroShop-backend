@@ -34,4 +34,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService{
 		orderDetailRepo.deleteById(id);
 	}
 
+	@Override
+	public List<OrderDetailEntity> findByOrderId(Integer id) {
+		return orderDetailRepo.findByOrderId(id);
+	}
+
 }
