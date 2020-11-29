@@ -78,13 +78,19 @@ public class Constants {
 	public static final String ORDER_STATUS_DELIVERY="En camino";
 	public static final String ORDER_STATUS_DELIVERED="Entregado";
 	public static final String ORDER_STATUS_DELAY="Entregado";
-    
+	
+	public static final String JOB_OFFER_AVAILABLE="Disponible";
+	public static final String JOB_OFFER_FINISHED="Finalizado";
+	
     public static final String POSTULATION_STATUS_SEND = "Enviado";
     public static final String POSTULATION_STATUS_RECEIVED = "Recibido";
     
     public static final String POSTULATION_RECEIVED_STATUS_PENDING = "Pendiente";
     public static final String POSTULATION_RECEIVED_STATUS_ACCEPT = "Aceptada";
     public static final String POSTULATION_RECEIVED_STATUS_DECLINE = "Rechazada";
+
+	public static final String USERNAME_DUPLICATE="El nombre de usuario ya esta en uso";
+
 
 }
 

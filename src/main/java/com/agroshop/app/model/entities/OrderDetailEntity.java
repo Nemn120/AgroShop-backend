@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="order_detail")
 public class OrderDetailEntity extends MainEntity {
@@ -17,11 +19,13 @@ public class OrderDetailEntity extends MainEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@JsonIgnore
 	@ManyToOne(cascade={    
             CascadeType.PERSIST,
             CascadeType.REFRESH})
 	@JoinColumn(name = "custom_order_id", nullable = false)
 	private OrderEntity customOrder;
+	
 	@ManyToOne
 	@JoinColumn(name = "product_sales_id", nullable = false)
 	private ProductSalesEntity productSales;
