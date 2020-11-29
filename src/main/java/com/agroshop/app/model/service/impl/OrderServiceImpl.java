@@ -100,7 +100,6 @@ public class OrderServiceImpl implements IOrderService {
 	public OrderEntity saveOrderByFarmer(OrderEntity order) throws Throwable  {
 	logger.info("OrderServiceImpl.saveOrderByFarmer()");
 		order.getOrderDetailList().forEach(od ->{
-			od.setCustomOrder(new OrderEntity());
 			od.setCustomOrder(order);
 			ProductSalesEntity mp =productSalesService.getProdutSalesByIdAndStatusAndStatusSales(od.getProductSales().getId(),Constants.PRODUCT_SALES_STATUS_ACTIVE,Constants.PRODUCT_SALES_STATUS_AVAILABLE);
 			if(mp== null) {

@@ -1,6 +1,7 @@
 package com.agroshop.app.controller.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,9 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 		logger.info("OrderController.saveNewOrderByClient()");
 		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
 		try {
-			response.setDatalist(orderService.saveOrderByManyFarmer(request.getData()));
+			List<OrderEntity> orderList=orderService.saveOrderByManyFarmer(request.getData());
+			response.setDatalist(orderList);
+			
 			response.setResponseMessage("Pedido realizado con exito");
 			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.CREATED);
 		}catch(Exception e){
