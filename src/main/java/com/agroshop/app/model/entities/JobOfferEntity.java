@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import java.util.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -20,14 +21,17 @@ public class JobOfferEntity extends MainEntity{
 	@Column(name="id",nullable=false)
 	private Integer id;
 	@Column(name = "start_date", columnDefinition = "TIMESTAMP")
-	private LocalDateTime startDate;
+	private Date startDate;
 	@Column(name = "final_date", columnDefinition = "TIMESTAMP")
-	private LocalDateTime finalDate;
+	private Date finalDate;
 	private String statusOffer;
 	private String description;
 	private String title;
 	private Double shippingCost;
 	private String requirements;
+	private Double totalWeight;
+	private String departmentOrigin;
+	
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private OrderEntity order;
@@ -38,16 +42,16 @@ public class JobOfferEntity extends MainEntity{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public LocalDateTime getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDateTime getFinalDate() {
+	public Date getFinalDate() {
 		return finalDate;
 	}
-	public void setFinalDate(LocalDateTime finalDate) {
+	public void setFinalDate(Date finalDate) {
 		this.finalDate = finalDate;
 	}
 	public String getStatusOffer() {
@@ -85,6 +89,18 @@ public class JobOfferEntity extends MainEntity{
 	}
 	public void setOrder(OrderEntity order) {
 		this.order = order;
+	}
+	public Double getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(Double totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+	public String getDepartmentOrigin() {
+		return departmentOrigin;
+	}
+	public void setDepartmentOrigin(String departmentOrigin) {
+		departmentOrigin = departmentOrigin;
 	}
 	
 	

@@ -1,0 +1,78 @@
+package com.agroshop.app.model.service.impl;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.agroshop.app.controller.rest.JobOfferController;
+import com.agroshop.app.model.DTO.SearchJobOfferByFieldsDTO;
+import com.agroshop.app.model.entities.JobOfferEntity;
+import com.agroshop.app.model.entities.OrderEntity;
+import com.agroshop.app.model.repository.IJobOfferRepository;
+import com.agroshop.app.model.repository.IOrderDetailRepository;
+import com.agroshop.app.model.repository.IOrderRepository;
+import com.agroshop.app.model.service.IJobOfferService;
+import com.agroshop.app.util.Constants;
+
+@Service
+@Transactional
+public class JobOfferServiceImpl implements IJobOfferService{
+
+	private static final Logger logger = LogManager.getLogger(JobOfferServiceImpl.class);
+	@Autowired
+	private IJobOfferRepository repo;
+	
+	@Autowired
+	private IOrderDetailRepository OrderDetailrepo;
+	
+	@Autowired
+	private IOrderRepository Orderrepo;
+	
+	@Override
+	public List<JobOfferEntity> getAll() {
+		return repo.findAll();
+	}
+
+	@Override
+	public JobOfferEntity getOneById(Integer id) {
+		return repo.findById(id).orElse(new JobOfferEntity());
+	}
+
+	@Override
+	public JobOfferEntity save(JobOfferEntity t) {
+		return repo.save(t);
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		repo.deleteById(id);
+		
+	}
+
+	@Override
+	public Boolean postOffer(JobOfferEntity job) {
+		logger.info("orderdetail: " + OrderDetailrepo.findByOrderId(job.getOrder().getId()).size());
+		OrderEntity or = Orderrepo.findById(job.getOrder().getId()).orElse(new OrderEntity());
+		if (or.getCreateDate()==null)
+			return false;
+		
+		job.setOrder(or);
+		job.setStatusOffer(Constants.JOB_OFFER_AVAILABLE);
+		job.setTotalWeight(OrderDetailrepo.TotalWeight(job.getId()));
+		
+		//repo.save(job);
+		return true;
+		
+	}
+
+	@Override
+	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf) {
+		
+		return repo.getListJobOfferByFields(sjobf);
+	}
+
+}
