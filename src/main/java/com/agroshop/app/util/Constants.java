@@ -79,10 +79,12 @@ public class Constants {
 	public static final String ORDER_STATUS_DELIVERED="Entregado";
 	public static final String ORDER_STATUS_DELAY="Entregado";
     
+    public static final String POSTULATION_STATUS_SEND = "Enviado";
+    public static final String POSTULATION_STATUS_RECEIVED = "Recibido";
     
-    
-    
-    
+    public static final String POSTULATION_RECEIVED_STATUS_PENDING = "Pendiente";
+    public static final String POSTULATION_RECEIVED_STATUS_ACCEPT = "Aceptada";
+    public static final String POSTULATION_RECEIVED_STATUS_DECLINE = "Rechazada";
 
 }
 

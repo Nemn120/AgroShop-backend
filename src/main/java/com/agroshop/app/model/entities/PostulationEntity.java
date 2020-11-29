@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="job_offer")
+@Table(name="postulation")
 public class PostulationEntity extends MainEntity{
 	
 	private static final long serialVersionUID = 1L;
