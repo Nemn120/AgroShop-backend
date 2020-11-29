@@ -12,7 +12,7 @@ import com.agroshop.app.model.repository.IJobOfferCustomRepository;
 import com.agroshop.app.util.Constants;
 
 public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
-
+/*
 	@PersistenceContext
 	 private EntityManager em;
 	
@@ -20,7 +20,7 @@ public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO job) {
 		
 		StringBuffer queryString = new StringBuffer(
-		"SELECT jo From JobOfferEntity jo where jo.statusOffer=:statusOffer");
+		"SELECT jo From JobOfferEntity jo where jo.statusOffer=:statusOffer ");
 		
 		if(job.getPriceIni()!= null && job.getPriceFin()!= null) {
 			queryString.append(" AND jo.order.total BETWEEN :priceIni AND :priceFin ");
@@ -32,13 +32,13 @@ public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 			queryString.append(" AND jo.finalDate BETWEEN :dateIni AND :dateFin ");
 		}
 		if(job.getDepartmentIni()!=null){
-			queryString.append(" AND jo.departmentOrigin=:deparmentIni");
+			queryString.append(" AND jo.departmentOrigin=:deparmentIni ");
 		}
 		if(job.getDepartmentFin()!=null){
-			queryString.append(" AND jo.order.reference=:deparmentFin");
+			queryString.append(" AND jo.order.reference=:deparmentFin ");
 		}
 		if(job.getIdFarmer()!=null) {
-			queryString.append(" AND jo.order.farmer.id=:id");
+			queryString.append(" AND jo.order.farmer.id=:id ");
 		}
 
 		Query query = em.createQuery(queryString.toString(),JobOfferEntity.class);
@@ -68,5 +68,5 @@ public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 		}
 
 		return query.getResultList();
-}
+}*/
 }

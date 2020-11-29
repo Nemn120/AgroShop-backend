@@ -59,7 +59,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 		OrderEntity or = Orderrepo.findById(job.getOrder().getId()).orElse(new OrderEntity());
 		if (or.getCreateDate()==null)
 			return false;
-		
+		logger.info("peso: " + OrderDetailrepo.TotalWeight(job.getId()));
 		job.setOrder(or);
 		job.setStatusOffer(Constants.JOB_OFFER_AVAILABLE);
 		job.setTotalWeight(OrderDetailrepo.TotalWeight(job.getId()));
@@ -72,7 +72,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 	@Override
 	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf) {
 		
-		return repo.getListJobOfferByFields(sjobf);
+		return null;//repo.getListJobOfferByFields(sjobf);
 	}
 
 }
