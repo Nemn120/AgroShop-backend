@@ -100,7 +100,7 @@ public class JobOfferEntity extends MainEntity{
 		return departmentOrigin;
 	}
 	public void setDepartmentOrigin(String departmentOrigin) {
-		departmentOrigin = departmentOrigin;
+		this.departmentOrigin = departmentOrigin;
 	}
 	
 	

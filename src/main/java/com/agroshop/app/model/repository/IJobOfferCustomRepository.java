@@ -8,5 +8,5 @@ import com.agroshop.app.model.entities.JobOfferEntity;
 
 public interface IJobOfferCustomRepository {
 	
-	//public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf);
+	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf);
 }

@@ -39,13 +39,19 @@ public class JobOfferController {
 		
 		GenericResponse<JobOfferEntity> response = new GenericResponse<JobOfferEntity>();
 		try {
-			logger.info("order" + request.getId());
-			//logger.info("orderdetail: " + service.getOneById(request.getId()).getOrder());
-			if(service.postOffer(request.getData())) {
+			//logger.info("order" + request.getId());
+			JobOfferEntity jo = service.postOffer(request.getData());
+			if(jo.getStatusOffer().equals(Constants.JOB_OFFER_AVAILABLE)) {
+				response.setData(jo);
 				response.setResponseMessage("Se publicó correctamente la oferta laboral");
 				response.setResponseCode(Constants.SUCCESS_REGISTER);
-			}
-			return new ResponseEntity<GenericResponse<JobOfferEntity>>(response,HttpStatus.CREATED);
+			}else {
+				response.setResponseMessage("No se pudo publicar la oferta laboral");
+				response.setResponseCode(Constants.ERROR_REGISTER_MESSAGE);
+			}				
+
+			response.setFinalTimesTamp(LocalDateTime.now());
+			return new ResponseEntity<GenericResponse<JobOfferEntity>>(response,HttpStatus.OK);
 		}catch(Exception e){
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(e.getMessage());
@@ -60,19 +66,16 @@ public class JobOfferController {
 		
 		GenericResponse<JobOfferEntity> response = new GenericResponse<JobOfferEntity>();
 		try {
-			//logger.info("order" + request.getId());
-			//logger.info("orderdetail: " + service.getOneById(request.getId()).getOrder());
 			List<JobOfferEntity> list = service.getListJobOfferByFields(request.getData());
-			if(list.isEmpty()) {
+			if(list.isEmpty()) 
 				response.setResponseMessage("No se encontraron ofertas laborales que coincidan con la busqueda");
-			}
-			else {
+			else 
 				response.setDatalist(list);
-				response.setResponseMessage("Ofertas laborales encontradas");
-			}
+			
 
 			response.setResponseMessage("Ofertas laborales encontradas");
 			response.setResponseCode(Constants.SUCCESS_SHOW_LIST);
+			response.setFinalTimesTamp(LocalDateTime.now());
 			return new ResponseEntity<GenericResponse<JobOfferEntity>>(response,HttpStatus.OK);
 		}catch(Exception e){
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);

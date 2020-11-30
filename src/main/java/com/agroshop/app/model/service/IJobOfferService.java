@@ -10,7 +10,7 @@ import com.agroshop.app.model.entities.JobOfferEntity;
 @Service
 public interface IJobOfferService extends GenericCRUD<JobOfferEntity, Integer>{
 
-	Boolean postOffer(JobOfferEntity job);
+	JobOfferEntity postOffer(JobOfferEntity job) throws Throwable;
 	
 	List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf);
 }

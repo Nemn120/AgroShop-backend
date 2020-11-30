@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.agroshop.app.controller.rest.JobOfferController;
 import com.agroshop.app.model.DTO.SearchJobOfferByFieldsDTO;
 import com.agroshop.app.model.entities.JobOfferEntity;
+import com.agroshop.app.model.entities.OrderDetailEntity;
 import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.repository.IJobOfferRepository;
 import com.agroshop.app.model.repository.IOrderDetailRepository;
@@ -54,25 +55,35 @@ public class JobOfferServiceImpl implements IJobOfferService{
 	}
 
 	@Override
-	public Boolean postOffer(JobOfferEntity job) {
+	public JobOfferEntity postOffer(JobOfferEntity job) throws Throwable{
 		logger.info("orderdetail: " + OrderDetailrepo.findByOrderId(job.getOrder().getId()).size());
 		OrderEntity or = Orderrepo.findById(job.getOrder().getId()).orElse(new OrderEntity());
-		if (or.getCreateDate()==null)
-			return false;
-		logger.info("peso: " + OrderDetailrepo.TotalWeight(job.getId()));
-		job.setOrder(or);
-		job.setStatusOffer(Constants.JOB_OFFER_AVAILABLE);
-		job.setTotalWeight(OrderDetailrepo.TotalWeight(job.getId()));
 		
-		//repo.save(job);
-		return true;
+		if (or.getCreateDate()==null)
+			throw new RuntimeException("La order "+ job.getOrder().getId()+ " no tiene orderDetails");
+		
+		or.setStatus(Constants.ORDER_STATUS_PUBLISHED);
+		Orderrepo.save(or);
+		job.setOrder(or);
+		
+		job.setStatusOffer(Constants.JOB_OFFER_AVAILABLE);
+		List<OrderDetailEntity> details = OrderDetailrepo.findByOrderId(job.getOrder().getId());
+		
+		Double pesoTotal= details.stream()
+			      .mapToDouble(o -> Double.parseDouble(o.getProductSales().getWeight()))
+			      .sum();
+		logger.info("peso: " + pesoTotal);
+		job.setTotalWeight(pesoTotal);
+		
+		repo.save(job);
+		return job;
 		
 	}
 
 	@Override
 	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf) {
 		
-		return null;//repo.getListJobOfferByFields(sjobf);
+		return repo.getListJobOfferByFields(sjobf);
 	}
 
 }

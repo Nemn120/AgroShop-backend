@@ -11,8 +11,8 @@ import com.agroshop.app.model.entities.JobOfferEntity;
 import com.agroshop.app.model.repository.IJobOfferCustomRepository;
 import com.agroshop.app.util.Constants;
 
-public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
-/*
+public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
+
 	@PersistenceContext
 	 private EntityManager em;
 	
@@ -23,7 +23,7 @@ public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 		"SELECT jo From JobOfferEntity jo where jo.statusOffer=:statusOffer ");
 		
 		if(job.getPriceIni()!= null && job.getPriceFin()!= null) {
-			queryString.append(" AND jo.order.total BETWEEN :priceIni AND :priceFin ");
+			queryString.append(" AND jo.shippingCost BETWEEN :priceIni AND :priceFin ");
 		}
 		if(job.getWeightIni()!= null && job.getWeightFin()!= null) {
 				queryString.append(" AND jo.totalWeight BETWEEN :weightIni AND :weightFin ");
@@ -43,7 +43,7 @@ public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 
 		Query query = em.createQuery(queryString.toString(),JobOfferEntity.class);
 		
-		query.setParameter("statusOffer",job.getStatus());
+		query.setParameter("statusOffer",Constants.JOB_OFFER_AVAILABLE);
 		
 		if(job.getPriceIni()!= null && job.getPriceFin()!= null) {
 			query.setParameter("priceIni",job.getPriceIni());
@@ -68,5 +68,5 @@ public class JobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 		}
 
 		return query.getResultList();
-}*/
+	}
 }
