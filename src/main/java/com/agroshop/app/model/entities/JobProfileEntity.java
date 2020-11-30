@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="job_profile")
-public class JobProfileEntity implements Serializable {
+public class JobProfileEntity extends MainEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
