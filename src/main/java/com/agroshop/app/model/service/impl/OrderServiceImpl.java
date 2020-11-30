@@ -2,6 +2,7 @@ package com.agroshop.app.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.agroshop.app.model.beans.FarmerBean;
+import com.agroshop.app.model.beans.OrderBean;
+import com.agroshop.app.model.beans.OrderDetailBean;
 import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.FarmerEntity;
 import com.agroshop.app.model.entities.OrderDetailEntity;
@@ -60,10 +63,11 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public List<OrderEntity> saveOrderByManyFarmer(OrderEntity order) throws Throwable  {
+	public List<OrderBean> saveOrderByManyFarmer(OrderEntity order) throws Throwable  {
 		logger.info("OrderServiceImpl.saveOrderByManyFarmer()");
 		Map<Integer,List<OrderDetailEntity>> mapOrderDetail = new HashMap<Integer,List<OrderDetailEntity>>();
-		List<OrderEntity> orderResult = new ArrayList<OrderEntity>();
+		List<OrderBean> orderListResult = new ArrayList<OrderBean>();
+		List<OrderEntity> orderListResultEntity = new ArrayList<OrderEntity>();
 		order.getOrderDetailList().forEach(orderDetail ->{
 			if(orderDetail != null) {
 				if(mapOrderDetail.containsKey(orderDetail.getProductSales().getFarmerNumber())) {
@@ -86,14 +90,36 @@ public class OrderServiceImpl implements IOrderService {
 		    orderSave.getClient().setId(order.getClient().getId());
 		    OrderEntity orderResponse = this.saveOrderByFarmer(orderRepo.save(orderSave));
 		    if(orderResponse != null) {
-		    	orderResult.add(orderResponse);
+		    	OrderBean orderResult = new OrderBean();
+		    	BeanUtils.copyProperties(orderResponse, orderResult);
+		    	orderResult.setFarmer(new FarmerBean());
+		    	orderResult.getFarmer().setId(entry.getKey());
+		    	orderResult.setOrderDetailList(new ArrayList<OrderDetailBean>());
+		    	if(orderResponse.getOrderDetailList()!= null) {
+		    		for (Iterator<OrderDetailEntity> iterator = orderResponse.getOrderDetailList().iterator(); iterator.hasNext(); ) {
+		    				OrderDetailEntity odEntity =iterator.next();
+		    				OrderDetailBean odbean = new OrderDetailBean();
+				    		BeanUtils.copyProperties(odEntity, odbean);
+				    		odbean.setCustomOrder(new OrderBean());
+				    		if(odEntity.getProductSales() != null) {
+				    			odbean.setProductName(odEntity.getProductSales().getProduct().getName());
+				    			odbean.setMeasureUnite(odEntity.getProductSales().getMeasureUnite());
+				    		}
+				    		orderResult.getOrderDetailList().add(odbean);
+
+		    		}
+		    	}
+		    	orderListResult.add(orderResult);
 		    }else {
 		    	throw  new RuntimeException("Se produjo un error al realizar el pedido");
 		    }
 		    
 		}
 		
-		return orderResult;
+		
+		
+		
+		return orderListResult;
 	}
 
 	@Override
@@ -113,9 +139,9 @@ public class OrderServiceImpl implements IOrderService {
 				if(quantityOrder == 0)
 					mp.setStatusSales(Constants.PRODUCT_SALES_STATUS_NOT_AVAILABLE);
 				mp.setAvailableQuantity(quantityOrder);
+				od.setTotal(od.getQuantity()*od.getPrice());
 				orderDetailService.save(od);
 				productSalesService.save(mp);
-				od.setTotal(od.getQuantity()*od.getPrice());
 				order.setTotal(order.getTotal() !=null && order.getTotal() != 0.0? order.getTotal()+od.getTotal():od.getTotal());
 				order.setQuantity(order.getQuantity() !=null? order.getQuantity()+od.getQuantity(): od.getQuantity());
 		});

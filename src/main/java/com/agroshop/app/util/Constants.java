@@ -57,6 +57,8 @@ public class Constants {
 
     public static final String DRIVER_BY_STATUS_NOT_AVAILABLE = "Conductor no disponible";
     public static final String ERROR_ACCEPTING_DRIVER = "Error al aceptar conductor";
+    public static final String DRIVER_MESSAGE_NO_ACCEPTED = "Su cuenta aún está siendo evaluada, se le notificará una vez su cuenta esté habilitada";
+    public static final String DRIVER_MESSAGE_ACCEPTED = "Estimado se le informa que su cuenta como conductor en Agroshop ya ha sido habilitada";
     
 	public static final String SUCCESS_REGISTER= "Registro completado con éxito";
 	public static final String SUCCESS_DELETED= "Registro eliminado con éxito";
@@ -81,8 +83,15 @@ public class Constants {
 	public static final String JOB_OFFER_AVAILABLE="Disponible";
 	public static final String JOB_OFFER_FINISHED="Finalizado";
 	
+    public static final String POSTULATION_STATUS_SEND = "Enviado";
+    public static final String POSTULATION_STATUS_RECEIVED = "Recibido";
     
+    public static final String POSTULATION_RECEIVED_STATUS_PENDING = "Pendiente";
+    public static final String POSTULATION_RECEIVED_STATUS_ACCEPT = "Aceptada";
+    public static final String POSTULATION_RECEIVED_STATUS_DECLINE = "Rechazada";
+
 	public static final String USERNAME_DUPLICATE="El nombre de usuario ya esta en uso";
+
 
 }
 

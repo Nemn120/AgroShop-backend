@@ -39,7 +39,6 @@ public class JobOfferController {
 		
 		GenericResponse<JobOfferEntity> response = new GenericResponse<JobOfferEntity>();
 		try {
-			//logger.info("order" + request.getId());
 			JobOfferEntity jo = service.postOffer(request.getData());
 			if(jo.getStatusOffer().equals(Constants.JOB_OFFER_AVAILABLE)) {
 				response.setData(jo);

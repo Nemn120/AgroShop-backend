@@ -122,5 +122,24 @@ public class DriverController {
         }
         return response;
     }
+    
+    @PostMapping(path = "/gmfd")
+    public GenericResponse<String> getMessageForDriver(@RequestBody GenericRequest<String> request) {
+    	GenericResponse<String> response = new GenericResponse<String>();
+    	String status;
+    	try {
+    		status = driverService.getStatusOfDriver(request.getData());
+    		if (status.equals(Constants.DRIVER_STATUS_PENDING)) {
+    			response.setData(Constants.DRIVER_MESSAGE_NO_ACCEPTED);
+    			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+    			response.setResponseCode(AbstractResponse.SUCCESS);
+    		}
+    	} catch(Error e) {
+    		response.setData(null);
+    		response.setResponseMessage(Constants.ERROR_PETITION_MESSAGE);
+    		response.setResponseCode(AbstractResponse.ERROR);
+    	}
+    	return response;
+    }
 
 }

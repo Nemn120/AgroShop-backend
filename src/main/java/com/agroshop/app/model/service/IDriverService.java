@@ -15,5 +15,6 @@ public interface IDriverService extends GenericCRUD<DriverEntity, Integer>{
     DriverEntity acceptDriverRegistered(Integer id);
     DriverEntity getUserByUsername(String username);
     DriverEntity register(DriverEntity farmer) throws Throwable;
+    String getStatusOfDriver(String username);
 
 }

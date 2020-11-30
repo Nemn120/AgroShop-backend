@@ -6,4 +6,5 @@ import com.agroshop.app.model.entities.JobOfferEntity;
 
 public interface IJobOfferRepository extends IJobOfferCustomRepository, JpaRepository<JobOfferEntity,Integer>{
 
+
 }
