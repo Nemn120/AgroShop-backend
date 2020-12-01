@@ -1,6 +1,7 @@
 package com.agroshop.app.model.entities;
 
 import java.util.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -20,10 +21,10 @@ public class JobOfferEntity extends MainEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id",nullable=false)
 	private Integer id;
-	@Column(name = "start_date", columnDefinition = "TIMESTAMP")
-	private Date startDate;
-	@Column(name = "final_date", columnDefinition = "TIMESTAMP")
-	private Date finalDate;
+	@Column(name = "start_date", columnDefinition = "DATE")
+	private LocalDate startDate;
+	@Column(name = "final_date", columnDefinition = "DATE")
+	private LocalDate finalDate;
 	private String statusOffer;
 	private String description;
 	private String title;
@@ -42,16 +43,17 @@ public class JobOfferEntity extends MainEntity{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Date getStartDate() {
+	
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public Date getFinalDate() {
+	public LocalDate getFinalDate() {
 		return finalDate;
 	}
-	public void setFinalDate(Date finalDate) {
+	public void setFinalDate(LocalDate finalDate) {
 		this.finalDate = finalDate;
 	}
 	public String getStatusOffer() {

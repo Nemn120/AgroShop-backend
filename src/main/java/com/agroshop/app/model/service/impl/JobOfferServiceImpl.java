@@ -1,5 +1,8 @@
 package com.agroshop.app.model.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -70,7 +73,8 @@ public class JobOfferServiceImpl implements IJobOfferService{
 		or.setStatus(Constants.ORDER_STATUS_PUBLISHED);
 		Orderrepo.save(or);
 		job.setOrder(or);
-		
+		LocalDate date = LocalDate.now();
+		job.setStartDate(date);
 		job.setStatusOffer(Constants.JOB_OFFER_AVAILABLE);
 		List<OrderDetailEntity> details = OrderDetailrepo.findByOrderId(job.getOrder().getId());
 		
@@ -87,7 +91,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 
 	@Override
 	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf) {
-		
+
 		return repo.getListJobOfferByFields(sjobf);
 	}
 
