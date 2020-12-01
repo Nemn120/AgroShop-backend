@@ -30,13 +30,14 @@ public class JobProfileController {
 			response.setData(this.jobProfileService.getOneById(request.getId()));
 			return new ResponseEntity<GenericResponse<JobProfileEntity>>(response,HttpStatus.CREATED);
 		}catch(Exception e) {
-			response.setResponseMessage("Error al buscar agricultor");
+			response.setResponseMessage("Error buscar perfil del conductor");
 			response.setResponseCode(AbstractResponse.ERROR);
 			return new ResponseEntity<GenericResponse<JobProfileEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
-	@PostMapping(path="/sjpbi")
+	
+	@PostMapping(path="/sjp")
 	private ResponseEntity<GenericResponse<JobProfileEntity>> saveJobProfile(@RequestBody GenericRequest<JobProfileEntity> request){
 		GenericResponse<JobProfileEntity> response = new GenericResponse<JobProfileEntity>();
 		try {
@@ -44,12 +45,26 @@ public class JobProfileController {
 			response.setResponseMessage(request.getData().getId() != null?"Perfil actualizado con éxito":"Perfil registrado con éxito");
 			return new ResponseEntity<GenericResponse<JobProfileEntity>>(response,HttpStatus.CREATED);
 		}catch(Exception e) {
-			response.setResponseMessage("Error al buscar agricultor");
+			response.setResponseMessage("Error al actualizar perfil");
 			response.setResponseCode(AbstractResponse.ERROR);
 			return new ResponseEntity<GenericResponse<JobProfileEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
+	
+	@PostMapping(path="/gdbi")
+	private ResponseEntity<GenericResponse<JobProfileEntity>> getByDriverId(@RequestBody GenericRequest<JobProfileEntity> request){
+		GenericResponse<JobProfileEntity> response = new GenericResponse<JobProfileEntity>();
+		try {
+			response.setData(this.jobProfileService.findByDriverId(request.getId()));
+			return new ResponseEntity<GenericResponse<JobProfileEntity>>(response,HttpStatus.CREATED);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al obtener perfil del conductor");
+			response.setResponseCode(AbstractResponse.ERROR);
+			return new ResponseEntity<GenericResponse<JobProfileEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
 	
 	
 	
