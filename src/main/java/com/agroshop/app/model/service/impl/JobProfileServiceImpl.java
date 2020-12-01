@@ -37,6 +37,12 @@ public class JobProfileServiceImpl implements IJobProfileService{
 		repo.deleteById(id);
 		
 	}
+
+	@Override
+	public JobProfileEntity findByDriverId(Integer id) {
+		return repo.findByDriverId(id);
+	}
+	
 	
 
 }
