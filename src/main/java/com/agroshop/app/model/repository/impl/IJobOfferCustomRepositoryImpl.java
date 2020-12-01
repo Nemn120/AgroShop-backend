@@ -28,9 +28,6 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 		if(job.getWeightIni()!= null && job.getWeightFin()!= null) {
 				queryString.append(" AND jo.totalWeight BETWEEN :weightIni AND :weightFin ");
 		}
-		if(job.getDateIni()!= null && job.getDateFin()!= null) {
-			queryString.append(" AND jo.finalDate BETWEEN :dateIni AND :dateFin ");
-		}
 		if(job.getDepartmentIni()!=null){
 			queryString.append(" AND jo.departmentOrigin=:deparmentIni ");
 		}
@@ -52,10 +49,6 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 		if(job.getWeightIni()!= null && job.getWeightFin()!= null) {
 			query.setParameter("weightIni",job.getWeightIni());
 			query.setParameter("weightFin",job.getWeightFin());
-		}
-		if(job.getDateIni()!= null && job.getDateFin()!= null) {
-			query.setParameter("dateIni",job.getDateIni());
-			query.setParameter("dateFin",job.getDateFin());
 		}
 		if(job.getDepartmentIni()!=null) {
 			query.setParameter("deparmentIni",job.getDepartmentIni());

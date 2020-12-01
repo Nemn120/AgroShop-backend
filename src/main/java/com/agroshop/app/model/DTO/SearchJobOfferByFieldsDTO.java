@@ -7,8 +7,6 @@ public class SearchJobOfferByFieldsDTO {
 	private String status;
 	private String departmentIni;
 	private String departmentFin;
-	private Date dateIni;
-	private Date dateFin;
 	private Double weightIni;
 	private Double weightFin;
 	private Double priceIni;
@@ -32,18 +30,6 @@ public class SearchJobOfferByFieldsDTO {
 	}
 	public void setDepartmentFin(String departmentFin) {
 		this.departmentFin = departmentFin;
-	}
-	public Date getDateIni() {
-		return dateIni;
-	}
-	public void setDateIni(Date dateIni) {
-		this.dateIni = dateIni;
-	}
-	public Date getDateFin() {
-		return dateFin;
-	}
-	public void setDateFin(Date dateFin) {
-		this.dateFin = dateFin;
 	}
 	public Double getWeightIni() {
 		return weightIni;

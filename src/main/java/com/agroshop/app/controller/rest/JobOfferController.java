@@ -68,11 +68,10 @@ public class JobOfferController {
 			List<JobOfferEntity> list = service.getListJobOfferByFields(request.getData());
 			if(list.isEmpty()) 
 				response.setResponseMessage("No se encontraron ofertas laborales que coincidan con la busqueda");
-			else 
+			else {
 				response.setDatalist(list);
-			
-
-			response.setResponseMessage("Ofertas laborales encontradas");
+				response.setResponseMessage("Ofertas laborales encontradas");
+			}
 			response.setResponseCode(Constants.SUCCESS_SHOW_LIST);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			return new ResponseEntity<GenericResponse<JobOfferEntity>>(response,HttpStatus.OK);
