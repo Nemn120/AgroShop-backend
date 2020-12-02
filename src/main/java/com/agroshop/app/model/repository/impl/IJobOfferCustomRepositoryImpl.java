@@ -1,5 +1,6 @@
 package com.agroshop.app.model.repository.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,7 +18,7 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 	 private EntityManager em;
 	
 	@Override
-	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO job) {
+	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO job, LocalDate date) {
 		
 		StringBuffer queryString = new StringBuffer(
 		"SELECT jo From JobOfferEntity jo where jo.statusOffer=:statusOffer ");
@@ -38,9 +39,12 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 			queryString.append(" AND jo.order.farmer.id=:id ");
 		}
 
+		queryString.append(" AND :fin <= jo.finalDate ");
+		
 		Query query = em.createQuery(queryString.toString(),JobOfferEntity.class);
 		
 		query.setParameter("statusOffer",Constants.JOB_OFFER_AVAILABLE);
+		query.setParameter("fin", date);
 		
 		if(job.getPriceIni()!= null && job.getPriceFin()!= null) {
 			query.setParameter("priceIni",job.getPriceIni());
@@ -51,10 +55,10 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 			query.setParameter("weightFin",job.getWeightFin());
 		}
 		if(job.getDepartmentIni()!=null) {
-			query.setParameter("deparmentIni",job.getDepartmentIni());
+			query.setParameter("deparmentIni",job.getDepartmentIni().toLowerCase());
 		}
 		if(job.getDepartmentFin()!=null) {
-			query.setParameter("deparmentFin",job.getDepartmentFin());
+			query.setParameter("deparmentFin",job.getDepartmentFin().toLowerCase());
 		}
 		if(job.getIdFarmer()!=null) {
 			query.setParameter("id",job.getIdFarmer());
