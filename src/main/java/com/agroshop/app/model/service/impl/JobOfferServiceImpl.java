@@ -68,7 +68,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 		OrderEntity or = Orderrepo.findById(job.getOrder().getId()).orElse(new OrderEntity());
 		
 		if (or.getCreateDate()==null)
-			throw new RuntimeException("La order "+ job.getOrder().getId()+ " no tiene orderDetails");
+			throw new RuntimeException("La order "+ job.getOrder().getId()+ " no tiene datos consistentes");
 		
 		or.setStatus(Constants.ORDER_STATUS_PUBLISHED);
 		Orderrepo.save(or);
@@ -79,7 +79,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 		List<OrderDetailEntity> details = OrderDetailrepo.findByOrderId(job.getOrder().getId());
 		
 		Double pesoTotal= details.stream()
-			      .mapToDouble(o -> Double.parseDouble(o.getProductSales().getWeight()))
+			      .mapToDouble(o -> (Double.parseDouble(o.getProductSales().getWeight()) * o.getQuantity()))
 			      .sum();
 		logger.info("peso: " + pesoTotal);
 		job.setTotalWeight(pesoTotal);
