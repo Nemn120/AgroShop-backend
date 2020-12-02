@@ -71,6 +71,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 			throw new RuntimeException("La order "+ job.getOrder().getId()+ " no tiene datos consistentes");
 		
 		or.setStatus(Constants.ORDER_STATUS_PUBLISHED);
+		or.setReference(or.getReference().toLowerCase());
 		Orderrepo.save(or);
 		job.setOrder(or);
 		LocalDate date = LocalDate.now();
@@ -84,6 +85,11 @@ public class JobOfferServiceImpl implements IJobOfferService{
 		logger.info("peso: " + pesoTotal);
 		job.setTotalWeight(pesoTotal);
 		
+		String inicio = job.getDepartmentOrigin();
+		job.setDepartmentOrigin(inicio.toLowerCase());
+		String fin = job.getOrder().getReference();
+		job.getOrder().setReference(fin.toLowerCase());
+		
 		repo.save(job);
 		return job;
 		
@@ -91,8 +97,9 @@ public class JobOfferServiceImpl implements IJobOfferService{
 
 	@Override
 	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO sjobf) {
-
-		return repo.getListJobOfferByFields(sjobf);
+		LocalDate date = LocalDate.now();
+		logger.info("date: " + date);
+		return repo.getListJobOfferByFields(sjobf,date);
 	}
 
 }
