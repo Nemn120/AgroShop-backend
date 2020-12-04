@@ -135,7 +135,6 @@ public class DriverController {
     			response.setResponseCode(AbstractResponse.SUCCESS);
     		}
     	} catch(Error e) {
-    		response.setData(null);
     		response.setResponseMessage(Constants.ERROR_PETITION_MESSAGE);
     		response.setResponseCode(AbstractResponse.ERROR);
     	}
