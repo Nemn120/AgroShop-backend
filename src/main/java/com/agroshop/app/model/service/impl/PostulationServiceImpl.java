@@ -119,5 +119,14 @@ public class PostulationServiceImpl implements IPostulationService {
 			save(postulation);
 		}
 	}
+	
+	public List<PostulationEntity> findByStatusPostulationAndDriverId(String statusPostulation, Integer driverId) throws Throwable {
+		return postulationRepo.findByStatusPostulationAndDriverId(statusPostulation, driverId);
+	}
+
+	@Override
+	public List<PostulationEntity> findPostulationByStatusPostulationAndFarmerId(String statusPostulation, Integer farmerId) throws Throwable {
+		return postulationRepo.findByStatusPostulationAndFarmerId(statusPostulation, farmerId);
+	}
 
 }

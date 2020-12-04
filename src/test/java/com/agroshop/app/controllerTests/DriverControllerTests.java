@@ -3,7 +3,7 @@ package com.agroshop.app.controllerTests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+//import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,8 +27,8 @@ public class DriverControllerTests {
 	
 	private GenericResponse<DriverEntity> response;
 	
-	@Test
-	public void testGetListDriverAccepted() {
+	//@Test
+	public void testGetListDriverAccepted() throws Throwable {
 		
 		RegisterDTO registerDTO = new RegisterDTO();
 		UserEntity user = new UserEntity();

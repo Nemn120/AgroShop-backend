@@ -43,7 +43,7 @@ public class FarmerServiceImpl implements IFarmerService{
 	}
 
 	@Override
-	public FarmerEntity register(FarmerEntity farmer) {
+	public FarmerEntity register(FarmerEntity farmer) throws Throwable {
 		farmer.getUser().setTypeUser(Constants.USER_TYPE_FARMER);
 		farmer.setUser(this.userService.register(farmer.getUser()));
 		return this.save(farmer);     

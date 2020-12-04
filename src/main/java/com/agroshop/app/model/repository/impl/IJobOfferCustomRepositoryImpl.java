@@ -1,0 +1,69 @@
+package com.agroshop.app.model.repository.impl;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import com.agroshop.app.model.DTO.SearchJobOfferByFieldsDTO;
+import com.agroshop.app.model.entities.JobOfferEntity;
+import com.agroshop.app.model.repository.IJobOfferCustomRepository;
+import com.agroshop.app.util.Constants;
+
+public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
+
+	@PersistenceContext
+	 private EntityManager em;
+	
+	@Override
+	public List<JobOfferEntity> getListJobOfferByFields(SearchJobOfferByFieldsDTO job, LocalDate date) {
+		
+		StringBuffer queryString = new StringBuffer(
+		"SELECT jo From JobOfferEntity jo where jo.statusOffer=:statusOffer ");
+		
+		if(job.getPriceIni()!= null && job.getPriceFin()!= null) {
+			queryString.append(" AND jo.shippingCost BETWEEN :priceIni AND :priceFin ");
+		}
+		if(job.getWeightIni()!= null && job.getWeightFin()!= null) {
+				queryString.append(" AND jo.totalWeight BETWEEN :weightIni AND :weightFin ");
+		}
+		if(job.getDepartmentIni()!=null){
+			queryString.append(" AND jo.departmentOrigin=:deparmentIni ");
+		}
+		if(job.getDepartmentFin()!=null){
+			queryString.append(" AND jo.order.reference=:deparmentFin ");
+		}
+		if(job.getIdFarmer()!=null) {
+			queryString.append(" AND jo.order.farmer.id=:id ");
+		}
+
+		queryString.append(" AND :fin <= jo.finalDate ");
+		
+		Query query = em.createQuery(queryString.toString(),JobOfferEntity.class);
+		
+		query.setParameter("statusOffer",Constants.JOB_OFFER_AVAILABLE);
+		query.setParameter("fin", date);
+		
+		if(job.getPriceIni()!= null && job.getPriceFin()!= null) {
+			query.setParameter("priceIni",job.getPriceIni());
+			query.setParameter("priceFin",job.getPriceFin());
+		}
+		if(job.getWeightIni()!= null && job.getWeightFin()!= null) {
+			query.setParameter("weightIni",job.getWeightIni());
+			query.setParameter("weightFin",job.getWeightFin());
+		}
+		if(job.getDepartmentIni()!=null) {
+			query.setParameter("deparmentIni",job.getDepartmentIni().toLowerCase());
+		}
+		if(job.getDepartmentFin()!=null) {
+			query.setParameter("deparmentFin",job.getDepartmentFin().toLowerCase());
+		}
+		if(job.getIdFarmer()!=null) {
+			query.setParameter("id",job.getIdFarmer());
+		}
+
+		return query.getResultList();
+	}
+}

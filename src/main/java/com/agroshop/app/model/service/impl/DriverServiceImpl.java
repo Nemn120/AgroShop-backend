@@ -81,7 +81,7 @@ public class DriverServiceImpl implements IDriverService{
 	}
 
 	@Override
-	public DriverEntity register(DriverEntity driver) {
+	public DriverEntity register(DriverEntity driver) throws Throwable {
 		driver.getUser().setTypeUser(Constants.USER_TYPE_DRIVER);
 		driver.setUser(this.userService.register(driver.getUser()));
 		return this.save(driver);  

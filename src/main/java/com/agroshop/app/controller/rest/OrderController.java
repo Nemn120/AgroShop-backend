@@ -1,6 +1,7 @@
 package com.agroshop.app.controller.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.beans.OrderBean;
 import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.service.IOrderService;
@@ -30,19 +32,21 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 	private IOrderService orderService;
 	
 	@PostMapping(path="/sobos")
-	public ResponseEntity<GenericResponse<OrderEntity>> saveNewOrderByClient(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
+	public ResponseEntity<GenericResponse<OrderBean>> saveNewOrderByClient(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
 		logger.info("OrderController.saveNewOrderByClient()");
-		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		GenericResponse<OrderBean> response = new GenericResponse<OrderBean>();
 		try {
-			response.setDatalist(orderService.saveOrderByManyFarmer(request.getData()));
+			List<OrderBean> orderList=orderService.saveOrderByManyFarmer(request.getData());
+			response.setDatalist(orderList);
+			
 			response.setResponseMessage("Pedido realizado con exito");
-			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.CREATED);
+			return new ResponseEntity<GenericResponse<OrderBean>>(response,HttpStatus.CREATED);
 		}catch(Exception e){
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(e.getMessage());
 			logger.error("ERORR ==> ",e);
 			
-			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<GenericResponse<OrderBean>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

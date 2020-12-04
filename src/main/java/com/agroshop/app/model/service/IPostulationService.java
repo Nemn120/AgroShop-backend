@@ -16,4 +16,9 @@ public interface IPostulationService extends GenericCRUD<PostulationEntity, Inte
 	public boolean existsPostulationForDriver(Integer idJobOffer, Integer idDriver) throws Throwable;
 	
 	public void acceptPostulation(Integer id) throws Throwable;
+
+	public List<PostulationEntity> findByStatusPostulationAndDriverId(String statusPostulation, Integer driverId) throws Throwable;
+	
+	public List<PostulationEntity> findPostulationByStatusPostulationAndFarmerId(String statusPostulation, Integer farmerId) throws Throwable;
+	
 }

@@ -70,12 +70,15 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public UserEntity  register(UserEntity user) {
-			user.setPassword(bcrypt.encode(user.getPassword()));
-			ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
-			user.setProfile(new ProfileEntity());
-			user.setProfile(profileSelect);
-			return userRepo.save(user);
+	public UserEntity  register(UserEntity user) throws Throwable {
+		List<UserEntity> u = userRepo.getUserByUsername(user.getUsername());
+		if(u.size() >0)
+			throw new RuntimeException(Constants.USERNAME_DUPLICATE);
+		user.setPassword(bcrypt.encode(user.getPassword()));
+		ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
+		user.setProfile(new ProfileEntity());
+		user.setProfile(profileSelect);
+		return userRepo.save(user);
 	}
 
 
@@ -95,15 +98,11 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public Object registerUserByTypeUser(RegisterDTO registerUser) {
+	public Object registerUserByTypeUser(RegisterDTO registerUser)  throws Throwable {
 		ObjectMapper objectMapper = new ObjectMapper();
-		
-		FarmerEntity user = objectMapper.convertValue(registerUser.getUserRegister(),FarmerEntity.class);
-		logger.info("Username: "+user.getUser().getUsername());
-		List<UserEntity> u = userRepo.getUserByUsername(user.getUser().getUsername());
-		if(u.isEmpty()) {
 			if(Constants.USER_TYPE_FARMER.equals(registerUser.getUserType())){
 				FarmerEntity userFarmer =objectMapper.convertValue(registerUser.getUserRegister(),FarmerEntity.class);
+				
 				return this.farmerService.register(userFarmer);
 			}
 			if(Constants.USER_TYPE_DRIVER.equals(registerUser.getUserType())){				
@@ -115,8 +114,13 @@ public class UserServiceImpl implements IUserService{
 				ClientEntity userClient =objectMapper.convertValue(registerUser.getUserRegister(),ClientEntity.class);
 				return this.clientService.register(userClient);
 			}
-		}
+		
 		return null;
+	}
+
+	@Override
+	public UserEntity getUserByUsername(String username) throws Throwable {
+		return this.userRepo.findOneByUsername(username);
 	}
 	
 
