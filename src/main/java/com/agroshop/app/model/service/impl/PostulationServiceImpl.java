@@ -111,8 +111,13 @@ public class PostulationServiceImpl implements IPostulationService {
 	}
 
 	@Override
-	public List<PostulationEntity> findPostulationByStatus(String statusPostulation) throws Throwable {
-		return postulationRepo.findByStatusPostulation(statusPostulation);
+	public List<PostulationEntity> findByStatusPostulationAndDriverId(String statusPostulation, Integer driverId) throws Throwable {
+		return postulationRepo.findByStatusPostulationAndDriverId(statusPostulation, driverId);
+	}
+
+	@Override
+	public List<PostulationEntity> findPostulationByStatusPostulationAndFarmerId(String statusPostulation, Integer farmerId) throws Throwable {
+		return postulationRepo.findByStatusPostulationAndFarmerId(statusPostulation, farmerId);
 	}
 
 }
