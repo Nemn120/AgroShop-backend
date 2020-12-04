@@ -110,4 +110,14 @@ public class PostulationServiceImpl implements IPostulationService {
 		return exists;
 	}
 
+	@Override
+	public void acceptPostulation(Integer id) throws Throwable {
+		PostulationEntity postulation = new PostulationEntity();
+		postulation = getOneById(id);
+		if(!postulation.getStatusPostulation().equals("Aceptada")) {
+			postulation.setStatusPostulation("Aceptada");
+			save(postulation);
+		}
+	}
+
 }
