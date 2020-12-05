@@ -85,11 +85,6 @@ public class JobOfferServiceImpl implements IJobOfferService{
 		logger.info("peso: " + pesoTotal);
 		job.setTotalWeight(pesoTotal);
 		
-		String inicio = job.getDepartmentOrigin();
-		job.setDepartmentOrigin(inicio.toLowerCase());
-		String fin = job.getOrder().getReference();
-		job.getOrder().setReference(fin.toLowerCase());
-		
 		repo.save(job);
 		return job;
 		
