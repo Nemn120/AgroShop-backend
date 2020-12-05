@@ -36,25 +36,6 @@ public class JobOfferEntity extends MainEntity{
 	private String originRegion;
 	private String originDistrict;
 	
-	
-	public String getOriginProvince() {
-		return originProvince;
-	}
-	public void setOriginProvince(String originProvince) {
-		this.originProvince = originProvince;
-	}
-	public String getOriginRegion() {
-		return originRegion;
-	}
-	public void setOriginRegion(String originRegion) {
-		this.originRegion = originRegion;
-	}
-	public String getOriginDistrict() {
-		return originDistrict;
-	}
-	public void setOriginDistrict(String originDistrict) {
-		this.originDistrict = originDistrict;
-	}
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private OrderEntity order;
@@ -120,5 +101,22 @@ public class JobOfferEntity extends MainEntity{
 	public void setTotalWeight(Double totalWeight) {
 		this.totalWeight = totalWeight;
 	}
-
+	public String getOriginProvince() {
+		return originProvince;
+	}
+	public void setOriginProvince(String originProvince) {
+		this.originProvince = originProvince;
+	}
+	public String getOriginRegion() {
+		return originRegion;
+	}
+	public void setOriginRegion(String originRegion) {
+		this.originRegion = originRegion;
+	}
+	public String getOriginDistrict() {
+		return originDistrict;
+	}
+	public void setOriginDistrict(String originDistrict) {
+		this.originDistrict = originDistrict;
+	}
 }

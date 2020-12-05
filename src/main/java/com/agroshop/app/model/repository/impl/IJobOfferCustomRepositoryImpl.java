@@ -29,14 +29,23 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 		if(job.getWeightIni()!= null && job.getWeightFin()!= null) {
 				queryString.append(" AND jo.totalWeight BETWEEN :weightIni AND :weightFin ");
 		}
-		if(job.getDepartmentIni()!=null){
-			queryString.append(" AND jo.departmentOrigin=:deparmentIni ");
+		if(job.getOriginRegion()!=null){
+			queryString.append(" AND jo.originRegion=:originRegion ");
 		}
-		if(job.getDepartmentFin()!=null){
-			queryString.append(" AND jo.order.reference=:deparmentFin ");
+		if(job.getOriginProvince()!=null){
+			queryString.append(" AND jo.originProvince=:originProvince ");
 		}
-		if(job.getIdFarmer()!=null) {
-			queryString.append(" AND jo.order.farmer.id=:id ");
+		if(job.getOriginDistrict()!=null) {
+			queryString.append(" AND jo.originDistrict=:originDistrict ");
+		}
+		if(job.getDestinationRegion()!=null) {
+			queryString.append(" AND jo.order.destinationRegion=:destinationRegion ");
+		}
+		if(job.getDestinationProvince()!=null) {
+			queryString.append(" AND jo.order.destinationProvince=:destinationProvince ");
+		}
+		if(job.getDestinationDistrict()!=null) {
+			queryString.append(" AND jo.order.destinationDistrict=:destinationDistrict ");
 		}
 
 		queryString.append(" AND :fin <= jo.finalDate ");
@@ -54,14 +63,23 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 			query.setParameter("weightIni",job.getWeightIni());
 			query.setParameter("weightFin",job.getWeightFin());
 		}
-		if(job.getDepartmentIni()!=null) {
-			query.setParameter("deparmentIni",job.getDepartmentIni().toLowerCase());
+		if(job.getOriginRegion()!=null) {
+			query.setParameter("originRegion",job.getOriginRegion());
 		}
-		if(job.getDepartmentFin()!=null) {
-			query.setParameter("deparmentFin",job.getDepartmentFin().toLowerCase());
+		if(job.getOriginProvince()!=null) {
+			query.setParameter("originProvince",job.getOriginProvince());
 		}
-		if(job.getIdFarmer()!=null) {
-			query.setParameter("id",job.getIdFarmer());
+		if(job.getOriginDistrict()!=null) {
+			query.setParameter("originDistrict",job.getOriginDistrict());
+		}
+		if(job.getDestinationRegion()!=null) {
+			query.setParameter("destinationRegion",job.getDestinationRegion());
+		}
+		if(job.getDestinationProvince()!=null) {
+			query.setParameter("destinationProvince",job.getDestinationProvince());
+		}
+		if(job.getDestinationDistrict()!=null) {
+			query.setParameter("destinationDistrict",job.getDestinationDistrict());
 		}
 
 		return query.getResultList();

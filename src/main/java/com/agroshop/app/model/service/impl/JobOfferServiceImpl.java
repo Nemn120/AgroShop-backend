@@ -71,7 +71,6 @@ public class JobOfferServiceImpl implements IJobOfferService{
 			throw new RuntimeException("La order "+ job.getOrder().getId()+ " no tiene datos consistentes");
 		
 		or.setStatus(Constants.ORDER_STATUS_PUBLISHED);
-		or.setReference(or.getReference().toLowerCase());
 		Orderrepo.save(or);
 		job.setOrder(or);
 		LocalDate date = LocalDate.now();
