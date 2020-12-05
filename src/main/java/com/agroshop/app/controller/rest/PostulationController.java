@@ -1,5 +1,8 @@
 package com.agroshop.app.controller.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.entities.PostulationEntity;
 import com.agroshop.app.model.service.IPostulationService;
 import com.agroshop.app.util.Constants;
@@ -42,18 +46,84 @@ public class PostulationController {
 		return response;
 	}
 	
-	@PostMapping(path = "/fpbs")
-	public GenericResponse<PostulationEntity> findPostulationByStatus(@RequestBody GenericRequest<String> request) throws Throwable {
-		logger.info("PostulationController.findPostulationByStatus()");
+	// TO DO
+	@PostMapping(path = "/apf")
+    public GenericResponse<PostulationEntity> acceptPostulationFarmer(@RequestBody GenericRequest<Integer> request) throws Throwable{
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+        response = new GenericResponse<PostulationEntity>();
+        try {
+            postulationService.acceptPostulation(request.getData());
+            response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+            response.setResponseCode(AbstractResponse.SUCCESS);
+
+        } catch (Error e) {
+            logger.error(e.getMessage());
+            response.setResponseMessage(Constants.ERROR_ACCEPTING_DRIVER);
+            response.setResponseCode(AbstractResponse.ERROR);
+        }
+        return response;
+    }
+
+	@PostMapping(path = "/fpbsaid")
+	public GenericResponse<PostulationEntity> findPostulationByStatusPostulationAndDriverId(@RequestBody GenericRequest<PostulationEntity> request) throws Throwable {
+		logger.info("PostulationController.findPostulationByStatusPostulationAndDriverId()");
 		GenericResponse<PostulationEntity> response = new GenericResponse<>();
 		try {
-			response.setDatalist(postulationService.findPostulationByStatus(request.getData()));
+			response.setDatalist(postulationService.findByStatusPostulationAndDriverId(request.getData().getStatusPostulation(), request.getData().getDriver().getId()));
 			response.setResponseCode(AbstractResponse.SUCCESS);
 			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			//throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
+			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
+		}
+		return response;
+	}
+	
+	@PostMapping(path = "/fpbsafid")
+	public GenericResponse<PostulationEntity> findPostulationByStatusPostulationAndFarmerId(@RequestBody GenericRequest<PostulationEntity> request) throws Throwable {
+		logger.info("PostulationController.findPostulationByStatusPostulationAndFarmerId()");
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+		try {
+			response.setDatalist(postulationService.findPostulationByStatusPostulationAndFarmerId(request.getData().getStatusPostulation(), request.getData().getJobOffer().getOrder().getFarmer().getId()));
+			response.setResponseCode(AbstractResponse.SUCCESS);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+		} catch (Exception e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
+		}
+		return response;
+	}
+	
+	@PostMapping(path = "/dpbid")
+	public GenericResponse<PostulationEntity> deletePostulationById(@RequestBody GenericRequest<Integer> request) throws Throwable {
+		logger.info("PostulationController.deletePostulationById()");
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+		try {
+			postulationService.deleteById(request.getData());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+		} catch (Exception e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
+		}
+		return response;
+	}
+	
+	@PostMapping(path = "/gpbid")
+	public GenericResponse<PostulationEntity> getPostulationById(@RequestBody GenericRequest<Integer> request) throws Throwable {
+		logger.info("PostulationController.getPostulationById()");
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+		try {
+			postulationService.getOneById(request.getData());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+		} catch (Exception e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}

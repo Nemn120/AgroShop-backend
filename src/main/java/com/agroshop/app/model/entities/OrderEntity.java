@@ -39,6 +39,50 @@ public class OrderEntity extends MainEntity {
 	@Column(name = "delivered_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime deliveredDate;
 	
+	private String destinationProvince;
+	private String destinationRegion;
+	private String destinationDistrict;
+	
+	private String originProvince;
+	private String originRegion;
+	private String originDistrict;
+	
+	public String getOriginProvince() {
+		return originProvince;
+	}
+	public void setOriginProvince(String originProvince) {
+		this.originProvince = originProvince;
+	}
+	public String getOriginRegion() {
+		return originRegion;
+	}
+	public void setOriginRegion(String originRegion) {
+		this.originRegion = originRegion;
+	}
+	public String getOriginDistrict() {
+		return originDistrict;
+	}
+	public void setOriginDistrict(String originDistrict) {
+		this.originDistrict = originDistrict;
+	}
+	public String getDestinationProvince() {
+		return destinationProvince;
+	}
+	public void setDestinationProvince(String destinationProvince) {
+		this.destinationProvince = destinationProvince;
+	}
+	public String getDestinationRegion() {
+		return destinationRegion;
+	}
+	public void setDestinationRegion(String destinationRegion) {
+		this.destinationRegion = destinationRegion;
+	}
+	public String getDestinationDistrict() {
+		return destinationDistrict;
+	}
+	public void setDestinationDistrict(String destinationDistrict) {
+		this.destinationDistrict = destinationDistrict;
+	}
 	@Transient
 	private List<OrderDetailEntity> orderDetailList;
 	
