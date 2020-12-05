@@ -128,13 +128,6 @@
 					<destFile>${sonar.jacoco.reportPath}</destFile>
 				</configuration>
 			</plugin>
-			<plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <fork>true</fork>
-                <executable>C:\Program Files\Java\jdk1.8.0_111\bin\javac.exe</executable>
-            </configuration>
-        </plugin>
 		</plugins>
 	</build>
 
