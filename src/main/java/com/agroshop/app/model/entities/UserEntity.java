@@ -40,6 +40,34 @@ public class UserEntity extends MainEntity {
 	@ManyToOne
 	@JoinColumn(name = "profile_id", referencedColumnName = "id_profile")
 	private ProfileEntity profile;
+	
+	private String province;
+	private String region;
+	private String district;
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
 
 	public String getTypeUser() {
 		return typeUser;
