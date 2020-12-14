@@ -48,7 +48,7 @@ public class IJobOfferCustomRepositoryImpl implements IJobOfferCustomRepository{
 			queryString.append(" AND jo.order.destinationDistrict=:destinationDistrict ");
 		}
 
-		queryString.append(" AND :fin <= jo.finalDate ORDER BY jo.startDate DESC");
+		queryString.append(" AND :fin <= jo.finalDate ORDER BY jo.createDate DESC");
 		
 		Query query = em.createQuery(queryString.toString(),JobOfferEntity.class);
 		
