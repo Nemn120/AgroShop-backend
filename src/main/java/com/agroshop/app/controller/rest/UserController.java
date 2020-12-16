@@ -74,7 +74,7 @@ public class UserController {
 				response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			}
 		}catch(Exception e) {
-			if(e.getMessage() == Constants.USERNAME_DUPLICATE)
+			if(e.getMessage().equals(Constants.USERNAME_DUPLICATE))
 				response.setResponseMessage(e.getMessage());
 			else
 				response.setResponseMessage(Constants.ERROR_REGISTER_MESSAGE);
