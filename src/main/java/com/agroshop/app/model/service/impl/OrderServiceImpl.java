@@ -1,5 +1,6 @@
 package com.agroshop.app.model.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,6 +13,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.FarmerBean;
 import com.agroshop.app.model.beans.OrderBean;
 import com.agroshop.app.model.beans.OrderDetailBean;
@@ -153,6 +156,11 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public List<OrderEntity> findByStatusAndFarmerId(String status, Integer farmerId) throws Throwable {
 		return orderRepo.findByStatusAndFarmerId(status, farmerId);
+	}
+
+	@Override
+	public List<OrderEntity> getListOrderByFields(SearchOrderByFieldsDTO dto) {
+		return orderRepo.getListOrderByFields(dto);
 	}
 
 }

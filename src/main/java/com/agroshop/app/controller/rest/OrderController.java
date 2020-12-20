@@ -1,5 +1,6 @@
 package com.agroshop.app.controller.rest;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.DTO.SearchJobOfferByFieldsDTO;
+import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.OrderBean;
+import com.agroshop.app.model.entities.JobOfferEntity;
 import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.service.IOrderService;
@@ -81,4 +85,29 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 		}
 	}
 
+	@PostMapping(path="/globf")
+	public ResponseEntity<GenericResponse<OrderEntity>> getListOrderByFields(@RequestBody GenericRequest<SearchOrderByFieldsDTO> request) throws Throwable {
+		
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		try {
+			List<OrderEntity> list = orderService.getListOrderByFields(request.getData());
+			logger.info(list.size());
+			if(list.isEmpty()) 
+				response.setResponseMessage("No se encontraron ordenes que coincidan con la busqueda");
+			else { 
+				response.setDatalist(list);
+				response.setResponseMessage("Ordenes encontradas");
+			}
+
+			response.setResponseCode(Constants.SUCCESS_SHOW_LIST);
+			response.setFinalTimesTamp(LocalDateTime.now());
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.OK);
+		}catch(Exception e){
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage(e.getMessage());
+			logger.error("ERORR ==> ",e);
+			
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

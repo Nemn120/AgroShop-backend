@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.OrderBean;
 import com.agroshop.app.model.entities.OrderEntity;
 
@@ -15,5 +16,7 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	public OrderEntity saveOrderByFarmer(OrderEntity order)  throws Throwable ;
 	
 	public List<OrderEntity> findByStatusAndFarmerId(String status,Integer farmerId) throws Throwable ;
+	
+	public List<OrderEntity> getListOrderByFields(SearchOrderByFieldsDTO dto);
 
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.agroshop.app.model.entities.OrderEntity;
 
-public interface IOrderRepository extends JpaRepository<OrderEntity, Integer> {
+public interface IOrderRepository extends IOrderCustomRepository, JpaRepository<OrderEntity, Integer> {
 	
 
 	@Query("SELECT ord FROM OrderEntity ord WHERE  ord.status=:status AND ord.farmer.id=:farmerId and ord.isDeleted=False ")
