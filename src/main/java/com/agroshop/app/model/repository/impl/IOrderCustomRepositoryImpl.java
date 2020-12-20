@@ -42,8 +42,9 @@ public class IOrderCustomRepositoryImpl implements IOrderCustomRepository{
 			queryString.append(" AND o.createDate <= :dateFin");
 		}
 		if(dto.getDocumentNumber()!=null) {
-			queryString.append(" AND o.client.user.documentNumber=:documentNumber");
+			queryString.append(" AND o.client.user.documentNumber=:documentNumber ");
 		}
+		queryString.append(" ORDER BY o.createDate DESC");
 		
 		Query query = em.createQuery(queryString.toString(), OrderEntity.class);
 		
