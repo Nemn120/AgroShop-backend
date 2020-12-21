@@ -110,4 +110,30 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PostMapping(path="/cor")
+	public ResponseEntity<GenericResponse<OrderEntity>>cancelOrder(@RequestBody GenericRequest<OrderEntity> request){
+		logger.info("OrderController.cancelOrder()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		boolean check = orderService.isCancel(request.getData());
+		if(check){
+			Boolean checkDelete = orderService.cancelOrderAndListOrderDetail(request.getData());
+			if(checkDelete) {
+				logger.warn("Pedido:"+request.getData().getId() + " cancelado");
+				response.setResponseMessage("Se canceló correctamente su orden");
+				return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.OK);
+			}
+			else { 
+				logger.warn("Pedido:"+request.getData().getId() + " no pudo ser cancelado");
+				
+				response.setResponseMessage("Error al cancelar la orden");
+				return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		else {
+			logger.warn("Pedido:"+request.getData().getId() + " excedió el limite de tiempo");	
+			response.setResponseMessage("Error al cancelar la orden, el pedido excedió el limite de tiempo permitido");
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

@@ -10,4 +10,6 @@ import com.agroshop.app.model.entities.OrderDetailEntity;
 public interface IOrderDetailService extends GenericCRUD<OrderDetailEntity, Integer>{
 	List<OrderDetailEntity> findByOrderId(Integer id);
 	
+	public boolean updateOrderDetailStatus( Integer id, String status);
+	
 }
