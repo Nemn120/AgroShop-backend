@@ -24,7 +24,7 @@ public class JobProfileController {
 	private IJobProfileService jobProfileService;
 	
 	@PostMapping(path="/gpbi")
-	private ResponseEntity<GenericResponse<JobProfileEntity>> getJobProfileById(@RequestBody GenericRequest<JobProfileEntity> request){
+	public ResponseEntity<GenericResponse<JobProfileEntity>> getJobProfileById(@RequestBody GenericRequest<JobProfileEntity> request){
 		GenericResponse<JobProfileEntity> response = new GenericResponse<JobProfileEntity>();
 		try {
 			response.setData(this.jobProfileService.getOneById(request.getId()));
@@ -38,7 +38,7 @@ public class JobProfileController {
 	}
 	
 	@PostMapping(path="/sjp")
-	private ResponseEntity<GenericResponse<JobProfileEntity>> saveJobProfile(@RequestBody GenericRequest<JobProfileEntity> request){
+	public ResponseEntity<GenericResponse<JobProfileEntity>> saveJobProfile(@RequestBody GenericRequest<JobProfileEntity> request){
 		GenericResponse<JobProfileEntity> response = new GenericResponse<JobProfileEntity>();
 		try {
 			response.setData(this.jobProfileService.save(request.getData()));
@@ -52,7 +52,7 @@ public class JobProfileController {
 	}
 	
 	@PostMapping(path="/gdbi")
-	private ResponseEntity<GenericResponse<JobProfileEntity>> getByDriverId(@RequestBody GenericRequest<JobProfileEntity> request){
+	public ResponseEntity<GenericResponse<JobProfileEntity>> getByDriverId(@RequestBody GenericRequest<JobProfileEntity> request){
 		GenericResponse<JobProfileEntity> response = new GenericResponse<JobProfileEntity>();
 		try {
 			response.setData(this.jobProfileService.findByDriverId(request.getId()));

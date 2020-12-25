@@ -69,7 +69,7 @@ public class MenuOptionServiceImpl implements IMenuOptionService{
 			Integer idParent=Integer.parseInt(String.valueOf(x[5]));
 			
 		
-			List<MenuOptionDTO> menuSelects=menus.stream().filter(data ->data.getId() ==idParent)
+			List<MenuOptionDTO> menuSelects=menus.stream().filter(data ->data.getId().equals(idParent))
 					.collect(Collectors.toList());
 		
 			if(menuSelects.size()>0) {

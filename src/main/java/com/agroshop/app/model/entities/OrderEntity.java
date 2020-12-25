@@ -2,7 +2,6 @@ package com.agroshop.app.model.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,14 +37,14 @@ public class OrderEntity extends MainEntity {
 	private FarmerEntity farmer;
 	@Column(name = "delivered_date", columnDefinition = "TIMESTAMP")
 	private LocalDateTime deliveredDate;
-	
 	private String destinationProvince;
 	private String destinationRegion;
 	private String destinationDistrict;
-	
 	private String originProvince;
 	private String originRegion;
 	private String originDistrict;
+	@Transient
+	private List<OrderDetailEntity> orderDetailList;
 	
 	public String getOriginProvince() {
 		return originProvince;
@@ -83,8 +82,6 @@ public class OrderEntity extends MainEntity {
 	public void setDestinationDistrict(String destinationDistrict) {
 		this.destinationDistrict = destinationDistrict;
 	}
-	@Transient
-	private List<OrderDetailEntity> orderDetailList;
 	
 	public List<OrderDetailEntity> getOrderDetailList() {
 		return orderDetailList;
