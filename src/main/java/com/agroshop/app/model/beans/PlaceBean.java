@@ -2,10 +2,10 @@ package com.agroshop.app.model.beans;
 
 public class PlaceBean extends MainBean {
 
-	public Integer id;
-	public Double latitude;
-	public Double longitude;
-	public String address;
+	private Integer id;
+	private Double latitude;
+	private Double longitude;
+	private String address;
 
 	public Integer getId() {
 		return id;

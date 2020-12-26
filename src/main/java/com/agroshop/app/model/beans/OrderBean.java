@@ -3,21 +3,13 @@ package com.agroshop.app.model.beans;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-
-import com.agroshop.app.model.entities.ClientEntity;
-import com.agroshop.app.model.entities.FarmerEntity;
-import com.agroshop.app.model.entities.OrderDetailEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
 public class OrderBean extends MainBean {
 
-	public Integer id;
+	private Integer id;
 	private Double total;
 	private Integer quantity;
 	private LocalDateTime deliveryDate;

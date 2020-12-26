@@ -163,5 +163,55 @@ public class OrderServiceImpl implements IOrderService {
 		return orderRepo.getListOrderByFields(dto);
 	}
 
+	@Override
+	public boolean isCancel(Integer or) throws Throwable{
+		OrderEntity order = this.getOneById(or);
+
+		if(order==null)
+			throw new RuntimeException("La order: "+ or+ "no existe ");
+		
+		logger.info("order: " + order.getCreateDate());
+		logger.info("status: " + order.getStatus());
+		if(order.getStatus().equals(Constants.ORDER_STATUS_PENDING)) {
+
+			LocalDateTime time = LocalDateTime.now().plusHours(5);
+			LocalDateTime timeLimit = order.getCreateDate().plusMinutes(5);
+			logger.info("now: " + time);
+			logger.info("limit: " + timeLimit);
+			return time.isBefore(timeLimit);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean cancelOrderAndListOrderDetail(Integer order) {
+		logger.info("OrderServiceImpl.cancelOrderAndListOrderDetail()");
+		try {			
+			orderDetailService.updateOrderDetailStatus(order, Constants.ORDER_DETAIL_STATUS_CANCELED);
+			orderRepo.updateOrderStatus(order, Constants.ORDER_STATUS_CANCELED);
+			logger.trace("Orden : "+order+ " estado: "+Constants.ORDER_STATUS_CANCELED);
+			
+			orderDetailService.findByOrderId(order).forEach(od ->{
+				ProductSalesEntity pro = productSalesService.getOneById(od.getProductSales().getId());
+				Integer cantidad = pro.getAvailableQuantity() + od.getQuantity();
+				pro.setAvailableQuantity(cantidad);
+				if(cantidad > 0)
+					pro.setStatusSales(Constants.PRODUCT_SALES_STATUS_AVAILABLE);
+				
+				productSalesService.save(pro);
+			});
+			return true;
+		}catch(Exception e) {
+			logger.trace("Orden : "+order+" no pudo ser cancelado");
+			return false;
+		}
+	}
+
+	@Override
+	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id) {
+		
+		return orderRepo.getListOrderByStatusAndClientId(status, id);
+	}
+
 }
 
