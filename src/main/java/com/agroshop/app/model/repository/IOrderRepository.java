@@ -18,5 +18,8 @@ public interface IOrderRepository extends IOrderCustomRepository, JpaRepository<
 	@Modifying
 	@Query("UPDATE OrderEntity set status=:status where id=:id")
 	void updateOrderStatus(@Param("id") Integer id, @Param("status") String status);
+	
+	@Query("Select ord From OrderEntity ord Where ord.status=:status and ord.client.id=:id and ord.isDeleted=False ORDER BY ord.createDate DESC")
+	List<OrderEntity> getListOrderByStatusAndClientId(@Param("status") String status, @Param("id") Integer id);
 
 }

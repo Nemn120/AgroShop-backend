@@ -164,14 +164,18 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public boolean isCancel(OrderEntity or) {
-		OrderEntity order = this.getOneById(or.getId());
+	public boolean isCancel(Integer or) throws Throwable{
+		OrderEntity order = this.getOneById(or);
 
-		logger.info("order: " + order.getCreateDate());
-		logger.info("status: " + order.getStatus());
+		if(order==null)
+			throw new RuntimeException("La order: "+ or+ "no existe ");
+		
 		if(order.getStatus().equals(Constants.ORDER_STATUS_PENDING)) {
-			LocalDateTime time = LocalDateTime.now();
-			LocalDateTime timeLimit = order.getCreateDate().plusMinutes(5).plusHours(5);
+
+			logger.info("order: " + order.getCreateDate());
+			logger.info("status: " + order.getStatus());
+			LocalDateTime time = LocalDateTime.now().plusHours(5);
+			LocalDateTime timeLimit = order.getCreateDate().plusMinutes(5);
 			logger.info("now: " + time);
 			logger.info("limit: " + timeLimit);
 			return time.isBefore(timeLimit);
@@ -180,14 +184,14 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public boolean cancelOrderAndListOrderDetail(OrderEntity order) {
+	public boolean cancelOrderAndListOrderDetail(Integer order) {
 		logger.info("OrderServiceImpl.cancelOrderAndListOrderDetail()");
 		try {			
-			orderDetailService.updateOrderDetailStatus(order.getId(), Constants.ORDER_DETAIL_STATUS_CANCELED);
-			orderRepo.updateOrderStatus(order.getId(), Constants.ORDER_STATUS_CANCELED);
-			logger.trace("Orden : "+order.getId()+ " estado: "+Constants.ORDER_STATUS_CANCELED);
+			orderDetailService.updateOrderDetailStatus(order, Constants.ORDER_DETAIL_STATUS_CANCELED);
+			orderRepo.updateOrderStatus(order, Constants.ORDER_STATUS_CANCELED);
+			logger.trace("Orden : "+order+ " estado: "+Constants.ORDER_STATUS_CANCELED);
 			
-			orderDetailService.findByOrderId(order.getId()).forEach(od ->{
+			orderDetailService.findByOrderId(order).forEach(od ->{
 				ProductSalesEntity pro = productSalesService.getOneById(od.getProductSales().getId());
 				Integer cantidad = pro.getAvailableQuantity() + od.getQuantity();
 				pro.setAvailableQuantity(cantidad);
@@ -198,9 +202,15 @@ public class OrderServiceImpl implements IOrderService {
 			});
 			return true;
 		}catch(Exception e) {
-			logger.trace("Orden : "+order.getId()+" no pudo ser cancelado");
+			logger.trace("Orden : "+order+" no pudo ser cancelado");
 			return false;
 		}
+	}
+
+	@Override
+	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id) {
+		
+		return orderRepo.getListOrderByStatusAndClientId(status, id);
 	}
 
 }

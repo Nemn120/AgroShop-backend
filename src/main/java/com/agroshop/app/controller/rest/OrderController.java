@@ -112,27 +112,51 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 	}
 	
 	@PostMapping(path="/cor")
-	public ResponseEntity<GenericResponse<OrderEntity>>cancelOrder(@RequestBody GenericRequest<OrderEntity> request){
+	public ResponseEntity<GenericResponse<OrderEntity>>cancelOrder(@RequestBody GenericRequest<OrderEntity> request) throws Throwable{
 		logger.info("OrderController.cancelOrder()");
 		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
-		boolean check = orderService.isCancel(request.getData());
-		if(check){
-			Boolean checkDelete = orderService.cancelOrderAndListOrderDetail(request.getData());
-			if(checkDelete) {
-				logger.warn("Pedido:"+request.getData().getId() + " cancelado");
-				response.setResponseMessage("Se canceló correctamente su orden");
-				return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.OK);
+		try {
+			boolean check = orderService.isCancel(request.getId());
+			if(check){
+				Boolean checkDelete = orderService.cancelOrderAndListOrderDetail(request.getId());
+				if(checkDelete) {
+					logger.warn("Pedido:"+request.getId() + " cancelado");
+					response.setResponseMessage("Se canceló correctamente su orden");
+					return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.OK);
+				}
+				else { 
+					logger.warn("Pedido:"+request.getId() + " no pudo ser cancelado");
+					
+					response.setResponseMessage("Error al cancelar la orden");
+					return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+				}
 			}
-			else { 
-				logger.warn("Pedido:"+request.getData().getId() + " no pudo ser cancelado");
-				
-				response.setResponseMessage("Error al cancelar la orden");
+			else {
+				logger.warn("Pedido:"+request.getId() + " excedió el limite de tiempo");	
+				response.setResponseMessage("Error al cancelar la orden, el pedido excedió el limite de tiempo permitido");
 				return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+		}catch(Exception e) {
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage("Error al cancelar el pedido, pedido no existe");
+			logger.error("ERORR ==> "+ e.getMessage());
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		else {
-			logger.warn("Pedido:"+request.getData().getId() + " excedió el limite de tiempo");	
-			response.setResponseMessage("Error al cancelar la orden, el pedido excedió el limite de tiempo permitido");
+	}
+	
+	@PostMapping(path="/golbspac")
+	public ResponseEntity<GenericResponse<OrderEntity>> getOrderListByStatusPendingAndClientId(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
+		logger.info("OrderController.getOrderListByStatusPendingAndClientId()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		try {
+			response.setDatalist(orderService.getListOrderByStatusAndClientId(Constants.ORDER_STATUS_PENDING,request.getId()));
+			response.setResponseCode(Constants.SUCCESS_SHOW_LIST);
+			response.setFinalTimesTamp(LocalDateTime.now());
+			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.OK);
+		}catch(Exception e){
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage("Ocurrio un error al buscar el pedido");
+			logger.error("ERORR ==> ",e.getMessage());
 			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

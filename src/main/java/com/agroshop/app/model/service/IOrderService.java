@@ -19,8 +19,10 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	
 	public List<OrderEntity> getListOrderByFields(SearchOrderByFieldsDTO dto);
 	
-	public boolean isCancel(OrderEntity or);
+	public boolean isCancel(Integer orderId) throws Throwable;
 	
-	public boolean cancelOrderAndListOrderDetail(OrderEntity order);
+	public boolean cancelOrderAndListOrderDetail(Integer orderId);
+	
+	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id);
 
 }
