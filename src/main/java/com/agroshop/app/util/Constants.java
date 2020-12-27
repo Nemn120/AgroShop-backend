@@ -92,7 +92,10 @@ public class Constants {
 
 	public static final String USERNAME_DUPLICATE="El nombre de usuario ya esta en uso";
 
-
+	public static final String RUTA_CONTRATO = "src/main/resources/Contrato";
+	
+	//WORD
+	public static final String ARIAL_FONT = "Arial";
 }
 
 
