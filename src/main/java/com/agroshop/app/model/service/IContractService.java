@@ -19,9 +19,8 @@ public interface IContractService {
 	
 	public ContractEntity enableContract(ContractEntity contract) throws Throwable;
 	
-	public String createContract(Integer id) throws Throwable;
+	public String createContract(ContractEntity contract) throws Throwable;
 	
-	public byte[] getContract(Integer id) throws Throwable;
+	public String getContract(Integer id) throws Throwable;
 	
-	public List<ContractEntity> getContractByPostulation(Integer id) throws Throwable; 
 }

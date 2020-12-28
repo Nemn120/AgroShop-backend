@@ -63,7 +63,7 @@ public class ConvertNumberToLetter {
 	private String getCentenas(String num) {
 		if (Integer.parseInt(num) > 99) {
 			if (Integer.parseInt(num) == 100) {
-				return " cien ";
+				return "cien ";
 			} else {
 				return centenas[Integer.parseInt(num.substring(0, 1))] + getDecenas(num.substring(1));
 			}
@@ -95,5 +95,48 @@ public class ConvertNumberToLetter {
 			n = getUnidades(millon) + "millon ";
 		}
 		return n + getMiles(miles);
+	}
+
+	public static String convertMonth(int day, int nMonth, int year) {
+		String month = null;
+		switch (nMonth) {
+		case (1):
+			month = "Enero";
+			break;
+		case (2):
+			month = "Febrero";
+			break;
+		case (3):
+			month = "Marzo";
+			break;
+		case (4):
+			month = "Abril";
+			break;
+		case (5):
+			month = "Mayo";
+			break;
+		case (6):
+			month = "Junio";
+			break;
+		case (7):
+			month = "Julio";
+			break;
+		case (8):
+			month = "Agosto";
+			break;
+		case (9):
+			month = "Setiembre";
+			break;
+		case (10):
+			month = "Octubre";
+			break;
+		case (11):
+			month = "Noviembre";
+			break;
+		case (12):
+			month = "Diciembre";
+			break;
+		}
+		return day + " de " + month + " del " + year;
 	}
 }

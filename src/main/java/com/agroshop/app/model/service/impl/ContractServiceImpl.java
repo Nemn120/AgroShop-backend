@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.TextAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -26,21 +29,25 @@ import com.agroshop.app.util.Constants;
 import com.agroshop.app.util.ConvertNumberToLetter;
 import com.agroshop.app.util.WordConstant;
 import com.agroshop.app.util.WordFunction;
+
 @Service
 public class ContractServiceImpl implements IContractService {
-	
+
 	@Autowired
 	private IContractRepository repoContract;
-	
+
 	@Autowired
 	private IPostulationService postulationService;
-	
+
+	private static final Logger logger = LogManager.getLogger(ContractServiceImpl.class);
+
 	private FileOutputStream out;
 	private FileInputStream fis;
 
 	@Override
 	@Transactional(readOnly = false)
 	public ContractEntity registerContract(ContractEntity contract) {
+		contract.setStatus(Constants.STATUS_CONTRACT_GENERATED);
 		return repoContract.save(contract);
 	}
 
@@ -62,28 +69,35 @@ public class ContractServiceImpl implements IContractService {
 	}
 
 	@Override
-	public ContractEntity enableContract(ContractEntity contract) throws Throwable{
-		PostulationEntity postulation = postulationService.getOneById(contract.getPostulation().getId());
-		
-		contract.setStatus("Generated");
-		contract.setPostulation(postulation);
-		contract.setContractDate(contract.getContractDate());
-		contract.setEndContract(contract.getEndContract());
+	public ContractEntity enableContract(ContractEntity contract) throws Throwable {
+		// ContractEntity contractNew = new ContractEntity();
+		PostulationEntity postulation = new PostulationEntity();
+		postulation = postulationService.getOneById(contract.getPostulation().getId());
+		contract.setStatus(Constants.STATUS_CONTRACT_NO_GENERATED);
+		contract.setCreateDate(LocalDateTime.now());
+		contract.setUpdateDate(LocalDateTime.now());
 		contract.setExpired(false);
+		contract.setIsDeleted(false);
+
+		contract.setPostulation(postulation);
+		// contract.setContractDate(contract.getContractDate());
+		contract.setEndContract(contract.getEndContract());
 		contract.setInitDate(contract.getInitDate());
 		contract.setNameContract(contract.getNameContract());
 		contract.setTimeContract(contract.getTimeContract());
-		return repoContract.save(contract);
+		// contractNew = repoContract.save(contract);
+
+		return contract;
 	}
 
 	@Override
-	public String createContract(Integer id) throws IOException {
-		ContractEntity contract = repoContract.findById(id).orElse(new ContractEntity());
-		
+	public String createContract(ContractEntity contract) throws IOException {
+
 		String directory = System.getProperty("user.dir");
 		String separator = System.getProperty("file.separator");
 		String randomUIID = UUID.randomUUID().toString();
 		String ruta = directory + separator + Constants.RUTA_CONTRATO + separator + randomUIID + ".docx";
+
 		File file = new File(ruta);
 		if (!file.createNewFile()) {
 			throw new IOException("No se pudo crear el contrato, la ruta no existe");
@@ -91,7 +105,7 @@ public class ContractServiceImpl implements IContractService {
 
 		ConvertNumberToLetter convertidor = new ConvertNumberToLetter();
 		XWPFDocument documento = new XWPFDocument();
-		
+
 		try {
 			out = new FileOutputStream(new File(ruta));
 			WordConstant constante = new WordConstant();
@@ -99,8 +113,10 @@ public class ContractServiceImpl implements IContractService {
 			String prfA1 = constante.parrafo1().getText1();
 			String prfA2 = constante.parrafo1().getText2();
 			String prfA3 = constante.parrafo1().getText3()
-					.replace("$agricultor_nombres$", contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName())
-					.replace("$agricultor_apellidos$", contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName());
+					.replace("$agricultor_nombres$",
+							contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName())
+					.replace("$agricultor_apellidos$",
+							contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName());
 			String prfA4 = constante.parrafo1().getText4().replace("$dni_agricultor$",
 					contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getDocumentNumber());
 			String prfA5 = constante.parrafo1().getText5().replace("$direccion_agricultor$",
@@ -110,13 +126,14 @@ public class ContractServiceImpl implements IContractService {
 					.replace("$conductor_nombre$", contract.getPostulation().getDriver().getUser().getName())
 					.replace("$conductor_apellidos$", contract.getPostulation().getDriver().getUser().getLastName())
 					.replace("$dni_conductor$", contract.getPostulation().getDriver().getUser().getDocumentNumber())
-					.replace("$direccion_conductor$", contract.getPostulation().getDriver().getUser().getAddress());
+					.replace("$direccion_conductor$", contract.getPostulation().getDriver().getUser().getAddress())
+			.replace("$anio_experiencia$", contract.getPostulation().getDriver().getYearsOfExperience());
 
 			String subtitleAntece = constante.subtituloAntecedente().getText1();
 
 			String prfB1 = constante.parrafo2().getText1();
-			String prfB2 = constante.parrafo2().getText2()
-					.replace("$licencia_vehiculo$", contract.getPostulation().getDriver().getDriverLicenseNumber());
+			String prfB2 = constante.parrafo2().getText2().replace("$licencia_vehiculo$",
+					contract.getPostulation().getDriver().getDriverLicenseNumber());
 
 			String prfC1 = constante.parrafo3().getText1();
 			String prfC2 = constante.parrafo3().getText2();
@@ -141,8 +158,8 @@ public class ContractServiceImpl implements IContractService {
 			String prfE3 = constante.parrafo5().getText3();
 			String prfE4 = constante.parrafo5().getText4()
 					.replace("$monto_salario$", contract.getPostulation().getJobOffer().getShippingCost().toString())
-					.replace("$monto_salario_letras$",
-							convertidor.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true));
+					.replace("$monto_salario_letras$", convertidor
+							.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true));
 
 			String prfF1 = constante.parrafo6().getText1();
 			String prfF2 = constante.parrafo6().getText2();
@@ -150,7 +167,8 @@ public class ContractServiceImpl implements IContractService {
 			String prfF4 = constante.parrafo6().getText4();
 			String prfF5 = constante.parrafo6().getText5()
 					.replace("$monto_garantia$", contract.getPostulation().getJobOffer().getShippingCost().toString())
-					.replace("$monto_garantia_letras$", convertidor.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true));
+					.replace("$monto_garantia_letras$", convertidor
+							.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true));
 			String prfF6 = constante.parrafo6().getText6();
 
 			String prfG1 = constante.parrafo7().getText1();
@@ -158,16 +176,34 @@ public class ContractServiceImpl implements IContractService {
 			String prfG3 = constante.parrafo7().getText3();
 			String prfG4 = constante.parrafo7().getText4();
 			String prfG5 = constante.parrafo7().getText5();
-			String prfG6 = constante.parrafo7().getText6().replace("$dia_pago_mes$",
-					contract.getPostulation().getJobOffer().getOrder().getAttendDate().toString());
+
+			String date_pay =  ConvertNumberToLetter.convertMonth(contract.getPostulation().getJobOffer().getOrder().getAttendDate().getDayOfMonth(),
+					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getMonthValue(), 
+					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getYear());
+
+			String prfG6 = constante.parrafo7().getText6().replace("$dia_pago_mes$", date_pay);
 
 			String subtitlePlazoContrat = constante.subtituloPlazoContrato().getText1();
 
 			String prfH1 = constante.parrafo8().getText1();
+			
+			String init_contract =  ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
+					contract.getInitDate().getDayOfMonth(), 
+					contract.getInitDate().getYear());
+			
+			String end_contract =  ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(),
+					contract.getEndContract().getDayOfMonth(), 
+					contract.getEndContract().getYear());
+			
 			String prfH2 = constante.parrafo8().getText2()
 					.replace("$tiempo_contrato$", contract.getTimeContract().toString())
-					.replace("$fecha_contrato_inicio$", contract.getInitDate().toString())
-					.replace("$fecha_contrato_fin$", contract.getEndContract().toString());
+					.replace("$fecha_contrato_inicio$", init_contract)
+					.replace("$fecha_contrato_fin$", end_contract)
+					.replace("$monto_costo$", contract.getPostulation().getJobOffer().getShippingCost().toString())
+					.replace("$origin$", "la región de " + contract.getPostulation().getJobOffer().getOriginRegion() + " provincia de " 
+							+ contract.getPostulation().getJobOffer().getOriginProvince() + " ubicado en el distrito de " 
+							+ contract.getPostulation().getJobOffer().getOriginDistrict())
+					.replace("$peso$", contract.getPostulation().getJobOffer().getTotalWeight().toString());
 
 			String subtitleObligacion = constante.subtituloObligaciones().getText1();
 
@@ -182,11 +218,9 @@ public class ContractServiceImpl implements IContractService {
 			String prfK3 = constante.parrafo11().getText3();
 			String prfK4 = constante.parrafo11().getText4();
 
-			String prfL1Arrendatario = constante.parrafo12ReparacionArrendatario().getText1();
-			String prfL2Arrendatario = constante.parrafo12ReparacionArrendatario().getText2();
+			String prfL1Arrendatario = constante.parrafo12ReparacionConductor().getText1();
+			String prfL2Arrendatario = constante.parrafo12ReparacionConductor().getText2();
 
-			String prfL1Arrendador = constante.parrafo12ReparacionArrendero().getText1();
-			String prfL2Arrendador = constante.parrafo12ReparacionArrendero().getText2();
 
 			String prfM1 = constante.parrafo13().getText1();
 			String prfM2 = constante.parrafo13().getText2();
@@ -201,11 +235,11 @@ public class ContractServiceImpl implements IContractService {
 			String prfO1 = constante.parrafo15().getText1();
 			String prfO2 = constante.parrafo15().getText2();
 			String prfO3 = constante.parrafo15().getText3();
+			Double penalidad = contract.getPostulation().getJobOffer().getShippingCost() * 0.1;
 			String prfO4 = constante.parrafo15().getText4()
-					.replace("$penalidad$",
-							contract.getPostulation().getJobOffer().getShippingCost().toString())
-					.replace("$penalidad_letras$", convertidor.convertir(
-							contract.getPostulation().getJobOffer().getShippingCost() + "", true));
+					.replace("$penalidad$", penalidad.toString())
+					.replace("$penalidad_letras$", convertidor
+							.convertir(penalidad + "", true));
 
 			String subtitleClausuGarant = constante.subtituloClausulaGarantia().getText1();
 
@@ -232,19 +266,19 @@ public class ContractServiceImpl implements IContractService {
 			XWPFParagraph parrafoA = documento.createParagraph();
 			parrafoA.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aA = parrafoA.createRun();
-			WordFunction.setearParrafoNormal(aA,prfA1);
+			WordFunction.setearParrafoNormal(aA, prfA1);
 			XWPFRun bA = parrafoA.createRun();
-			WordFunction.setearParrafoNegrita(bA,prfA2);
+			WordFunction.setearParrafoNegrita(bA, prfA2);
 			XWPFRun cA = parrafoA.createRun();
-			WordFunction.setearParrafoNormal(cA,prfA3);
+			WordFunction.setearParrafoNormal(cA, prfA3);
 			XWPFRun dA = parrafoA.createRun();
-			WordFunction.setearParrafoNegrita(dA,prfA4);
+			WordFunction.setearParrafoNegrita(dA, prfA4);
 			XWPFRun eA = parrafoA.createRun();
-			WordFunction.setearParrafoNormal(eA,prfA5);
+			WordFunction.setearParrafoNormal(eA, prfA5);
 			XWPFRun fA = parrafoA.createRun();
-			WordFunction.setearParrafoNegrita(fA,prfA6);
+			WordFunction.setearParrafoNegrita(fA, prfA6);
 			XWPFRun gA = parrafoA.createRun();
-			WordFunction.setearParrafoNormal(gA,prfA7);
+			WordFunction.setearParrafoNormal(gA, prfA7);
 			gA.addBreak();
 
 			XWPFParagraph subtituloAntecedente = documento.createParagraph();
@@ -255,16 +289,16 @@ public class ContractServiceImpl implements IContractService {
 			XWPFParagraph parrafoB = documento.createParagraph();
 			parrafoB.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aB = parrafoB.createRun();
-			WordFunction.setearParrafoNegrita(aB,prfB1);
+			WordFunction.setearParrafoNegrita(aB, prfB1);
 			XWPFRun bB = parrafoB.createRun();
-			WordFunction.setearParrafoNormal(bB,prfB2);
+			WordFunction.setearParrafoNormal(bB, prfB2);
 
 			XWPFParagraph parrafoC = documento.createParagraph();
 			parrafoC.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aC = parrafoC.createRun();
-			WordFunction.setearParrafoNegrita(aC,prfC1);
+			WordFunction.setearParrafoNegrita(aC, prfC1);
 			XWPFRun bC = parrafoC.createRun();
-			WordFunction.setearParrafoNormal(bC,prfC2);
+			WordFunction.setearParrafoNormal(bC, prfC2);
 			bC.addBreak();
 
 			XWPFParagraph subtituloContrato = documento.createParagraph();
@@ -275,25 +309,25 @@ public class ContractServiceImpl implements IContractService {
 			XWPFParagraph parrafoD = documento.createParagraph();
 			parrafoD.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aD = parrafoD.createRun();
-			WordFunction.setearParrafoNegrita(aD,prfD1);
+			WordFunction.setearParrafoNegrita(aD, prfD1);
 			XWPFRun bD = parrafoD.createRun();
-			WordFunction.setearParrafoNormal(bD,prfD2);
+			WordFunction.setearParrafoNormal(bD, prfD2);
 			XWPFRun cD = parrafoD.createRun();
-			WordFunction.setearParrafoNegrita(cD,prfD3);
+			WordFunction.setearParrafoNegrita(cD, prfD3);
 			XWPFRun dD = parrafoD.createRun();
-			WordFunction.setearParrafoNormal(dD,prfD4);
+			WordFunction.setearParrafoNormal(dD, prfD4);
 			XWPFRun eD = parrafoD.createRun();
-			WordFunction.setearParrafoNegrita(eD,prfD5);
+			WordFunction.setearParrafoNegrita(eD, prfD5);
 			XWPFRun fD = parrafoD.createRun();
-			WordFunction.setearParrafoNormal(fD,prfD6);
+			WordFunction.setearParrafoNormal(fD, prfD6);
 			XWPFRun gD = parrafoD.createRun();
-			WordFunction.setearParrafoNegrita(gD,prfD7);
+			WordFunction.setearParrafoNegrita(gD, prfD7);
 			XWPFRun hD = parrafoD.createRun();
-			WordFunction.setearParrafoNormal(hD,prfD8);
+			WordFunction.setearParrafoNormal(hD, prfD8);
 			XWPFRun iD = parrafoD.createRun();
-			WordFunction.setearParrafoNegrita(iD,prfD9);
+			WordFunction.setearParrafoNegrita(iD, prfD9);
 			XWPFRun jD = parrafoD.createRun();
-			WordFunction.setearParrafoNormal(jD,prfD10);
+			WordFunction.setearParrafoNormal(jD, prfD10);
 			jD.addBreak();
 
 			XWPFParagraph subtituloOportPago = documento.createParagraph();
@@ -304,43 +338,43 @@ public class ContractServiceImpl implements IContractService {
 			XWPFParagraph parrafoE = documento.createParagraph();
 			parrafoE.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aE = parrafoE.createRun();
-			WordFunction.setearParrafoNegrita(aE,prfE1);
+			WordFunction.setearParrafoNegrita(aE, prfE1);
 			XWPFRun bE = parrafoE.createRun();
-			WordFunction.setearParrafoNormal(bE,prfE2);
+			WordFunction.setearParrafoNormal(bE, prfE2);
 			XWPFRun cE = parrafoE.createRun();
-			WordFunction.setearParrafoNegrita(cE,prfE3);
+			WordFunction.setearParrafoNegrita(cE, prfE3);
 			XWPFRun dE = parrafoE.createRun();
-			WordFunction.setearParrafoNormal(dE,prfE4);
+			WordFunction.setearParrafoNormal(dE, prfE4);
 
 			XWPFParagraph parrafoF = documento.createParagraph();
 			parrafoF.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aF = parrafoF.createRun();
-			WordFunction.setearParrafoNormal(aF,prfF1);
+			WordFunction.setearParrafoNormal(aF, prfF1);
 			XWPFRun bF = parrafoF.createRun();
-			WordFunction.setearParrafoNegrita(bF,prfF2);
+			WordFunction.setearParrafoNegrita(bF, prfF2);
 			XWPFRun cF = parrafoF.createRun();
-			WordFunction.setearParrafoNormal(cF,prfF3);
+			WordFunction.setearParrafoNormal(cF, prfF3);
 			XWPFRun dF = parrafoF.createRun();
-			WordFunction.setearParrafoNegrita(dF,prfF4);
+			WordFunction.setearParrafoNegrita(dF, prfF4);
 			XWPFRun eF = parrafoF.createRun();
-			WordFunction.setearParrafoNormal(eF,prfF5);
+			WordFunction.setearParrafoNormal(eF, prfF5);
 			XWPFRun fF = parrafoF.createRun();
-			WordFunction.setearParrafoNegrita(fF,prfF6);
+			WordFunction.setearParrafoNegrita(fF, prfF6);
 
 			XWPFParagraph parrafoG = documento.createParagraph();
 			parrafoG.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aG = parrafoG.createRun();
-			WordFunction.setearParrafoNegrita(aG,prfG1);
+			WordFunction.setearParrafoNegrita(aG, prfG1);
 			XWPFRun bG = parrafoG.createRun();
-			WordFunction.setearParrafoNormal(bG,prfG2);
+			WordFunction.setearParrafoNormal(bG, prfG2);
 			XWPFRun cG = parrafoG.createRun();
-			WordFunction.setearParrafoNegrita(cG,prfG3);
+			WordFunction.setearParrafoNegrita(cG, prfG3);
 			XWPFRun dG = parrafoG.createRun();
-			WordFunction.setearParrafoNormal(dG,prfG4);
+			WordFunction.setearParrafoNormal(dG, prfG4);
 			XWPFRun eG = parrafoG.createRun();
-			WordFunction.setearParrafoNegrita(eG,prfG5);
+			WordFunction.setearParrafoNegrita(eG, prfG5);
 			XWPFRun fG = parrafoG.createRun();
-			WordFunction.setearParrafoNormal(fG,prfG6);
+			WordFunction.setearParrafoNormal(fG, prfG6);
 			fG.addBreak();
 
 			XWPFParagraph subtituloPlazoContrato = documento.createParagraph();
@@ -351,9 +385,9 @@ public class ContractServiceImpl implements IContractService {
 			XWPFParagraph parrafoH = documento.createParagraph();
 			parrafoH.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aH = parrafoH.createRun();
-			WordFunction.setearParrafoNegrita(aH,prfH1);
+			WordFunction.setearParrafoNegrita(aH, prfH1);
 			XWPFRun bH = parrafoH.createRun();
-			WordFunction.setearParrafoNormal(bH,prfH2);
+			WordFunction.setearParrafoNormal(bH, prfH2);
 			bH.addBreak();
 
 			XWPFParagraph subtituloOblPartes = documento.createParagraph();
@@ -364,34 +398,34 @@ public class ContractServiceImpl implements IContractService {
 			XWPFParagraph parrafoI = documento.createParagraph();
 			parrafoI.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aI = parrafoI.createRun();
-			WordFunction.setearParrafoNegrita(aI,prfI1);
+			WordFunction.setearParrafoNegrita(aI, prfI1);
 			XWPFRun bI = parrafoI.createRun();
-			WordFunction.setearParrafoNormal(bI,prfI2);
+			WordFunction.setearParrafoNormal(bI, prfI2);
 
 			XWPFParagraph parrafoJ = documento.createParagraph();
 			parrafoJ.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aJ = parrafoJ.createRun();
-			WordFunction.setearParrafoNegrita(aJ,prfJ1);
+			WordFunction.setearParrafoNegrita(aJ, prfJ1);
 			XWPFRun bJ = parrafoJ.createRun();
-			WordFunction.setearParrafoNormal(bJ,prfJ2);
-			
+			WordFunction.setearParrafoNormal(bJ, prfJ2);
+
 			XWPFParagraph parrafoK = documento.createParagraph();
 			parrafoK.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aK = parrafoK.createRun();
-			WordFunction.setearParrafoNegrita(aK,prfK1);
+			WordFunction.setearParrafoNegrita(aK, prfK1);
 			XWPFRun bK = parrafoK.createRun();
-			WordFunction.setearParrafoNormal(bK,prfK2);
+			WordFunction.setearParrafoNormal(bK, prfK2);
 			XWPFRun cK = parrafoK.createRun();
-			WordFunction.setearParrafoNegrita(cK,prfK3);
+			WordFunction.setearParrafoNegrita(cK, prfK3);
 			XWPFRun dK = parrafoK.createRun();
-			WordFunction.setearParrafoNormal(dK,prfK4);
+			WordFunction.setearParrafoNormal(dK, prfK4);
 
 			XWPFParagraph parrafoL = documento.createParagraph();
 			parrafoL.setAlignment(ParagraphAlignment.BOTH);
-				XWPFRun aL = parrafoL.createRun();
-				WordFunction.setearParrafoNegrita(aL, prfL1Arrendatario);
-				XWPFRun bL = parrafoL.createRun();
-				WordFunction.setearParrafoNormal(bL, prfL2Arrendatario);
+			XWPFRun aL = parrafoL.createRun();
+			WordFunction.setearParrafoNegrita(aL, prfL1Arrendatario);
+			XWPFRun bL = parrafoL.createRun();
+			WordFunction.setearParrafoNormal(bL, prfL2Arrendatario);
 			XWPFParagraph parrafoM = documento.createParagraph();
 			parrafoM.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aM = parrafoM.createRun();
@@ -449,7 +483,7 @@ public class ContractServiceImpl implements IContractService {
 			subtituloClausuConflicto.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun subClauConf = subtituloClausuConflicto.createRun();
 			WordFunction.setearParrafoSubrayadoYNegrita(subClauConf, subtitleClausuSolConflict);
-	
+
 			XWPFParagraph parrafoQ = documento.createParagraph();
 			parrafoQ.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun aQ = parrafoQ.createRun();
@@ -481,38 +515,17 @@ public class ContractServiceImpl implements IContractService {
 			documento.close();
 			out.close();
 		}
-		
-		return null;
-		
+
+		return ruta;
+
 	}
 
 	@Override
-	public byte[] getContract(Integer id) throws Exception {
-		byte[] bArray = null;
-		try {
+	public String getContract(Integer id) throws Exception {
 			Optional<ContractEntity> op = repoContract.findById(id);
 			ContractEntity contract = op.isPresent() ? op.get() : new ContractEntity();
-			String directory = System.getProperty("user.dir");
-			String separator = System.getProperty("file.separator");
-			String path = directory + separator + Constants.RUTA_CONTRATO + separator + contract.getFileContract()
-					+ ".docx";
-			File archivo = new File(path);
-			fis = new FileInputStream(archivo);
-			bArray = new byte[(int) archivo.length()];
-			while (fis.read(bArray) > 0) {
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			fis.close();
-		}
-		return bArray;
-	}
-
-	@Override
-	public List<ContractEntity> getContractByPostulation(Integer id) {
-		PostulationEntity postulation = postulationService.getOneById(id);
-		return repoContract.findByPostulation(postulation);
+			return contract.getFileContract();
+			
 	}
 
 }

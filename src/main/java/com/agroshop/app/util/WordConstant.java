@@ -3,7 +3,7 @@ package com.agroshop.app.util;
 public class WordConstant {
 	public WordData titulo() {
 		WordData titulo = new WordData();
-		titulo.setText1("CONTRATO DE RECOJO Y ENTREGA");
+		titulo.setText1("CONTRATO DE SERVICIO DE TRANSPORTE");
 		return titulo;
 	}
 	
@@ -12,11 +12,11 @@ public class WordConstant {
 		parrafo.setText1("Conste por el presente contrato que celebran de una parte como ");
 		parrafo.setText2("AGRICULTOR(A) ");
 		parrafo.setText3("el(la) Señor(a) $agricultor_nombres$ $agricultor_apellidos$ identificado(a) con ");
-		parrafo.setText4("DNI N° $dni_agricultor$ ");
-		parrafo.setText5(",con domicilio en la $direccion_agricultor$; y de la otra parte como ");
+		parrafo.setText4("DNI N° $dni_agricultor$");
+		parrafo.setText5(", con domicilio en la $direccion_agricultor$; y de la otra parte como ");
 		parrafo.setText6("EL(LA) CONDUCTOR(A) ");
 		parrafo.setText7("el señor(a) $conductor_nombre$ $conductor_apellidos$. Identificado(a) con DNI N° "
-				+ "$dni_conductor$  y domiciliado(a) en $direccion_conductor$; quienes convienen de mutuo " + 
+				+ "$dni_conductor$, domiciliado(a) en $direccion_conductor$ y $anio_experiencia$ años de experiencia quienes convienen de mutuo " + 
 				"acuerdo y regulado por las leyes vigentes sobre la materia, en los términos y condiciones siguientes:");
 		return parrafo;
 	}
@@ -30,8 +30,8 @@ public class WordConstant {
 	public WordData parrafo2() {
 		WordData parrafo = new WordData();
 		parrafo.setText1("PRIMERA. - EL(LA) CONDUCTOR(A) ");
-		parrafo.setText2("es propietario(a) del vehículo identificado con licencia $licencia_vehiculo$"
-				+ "del Registro obtenido del ministerio de trasnportes, cuya especificaciones como color, peso y medidas perimétricas "
+		parrafo.setText2("es propietario(a) del vehículo identificado con licencia $licencia_vehiculo$ "
+				+ "del Registro obtenido del ministerio de transportes, cuyas especificaciones como color, peso y medidas perimétricas "
 				+ "se hallan consignadas en el referido documento registral.");
 		return parrafo;
 	}
@@ -57,13 +57,13 @@ public class WordConstant {
 		parrafo.setText2("Mediante el presente contrato ");
 		parrafo.setText3("EL(LA) AGRICULTOR(A) ");
 		parrafo.setText4("da por aceptado al ");
-		parrafo.setText5("CONDUCTOR(A), ");
+		parrafo.setText5("CONDUCTOR(A),");
 		parrafo.setText6(" el producto especificado en la cláusula primera para destinarlo únicamente a " + 
 				"la dirección consignada de envío, el cual es recibido en perfecto estado de operatividad, conforme a lo señalado en " + 
 				"la cláusula segunda. Por su parte, el ");
 		parrafo.setText7("CONDUCTOR(A) ");
 		parrafo.setText8("se obliga a entregar completamente el producto.");
-		parrafo.setText9("EL(LA) CLIENTE(A) y a recibir");
+		parrafo.setText9(" EL(LA) CLIENTE(A) y a recibir ");
 		parrafo.setText10("el monto del salario pactada en la cláusula siguiente, en la forma y oportunidad convenidas.");
 		return parrafo;
 	}
@@ -92,7 +92,7 @@ public class WordConstant {
 		parrafo.setText3("entrega al ");
 		parrafo.setText4("CONDUCTOR(A) ");
 		parrafo.setText5("la suma de S/.$monto_garantia$ ($monto_garantia_letras$) por concepto de garantía del pago, "
-				+ "los cuales no generaran intereses ni rentas y serán devueltas a la entrega del bien, "
+				+ "los cuales no generarán intereses ni rentas y serán devueltas a la entrega del bien, "
 				+ "previa verificación del cumplimiento de todos los pagos a los que está obligado ");
 		parrafo.setText6("el(la) AGRICULTOR(A).");
 		return parrafo;
@@ -101,7 +101,7 @@ public class WordConstant {
 	public WordData parrafo7() {
 		WordData parrafo = new WordData();
 		parrafo.setText1("QUINTA. - ");
-		parrafo.setText2("La forma de pago de la renta será por mensualidades adelantadas que el(la) ");
+		parrafo.setText2("La forma de pago del servicio será por mensualidades adelantadas que el(la) ");
 		parrafo.setText3("AGRICULTOR(A) ");
 		parrafo.setText4("pagará en la cuenta de ");
 		parrafo.setText5("EL(LA) CONDUCTOR(A) ");
@@ -121,7 +121,7 @@ public class WordConstant {
 		parrafo.setText2("El plazo del presente contrato es de $tiempo_contrato$ meses, el cual regirá a partir del "
 				+ "$fecha_contrato_inicio$ hasta el $fecha_contrato_fin$, a cuyo vencimiento podrá renovarse "
 				+ "con el acuerdo de ambas partes, pudiendo variar las condiciones establecidas en el presente "
-				+ "contrato, en cuanto al plazo, monto del servicio y uso del mismo.");
+				+ "contrato, en cuanto al plazo, el monto establecido por un valor de $monto_costo$ soles del servicio de envío de carga desde $origin$, con un total de carga equivalente a $peso$ KG");
 		return parrafo;
 	}
 	
@@ -158,7 +158,7 @@ public class WordConstant {
 		return parrafo;
 	}
 	
-	public WordData parrafo12ReparacionArrendatario() {
+	public WordData parrafo12ReparacionConductor() {
 		WordData parrafo = new WordData();
 		parrafo.setText1("DECIMA. - EL(LA) CONDUCTOR(A) ");
 		parrafo.setText2("está obligado a efectuar por cuenta y costo " + 
@@ -167,7 +167,7 @@ public class WordConstant {
 		return parrafo;
 	}
 	
-	public WordData parrafo12ReparacionArrendero() {
+	public WordData parrafo12ReparacionAgricultor() {
 		WordData parrafo = new WordData();
 		parrafo.setText1("DECIMA. - EL(LA) AGRICULTOR(A) ");
 		parrafo.setText2("no está obligado a efectuar por cuenta y costo " + 
@@ -179,8 +179,8 @@ public class WordConstant {
 	public WordData parrafo13() {
 		WordData parrafo = new WordData();
 		parrafo.setText1("DECIMO PRIMERA. - EL(LA) CONDUCTOR(A) ");
-		parrafo.setText2("no podrá ceder a terceros el vehivulo materia del presente contrato bojo "
-				+ "ningún típo de servicio externo, ni alquilarlo, total o parcialmente, ni ceder su "
+		parrafo.setText2("no podrá ceder a terceros el vehículo materia del presente contrato bajo "
+				+ "ningún tipo de servicio externo, ni alquilarlo, total o parcialmente, ni ceder su "
 				+ "posición contractual, salvo que cuente con el consentimiento expreso y por escrito de ");
 		parrafo.setText3("EL(LA) AGRICULTOR(A) ");
 		parrafo.setText4("en cuyo caso se suscribirán los documentos que fueren necesarios.");
@@ -192,7 +192,7 @@ public class WordConstant {
 		parrafo.setText1("DECIMO SEGUNDA. - EL(LA) CONDUCTOR(A) ");
 		parrafo.setText2("se obliga a desvincularse del agricultor una vez el contrato se ha culminado en la " + 
 				"fecha de vencimiento del plazo estipulado en la cláusula sexta de este contrato, salvo " + 
-				"renovación del mismo.");
+				"renovación de este.");
 		return parrafo;
 	}
 	
@@ -205,7 +205,7 @@ public class WordConstant {
 	public WordData parrafo15() {
 		WordData parrafo = new WordData();
 		parrafo.setText1("DECIMO TERCERA. - ");
-		parrafo.setText2("En caso de incumplimiento de lo estipulado en la cláusula décimo segunda, ");
+		parrafo.setText2("En caso de incumplimiento de lo estipulado en la cláusula decimosegunda, ");
 		parrafo.setText3("EL(LA) CONDUCTOR(A) ");
 		parrafo.setText4("deberá pagar en calidad de penalidad compensatorio un " + 
 				"importe ascendente a S/. $penalidad$ ($penalidad_letras$), por cada día de " + 
@@ -225,8 +225,8 @@ public class WordConstant {
 		parrafo.setText2("El mencionado depósito en garantía le será devuelto al ");
 		parrafo.setText3("CONDUCTOR(A) ");
 		parrafo.setText4("sin intereses o rentas, al vencimiento del presente contrato, siempre que no haya sido renovado, y una vez " + 
-				"verificado el estado de envio del producto. Las partes dejan establecido que el "
-				+ "depósito en garantía, no podrá ser destinado a cubrir ningún tipo de pago de ningún período.");
+				"verificado el estado de envío del producto. Las partes dejan establecido que el "
+				+ "depósito en garantía no podrá ser destinado a cubrir ningún tipo de pago de ningún período.");
 		return parrafo;
 	}
 	
@@ -243,7 +243,7 @@ public class WordConstant {
 		parrafo.setText3("CONDUCTOR(A) ");
 		parrafo.setText4("sin intereses o rentas, al vencimiento del presente contrato, siempre que no haya sido renovado, y una vez " + 
 				"verificado el estado de envío del producto. Las partes dejan establecido que el "
-				+ "depósito en garantía, no podrá ser destinado a cubrir ningún tipo de pago de ningún período.");
+				+ "depósito en garantía no podrá ser destinado a cubrir ningún tipo de pago de ningún período.");
 		return parrafo;
 	}
 	

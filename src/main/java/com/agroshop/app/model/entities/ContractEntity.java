@@ -2,14 +2,18 @@ package com.agroshop.app.model.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import com.agroshop.app.util.Constants;
 
 @Entity
 @Table(name = "contrato")
@@ -23,8 +27,8 @@ public class ContractEntity {
 	@Column(nullable = false)
 	private LocalDate initDate;
 	
-	@Column(nullable = false)
-	private LocalDate contractDate;
+	// @Column(nullable = false)
+	// private LocalDate contractDate;
 	
 	@Column(nullable = false)
 	private Integer timeContract;
@@ -49,6 +53,8 @@ public class ContractEntity {
 	
 	private LocalDateTime updateDate;
 	
+	@OneToOne
+	@JoinColumn(name = "postulation_id" ,referencedColumnName = "id")
 	private PostulationEntity postulation;
 
 	public Integer getId() {
@@ -67,13 +73,13 @@ public class ContractEntity {
 		this.initDate = initDate;
 	}
 
-	public LocalDate getContractDate() {
-		return contractDate;
-	}
-
-	public void setContractDate(LocalDate contractDate) {
-		this.contractDate = contractDate;
-	}
+//	public LocalDate getContractDate() {
+//		return contractDate;
+//	}
+//
+//	public void setContractDate(LocalDate contractDate) {
+//		this.contractDate = contractDate;
+//	}
 
 	public Integer getTimeContract() {
 		return timeContract;
