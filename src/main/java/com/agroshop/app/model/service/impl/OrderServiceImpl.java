@@ -169,11 +169,11 @@ public class OrderServiceImpl implements IOrderService {
 
 		if(order==null)
 			throw new RuntimeException("La order: "+ or+ "no existe ");
+
+		logger.info("order: " + order.getCreateDate());
+		logger.info("status: " + order.getStatus());
 		
 		if(order.getStatus().equals(Constants.ORDER_STATUS_PENDING)) {
-
-			logger.info("order: " + order.getCreateDate());
-			logger.info("status: " + order.getStatus());
 			LocalDateTime time = LocalDateTime.now().plusHours(5);
 			LocalDateTime timeLimit = order.getCreateDate().plusMinutes(5);
 			logger.info("now: " + time);
