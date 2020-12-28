@@ -39,4 +39,14 @@ public class OrderDetailServiceImpl implements IOrderDetailService{
 		return orderDetailRepo.findByOrderId(id);
 	}
 
+	@Override
+	public boolean updateOrderDetailStatus(Integer id, String status) {
+		try{
+			orderDetailRepo.updateOrderDetailStatus(id, status);
+			return true;
+		}catch(Exception e) {
+
+			return false;
+		}
+	}
 }

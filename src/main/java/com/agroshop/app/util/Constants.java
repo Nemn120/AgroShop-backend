@@ -79,6 +79,10 @@ public class Constants {
 	public static final String ORDER_STATUS_DELIVERY="En camino";
 	public static final String ORDER_STATUS_DELIVERED="Entregado";
 	public static final String ORDER_STATUS_DELAY="Entregado";
+	public static final String ORDER_STATUS_CANCELED="Cancelado";
+	
+	public static final String ORDER_DETAIL_STATUS_CANCELED="Cancelado";
+	
 	
 	public static final String JOB_OFFER_AVAILABLE="Disponible";
 	public static final String JOB_OFFER_FINISHED="Finalizado";
