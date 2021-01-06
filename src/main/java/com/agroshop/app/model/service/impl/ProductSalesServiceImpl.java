@@ -6,23 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agroshop.app.controller.rest.ProductSalesController;
 import com.agroshop.app.model.entities.CategoryProductEntity;
-import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
-
-import jdk.internal.org.jline.utils.Log;
 
 @Service
 public class ProductSalesServiceImpl implements IProductSalesService {
