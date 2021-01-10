@@ -34,6 +34,16 @@ public class ProductSalesEntity extends MainEntity {
 	private Double offerPrice;
 	private String statusSales;
 	
+	@ManyToOne
+	@JoinColumn(name = "origin_place_id")
+	private PlaceEntity originPlace;
+	
+	public PlaceEntity getOriginPlace() {
+		return originPlace;
+	}
+	public void setOriginPlace(PlaceEntity originPlace) {
+		this.originPlace = originPlace;
+	}
 	public String getStatusSales() {
 		return statusSales;
 	}

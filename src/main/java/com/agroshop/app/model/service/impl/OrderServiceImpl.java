@@ -70,7 +70,6 @@ public class OrderServiceImpl implements IOrderService {
 		logger.info("OrderServiceImpl.saveOrderByManyFarmer()");
 		Map<Integer,List<OrderDetailEntity>> mapOrderDetail = new HashMap<Integer,List<OrderDetailEntity>>();
 		List<OrderBean> orderListResult = new ArrayList<OrderBean>();
-		List<OrderEntity> orderListResultEntity = new ArrayList<OrderEntity>();
 		order.getOrderDetailList().forEach(orderDetail ->{
 			if(orderDetail != null) {
 				if(mapOrderDetail.containsKey(orderDetail.getProductSales().getFarmerNumber())) {

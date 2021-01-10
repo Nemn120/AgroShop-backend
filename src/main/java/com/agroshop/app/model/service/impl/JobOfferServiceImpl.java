@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.agroshop.app.model.entities.JobOfferEntity;
 import com.agroshop.app.model.repository.IJobOfferRepository;
 import com.agroshop.app.model.service.IJobOfferService;
-
+import com.agroshop.app.model.service.IPlaceService;
 import com.agroshop.app.controller.rest.JobOfferController;
 import com.agroshop.app.model.DTO.SearchJobOfferByFieldsDTO;
 import com.agroshop.app.model.entities.JobOfferEntity;
@@ -39,6 +39,9 @@ public class JobOfferServiceImpl implements IJobOfferService{
 	
 	@Autowired
 	private IOrderRepository Orderrepo;
+	
+	@Autowired
+	private IPlaceService placeService;
 	
 	@Override
 	public List<JobOfferEntity> getAll() {
@@ -83,7 +86,7 @@ public class JobOfferServiceImpl implements IJobOfferService{
 			      .sum();
 		logger.info("peso: " + pesoTotal);
 		job.setTotalWeight(pesoTotal);
-		
+		placeService.save(job.getOriginPlace());
 		repo.save(job);
 		return job;
 		

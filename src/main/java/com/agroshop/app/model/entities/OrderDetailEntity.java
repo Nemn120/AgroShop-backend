@@ -39,8 +39,6 @@ public class OrderDetailEntity extends MainEntity {
 		this.id = id;
 	}
 	
-	
-
 	public OrderEntity getCustomOrder() {
 		return customOrder;
 	}
