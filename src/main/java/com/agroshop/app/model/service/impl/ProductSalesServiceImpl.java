@@ -127,6 +127,66 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 		t.setOriginPlace(placeService.save(t.getOriginPlace()));
 		return this.save(t);
 	}
+
+	@Override
+	public Map<String, List<ProductSalesEntity>> organizateProductByAttribute(Integer id, String attribute) {
+		List<ProductSalesEntity> products = getListProductSalesByFarmer(id);
+		
+		Map<String, List<ProductSalesEntity>> productSalesOrganize = new HashMap<>();
+		
+		
+		switch (attribute) {
+		case "category":
+						
+			List<CategoryProductEntity> categoryProducts = categoryService.getListCategory(id);
+			Set<String> categoryName = new HashSet<>();
+			
+			categoryProducts.forEach(category -> {
+				categoryName.add(category.getName());
+			});
+			
+			for (String category: categoryName) {
+				List<ProductSalesEntity> productFilter = new ArrayList<>();
+				products.forEach(p -> {
+					if(p.getProduct().getCategory().getName().equals(category)) {
+						productFilter.add(p);
+					}
+				});
+				productSalesOrganize.put(category, productFilter);
+			}
+			
+		break;
+
+		case "unit":
+			
+			Set<String> unit = new HashSet<>();
+			
+			products.forEach( product -> {
+				logger.info(product.getId());
+				unit.add(product.getMeasureUnite());
+			});
+			
+			logger.info(unit);
+			
+			for (String u: unit) {
+				List<ProductSalesEntity> productFilter = new ArrayList<>();
+				products.forEach(p -> {
+					if(p.getMeasureUnite().equals(u)) {
+						productFilter.add(p);
+					}
+				});
+				productSalesOrganize.put(u, productFilter);
+			}
+		
+		break;
+		}
+		
+		
+		
+		
+		return productSalesOrganize;
+	}
+	
 	
 
 
