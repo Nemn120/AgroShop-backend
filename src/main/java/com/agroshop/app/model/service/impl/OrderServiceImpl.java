@@ -22,10 +22,12 @@ import com.agroshop.app.model.entities.ClientEntity;
 import com.agroshop.app.model.entities.FarmerEntity;
 import com.agroshop.app.model.entities.OrderDetailEntity;
 import com.agroshop.app.model.entities.OrderEntity;
+import com.agroshop.app.model.entities.PlaceEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IOrderRepository;
 import com.agroshop.app.model.service.IOrderDetailService;
 import com.agroshop.app.model.service.IOrderService;
+import com.agroshop.app.model.service.IPlaceService;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
@@ -43,6 +45,9 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Autowired
 	private IOrderDetailService orderDetailService;
+	
+	@Autowired
+	private IPlaceService placeService;
 	
 	
 	@Override
@@ -81,6 +86,7 @@ public class OrderServiceImpl implements IOrderService {
 				}
 			}
 		});
+		order.setDestinyPlace(this.placeService.save(order.getDestinyPlace()));
 		for (Map.Entry<Integer, List<OrderDetailEntity>> entry : mapOrderDetail.entrySet()) {
 		    OrderEntity orderSave = new OrderEntity();
 		    BeanUtils.copyProperties(order, orderSave);
@@ -90,6 +96,8 @@ public class OrderServiceImpl implements IOrderService {
 		    orderSave.getFarmer().setId(entry.getKey());
 		    orderSave.setClient(new ClientEntity());
 		    orderSave.getClient().setId(order.getClient().getId());
+		    orderSave.setDestinyPlace(new PlaceEntity());
+		    orderSave.getDestinyPlace().setId(order.getDestinyPlace().getId());
 		    OrderEntity orderResponse = this.saveOrderByFarmer(orderRepo.save(orderSave));
 		    if(orderResponse != null) {
 		    	OrderBean orderResult = new OrderBean();

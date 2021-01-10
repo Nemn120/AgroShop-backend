@@ -12,9 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agroshop.app.controller.rest.ProductSalesController;
 import com.agroshop.app.model.entities.CategoryProductEntity;
-import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
@@ -131,7 +129,8 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 			t.setIsDeleted(pro.getIsDeleted());
 			t.setCreateDate(pro.getCreateDate());
 		}
-		t.setOriginPlace(placeService.save(t.getOriginPlace()));
+		if(t.getOriginPlace() != null)
+			t.setOriginPlace(placeService.save(t.getOriginPlace()));
 		return this.save(t);
 	}
 
