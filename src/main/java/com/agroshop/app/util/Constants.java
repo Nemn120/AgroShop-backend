@@ -96,7 +96,12 @@ public class Constants {
 
 	public static final String USERNAME_DUPLICATE="El nombre de usuario ya esta en uso";
 
-
+	public static final String RUTA_CONTRATO = "src/main/resources/Contrato";
+	public static final String STATUS_CONTRACT_GENERATED = "Generado";
+	public static final String STATUS_CONTRACT_NO_GENERATED = "No generado";
+	
+	//WORD
+	public static final String ARIAL_FONT = "Arial";
 }
 
 

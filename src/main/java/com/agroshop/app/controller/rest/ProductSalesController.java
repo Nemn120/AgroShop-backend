@@ -1,9 +1,13 @@
 package com.agroshop.app.controller.rest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.entities.VehicleEntity;
+import com.agroshop.app.model.service.ICategoryProductService;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
@@ -31,6 +37,9 @@ public class ProductSalesController {
 	
 	@Autowired
 	IProductSalesService productSalesService;
+	
+	@Autowired
+	private ICategoryProductService categoryService;
 	
 	@PostMapping(path="/glsps")
 	public GenericResponse<ProductSalesEntity> getListSearchProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
@@ -180,7 +189,23 @@ public class ProductSalesController {
 	}
 	
 	
-	
+	@PostMapping(path = "/opbc")
+	public GenericResponse<?> organizeProductByAttribute(@RequestBody GenericRequest<ProductEntity> request) {
+
+		GenericResponse<Map<String, List<ProductSalesEntity>>> response = new GenericResponse<>();
+		
+		try {
+			Map<String, List<ProductSalesEntity>> productSalesOrganize = new HashMap<>();
+			
+			productSalesOrganize = productSalesService.organizateProductByAttribute(request.getData().getUserCreateId(), request.getData().getCategory().getName());
+
+			response.setData(productSalesOrganize);
+		} catch(Exception e) {
+			response.setResponseMessage("Error al listar productos organizados ");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+	}
 	
 	
 }
