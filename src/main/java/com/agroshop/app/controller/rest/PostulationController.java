@@ -112,6 +112,24 @@ public class PostulationController {
 		return response;
 	}
 	
+	@PostMapping(path = "/rpbid")
+	public GenericResponse<PostulationEntity> declinePostulationById(@RequestBody GenericRequest<Integer> request) throws Throwable {
+		logger.info("PostulationController.cancelPostulationById()");
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+		try {
+			PostulationEntity postulation = postulationService.getOneById(request.getData());
+			postulation.setStatus(Constants.POSTULATION_RECEIVED_STATUS_DECLINE);
+			postulationService.save(postulation);
+			response.setResponseCode(AbstractResponse.SUCCESS);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+		} catch (Exception e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
+		}
+		return response;
+	}
+	
 	@PostMapping(path = "/gpbid")
 	public GenericResponse<PostulationEntity> getPostulationById(@RequestBody GenericRequest<Integer> request) throws Throwable {
 		logger.info("PostulationController.getPostulationById()");

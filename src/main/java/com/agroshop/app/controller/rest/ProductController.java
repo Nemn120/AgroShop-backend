@@ -22,6 +22,7 @@ import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.ProductEntity;
+import com.agroshop.app.model.service.ICategoryProductService;
 import com.agroshop.app.model.service.IProductService;
 import com.agroshop.app.util.Constants;
 
@@ -31,91 +32,94 @@ public class ProductController {
 
 	String path = "http://localhost:8080/product";
 	private static final Logger logger = LogManager.getLogger(ProductController.class);
-	
+
 	@Autowired
 	IProductService productService;
 	
-	@PostMapping(path="/sp")
+	@Autowired
+	ICategoryProductService categoryService;
 
+	@PostMapping(path = "/sp")
 
-	public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request, @RequestPart("file") MultipartFile file){
+	public GenericResponse<ProductEntity> saveProduct(@RequestPart("request") GenericRequest<ProductEntity> request,
+			@RequestPart("file") MultipartFile file) {
 
 		logger.info("saveProduct");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
-		
+
 		try {
 
-			if(file.getBytes().length >0)
+			if (file.getBytes().length > 0)
 				request.getData().setPhoto(file.getBytes());
 			response.setData(productService.save(request.getData()));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseMessage(Constants.SUCCESS_REGISTER);
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(Constants.ERROR_CREATING_PRODUCT);
 			logger.error(e.getMessage());
 		}
-		
+
 		return response;
 	}
-	
-	@GetMapping(path="/gap")
-	public 	List<ProductEntity> getAllProduct(){
+
+	@GetMapping(path = "/gap")
+	public List<ProductEntity> getAllProduct() {
 		return productService.getAll();
 	}
-	
-	@PostMapping(path="/dp")
-	public GenericResponse<ProductEntity> deleteProduct(@RequestBody GenericRequest<ProductEntity> request){
+
+	@PostMapping(path = "/dp")
+	public GenericResponse<ProductEntity> deleteProduct(@RequestBody GenericRequest<ProductEntity> request) {
 		logger.info("deleteProductSales");
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
-		
+
 		try {
-			if(productService.deleteProduct(request.getData().getId())) {
+			if (productService.deleteProduct(request.getData().getId())) {
 
 				response.setResponseMessage("Se borró el producto con exitoso");
 				response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
-			}else {
+			} else {
 				response.setResponseMessage("El producto no se puede borrar");
 				response.setResponseCode(Constants.ERROR_DELETING_PRODUCT);
 			}
 			response.setFinalTimesTamp(LocalDateTime.now());
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 			response.setResponseMessage(Constants.ERROR_DELETING_PRODUCT);
 			logger.error(e.getMessage());
 		}
-		
+
 		return response;
 	}
-	
-	@PostMapping(path="/glpbf")
-	public GenericResponse<ProductEntity> getListProductByFarmer(@RequestBody GenericRequest<ProductEntity> request){
-		
+
+	@PostMapping(path = "/glpbf")
+	public GenericResponse<ProductEntity> getListProductByFarmer(@RequestBody GenericRequest<ProductEntity> request) {
+
 		GenericResponse<ProductEntity> response = new GenericResponse<ProductEntity>();
 		try {
 			List<ProductEntity> list = productService.getListProductByFarmer(request.getData().getUserCreateId());
-			if(!list.isEmpty())
+			if (!list.isEmpty())
 				response.setResponseMessage("productos mostrados exitosamente");
 			else
 				response.setResponseMessage("No se encontraron productos");
 			response.setDatalist(list);
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			response.setResponseMessage("Error al mostrar productos");
 			response.setResponseCode(AbstractResponse.ERROR);
 		}
-		
+
 		return response;
 	}
-	
+
 	@GetMapping(value = "/gp/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<byte[]> getPhoto(@PathVariable("id") Integer id) {
 		ProductEntity c = productService.getOneById(id);
-		 byte[]	data = c.getPhoto();
+		byte[] data = c.getPhoto();
 		return new ResponseEntity<byte[]>(data, HttpStatus.OK);
 	}
 }
