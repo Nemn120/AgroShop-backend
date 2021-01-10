@@ -46,9 +46,10 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public List<ProductSalesEntity> getAll() {
-		ProductSalesEntity pro = salesRepository.findById(8).orElse(new ProductSalesEntity());
+	/*	ProductSalesEntity pro = salesRepository.findById(8).orElse(new ProductSalesEntity());
 		pro.setIsDeleted(false);
 		salesRepository.save(pro);
+		*/
 		return salesRepository.findAll();
 	}
 
@@ -123,7 +124,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 			t.setIsDeleted(pro.getIsDeleted());
 			t.setCreateDate(pro.getCreateDate());
 		}
-		placeService.save(t.getOriginPlace());
+		t.setOriginPlace(placeService.save(t.getOriginPlace()));
 		return this.save(t);
 	}
 	
