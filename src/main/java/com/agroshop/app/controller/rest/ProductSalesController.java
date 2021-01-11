@@ -46,7 +46,7 @@ public class ProductSalesController {
 	
 	@PostMapping(path="/glsps")
 	public GenericResponse<ProductSalesEntity> getListSearchProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
-		logger.info("getListSearchProductSales");
+		logger.info("ProductSalesController.getListSearchProductSales");
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		
 		try {
@@ -178,12 +178,14 @@ public class ProductSalesController {
 	
 	@PostMapping(path="/glpsaa")
 	public GenericResponse<ProductSalesEntity> getAllProductSalesActiveAndAvailable(@RequestBody GenericRequest<ProductSalesEntity> request){
+		logger.info("ProductSalesController.getAllProductSalesActiveAndAvailable");
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		try {
 			response.setDatalist(productSalesService.getProdutSalesByStatusAndStatusSales(Constants.PRODUCT_SALES_STATUS_ACTIVE, Constants.PRODUCT_SALES_STATUS_AVAILABLE));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
+			logger.info(e);
 			response.setResponseMessage("Error al mostrar  productos activos ");
 			response.setResponseCode(AbstractResponse.ERROR);
 		}
