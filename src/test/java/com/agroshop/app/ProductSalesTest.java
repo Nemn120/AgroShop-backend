@@ -67,7 +67,7 @@ class ProductSalesTest {
             .andDo(print())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(AbstractResponse.SUCCESS));*/
 			//.andExpect(MockMvcResultMatchers.jsonPath("$.dataMap").isNotEmpty())
-			//.andExpect(MockMvcResultMatchers.jsonPath("$.responseMessage").value("Se encontró el producto buscado"));
+			//.andExpect(MockMvcResultMatchers.jsonPath("$.responseMessage").value("Se encontrÃ³ el producto buscado"));
 			//.andReturn();
 			//assertEquals("application/json;charset=UTF-8", 
 				//      mvcResult.getResponse().getContentType());
