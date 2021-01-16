@@ -16,6 +16,7 @@ import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
+import com.agroshop.app.model.service.IPlaceService;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
@@ -26,6 +27,9 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	private static final Logger logger = LogManager.getLogger(IProductSalesService.class);
 	@Autowired
 	private IProductSalesRepository salesRepository;
+	
+	@Autowired
+	private IPlaceService placeService;
 	
 	@Autowired
 	private ICategoryProductService categoryService;
@@ -47,9 +51,10 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Override
 	public List<ProductSalesEntity> getAll() {
-		ProductSalesEntity pro = salesRepository.findById(8).orElse(new ProductSalesEntity());
+	/*	ProductSalesEntity pro = salesRepository.findById(8).orElse(new ProductSalesEntity());
 		pro.setIsDeleted(false);
 		salesRepository.save(pro);
+		*/
 		return salesRepository.findAll();
 	}
 
@@ -124,6 +129,8 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 			t.setIsDeleted(pro.getIsDeleted());
 			t.setCreateDate(pro.getCreateDate());
 		}
+		if(t.getOriginPlace() != null)
+			t.setOriginPlace(placeService.save(t.getOriginPlace()));
 		return this.save(t);
 	}
 

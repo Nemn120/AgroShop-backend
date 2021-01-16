@@ -21,6 +21,14 @@ public class FarmerEntity extends MainEntity{
 	@JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
 	private UserEntity user;
 	
+	@ManyToOne
+	@JoinColumn(name = "origin_place_id")
+	private PlaceEntity originPlace;
+	
+	@ManyToOne
+	@JoinColumn(name = "destiny_place_id")
+	private PlaceEntity destinyPlace;
+	
 	public Integer getId() {
 		return id;
 	}

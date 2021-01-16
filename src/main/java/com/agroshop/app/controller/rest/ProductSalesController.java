@@ -12,9 +12,12 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agroshop.app.controller.request.GenericRequest;
@@ -43,7 +46,7 @@ public class ProductSalesController {
 	
 	@PostMapping(path="/glsps")
 	public GenericResponse<ProductSalesEntity> getListSearchProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
-		logger.info("getListSearchProductSales");
+		logger.info("ProductSalesController.getListSearchProductSales");
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		
 		try {
@@ -175,9 +178,26 @@ public class ProductSalesController {
 	
 	@PostMapping(path="/glpsaa")
 	public GenericResponse<ProductSalesEntity> getAllProductSalesActiveAndAvailable(@RequestBody GenericRequest<ProductSalesEntity> request){
+		logger.info("ProductSalesController.getAllProductSalesActiveAndAvailable");
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		try {
 			response.setDatalist(productSalesService.getProdutSalesByStatusAndStatusSales(Constants.PRODUCT_SALES_STATUS_ACTIVE, Constants.PRODUCT_SALES_STATUS_AVAILABLE));
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			logger.info(e);
+			response.setResponseMessage("Error al mostrar  productos activos ");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+		
+	}
+	
+	@GetMapping(value ="/gbi/{id}")
+	public GenericResponse<ProductSalesEntity> getProductSalesById(@PathVariable("id") Integer id){
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setData(productSalesService.getOneById(id));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
 		}catch(Exception e) {
