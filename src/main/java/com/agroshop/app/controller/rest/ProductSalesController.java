@@ -9,6 +9,7 @@ import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.service.ICategoryProductService;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
@@ -31,12 +32,13 @@ public class ProductSalesController {
 
 	@Autowired
 	IProductSalesService productSalesService;
-	
+
 	@Autowired
 	private ICategoryProductService categoryService;
-	
-	@PostMapping(path="/glsps")
-	public GenericResponse<ProductSalesEntity> getListSearchProductSales(@RequestBody GenericRequest<ProductSalesEntity> request){
+
+	@PostMapping(path = "/glsps")
+	public GenericResponse<ProductSalesEntity> getListSearchProductSales(
+			@RequestBody GenericRequest<ProductSalesEntity> request) {
 		logger.info("ProductSalesController.getListSearchProductSales");
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 
@@ -172,9 +174,10 @@ public class ProductSalesController {
 		}
 		return response;
 	}
-	
-	@PostMapping(path="/glpsaa")
-	public GenericResponse<ProductSalesEntity> getAllProductSalesActiveAndAvailable(@RequestBody GenericRequest<ProductSalesEntity> request){
+
+	@PostMapping(path = "/glpsaa")
+	public GenericResponse<ProductSalesEntity> getAllProductSalesActiveAndAvailable(
+			@RequestBody GenericRequest<ProductSalesEntity> request) {
 		logger.info("ProductSalesController.getAllProductSalesActiveAndAvailable");
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 		try {
@@ -182,7 +185,7 @@ public class ProductSalesController {
 					Constants.PRODUCT_SALES_STATUS_ACTIVE, Constants.PRODUCT_SALES_STATUS_AVAILABLE));
 			response.setFinalTimesTamp(LocalDateTime.now());
 			response.setResponseCode(AbstractResponse.SUCCESS);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			logger.info(e);
 			response.setResponseMessage("Error al mostrar  productos activos ");
 			response.setResponseCode(AbstractResponse.ERROR);
@@ -207,13 +210,14 @@ public class ProductSalesController {
 	}
 
 	@PostMapping(path = "/glpsbf")
-	public GenericResponse<ProductSalesEntity> getListProductSalesByFields(@RequestBody GenericRequest<SearchProductSalesByFieldsDTO> request) throws Throwable{
+	public GenericResponse<ProductSalesEntity> getListProductSalesByFields(
+			@RequestBody GenericRequest<SearchProductSalesByFieldsDTO> request) throws Throwable {
 
 		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
 
 		try {
 			List<ProductSalesEntity> productSales = productSalesService.getListProductSalesByFields(request.getData());
-			if(productSales.isEmpty()) {
+			if (productSales.isEmpty()) {
 				response.setResponseMessage("No se encontraron productos para el filtrado realizado");
 			} else {
 				response.setDatalist(productSales);
