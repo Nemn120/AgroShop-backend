@@ -101,7 +101,7 @@ public class OrderServiceImpl implements IOrderService {
 		    orderSave.getFarmer().setId(entry.getKey());
 		    orderSave.setClient(new ClientEntity());
 		    orderSave.getClient().setId(order.getClient().getId());
-		    if(order.getClient().getUser().getEmail() != null) {
+		    if(order.getClient().getUser()!= null && order.getClient().getUser().getEmail() != null) {
 		    	orderSave.getClient().setUser( new UserEntity());
 		    	orderSave.getClient().getUser().setEmail(order.getClient().getUser().getEmail());
 		    }
@@ -128,7 +128,6 @@ public class OrderServiceImpl implements IOrderService {
 				    			odbean.setMeasureUnite(odEntity.getProductSales().getMeasureUnite());
 				    		}
 				    		orderResult.getOrderDetailList().add(odbean);
-
 		    		}
 		    	}
 		    	orderListResult.add(orderResult);
@@ -137,7 +136,6 @@ public class OrderServiceImpl implements IOrderService {
 		    }
 		    
 		}
-	
 		return orderListResult;
 	}
 
@@ -165,9 +163,9 @@ public class OrderServiceImpl implements IOrderService {
 				order.setQuantity(order.getQuantity() !=null? order.getQuantity()+od.getQuantity(): od.getQuantity());
 		});
 		order.setStatus(Constants.ORDER_STATUS_PENDING);
-		if(order.getClient().getUser().getEmail() != null)
+		if(order.getClient().getUser()!= null && order.getClient().getUser().getEmail() != null) {
 			this.sendEmailOrder(orderRepo.save(order));
-		else
+		}else
 			orderRepo.save(order);
 		return order;
 	}
