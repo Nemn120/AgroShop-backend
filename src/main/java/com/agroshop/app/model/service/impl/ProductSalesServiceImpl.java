@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
+
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
@@ -33,10 +34,11 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	private IPlaceService placeService;
 
 	@Autowired
-	private ICategoryProductService categoryService;
-
-	@Autowired
 	private IProductSalesRepository productSalesRepo;
+
+	
+	@Autowired
+	private ICategoryProductService categoryService;
 
 	@Override
 	public ProductSalesEntity getOneById(Integer id) {
@@ -135,7 +137,8 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 			t.setIsDeleted(pro.getIsDeleted());
 			t.setCreateDate(pro.getCreateDate());
 		}
-		t.setOriginPlace(placeService.save(t.getOriginPlace()));
+		if(t.getOriginPlace() != null)
+			t.setOriginPlace(placeService.save(t.getOriginPlace()));
 		return this.save(t);
 	}
 

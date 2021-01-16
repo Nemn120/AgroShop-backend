@@ -177,5 +177,7 @@ public class OrderEntity extends MainEntity {
 	public void setDeliveredDate(LocalDateTime deliveredDate) {
 		this.deliveredDate = deliveredDate;
 	}
+	
+	
 
 }
