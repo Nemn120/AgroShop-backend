@@ -16,5 +16,5 @@ public class AgroshopBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AgroshopBackendApplication.class, args);
 	}
-
+	
 }

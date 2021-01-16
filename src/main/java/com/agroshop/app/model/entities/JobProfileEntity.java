@@ -33,7 +33,7 @@ public class JobProfileEntity extends MainEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "driver_id")
 	private DriverEntity driver;
-	
+
 	public Double getMinSalaryAccept() {
 		return minSalaryAccept;
 	}

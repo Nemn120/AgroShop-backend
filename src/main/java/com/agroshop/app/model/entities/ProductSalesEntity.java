@@ -30,10 +30,26 @@ public class ProductSalesEntity extends MainEntity {
 	private String measureUnite;
 	private String validity; //validez
 	private String discount;
-	private String weight; //peso
+	private Double weight; //peso
 	private Double offerPrice;
 	private String statusSales;
 	
+	@ManyToOne
+	@JoinColumn(name = "origin_place_id")
+	private PlaceEntity originPlace;
+
+	public Double getWeight() {
+		return weight;
+	}
+	public void setWeight(Double weight) {
+		this.weight = weight;
+	}
+	public PlaceEntity getOriginPlace() {
+		return originPlace;
+	}
+	public void setOriginPlace(PlaceEntity originPlace) {
+		this.originPlace = originPlace;
+	}
 	public String getStatusSales() {
 		return statusSales;
 	}
@@ -57,12 +73,6 @@ public class ProductSalesEntity extends MainEntity {
 	}
 	public void setDiscount(String discount) {
 		this.discount = discount;
-	}
-	public String getWeight() {
-		return weight;
-	}
-	public void setWeight(String weight) {
-		this.weight = weight;
 	}
 	public Double getOfferPrice() {
 		return offerPrice;

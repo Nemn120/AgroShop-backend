@@ -39,8 +39,6 @@ public class OrderDetailEntity extends MainEntity {
 		this.id = id;
 	}
 	
-	
-
 	public OrderEntity getCustomOrder() {
 		return customOrder;
 	}
@@ -71,4 +69,11 @@ public class OrderDetailEntity extends MainEntity {
 	public void setTotal(Double total) {
 		this.total = total;
 	}
+	@Override
+	public String toString() {
+		return "\t" + productSales.getProduct().getName() + " Cantidad: "+ quantity + " Precio: " + price
+				+ " Costo total:" + total +"\n";
+	}
+	
+	
 }

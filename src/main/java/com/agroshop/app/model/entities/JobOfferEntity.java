@@ -35,11 +35,26 @@ public class JobOfferEntity extends MainEntity{
 	private String originProvince;
 	private String originRegion;
 	private String originDistrict;
+
+	@ManyToOne
+	@JoinColumn(name = "destiny_place_id")
+	private PlaceEntity destinyPlace;
 	
+	@ManyToOne
+	@JoinColumn(name = "origin_place_id")
+	private PlaceEntity originPlace;
+
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private OrderEntity order;
 	
+	public PlaceEntity getOriginPlace() {
+		return originPlace;
+	}
+	public void setOriginPlace(PlaceEntity originPlace) {
+		this.originPlace = originPlace;
+	}
+
 	public Integer getId() {
 		return id;
 	}

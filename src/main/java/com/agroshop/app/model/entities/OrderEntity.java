@@ -46,6 +46,26 @@ public class OrderEntity extends MainEntity {
 	@Transient
 	private List<OrderDetailEntity> orderDetailList;
 	
+	@ManyToOne
+	@JoinColumn(name = "destiny_place_id")
+	private PlaceEntity destinyPlace;
+	
+	@ManyToOne
+	@JoinColumn(name = "origin_place_id")
+	private PlaceEntity originPlace;
+	
+	public PlaceEntity getDestinyPlace() {
+		return destinyPlace;
+	}
+	public void setDestinyPlace(PlaceEntity destinyPlace) {
+		this.destinyPlace = destinyPlace;
+	}
+	public PlaceEntity getOriginPlace() {
+		return originPlace;
+	}
+	public void setOriginPlace(PlaceEntity originPlace) {
+		this.originPlace = originPlace;
+	}
 	public String getOriginProvince() {
 		return originProvince;
 	}
@@ -157,5 +177,7 @@ public class OrderEntity extends MainEntity {
 	public void setDeliveredDate(LocalDateTime deliveredDate) {
 		this.deliveredDate = deliveredDate;
 	}
+	
+	
 
 }
