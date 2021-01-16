@@ -173,8 +173,12 @@ public class OrderServiceImpl implements IOrderService {
 		logger.info("order: " + order.getCreateDate());
 		logger.info("status: " + order.getStatus());
 		
+		logger.info("order: " + order.getCreateDate());
+		logger.info("status: " + order.getStatus());
+		
 		if(order.getStatus().equals(Constants.ORDER_STATUS_PENDING)) {
-			LocalDateTime time = LocalDateTime.now().plusHours(5);
+			LocalDateTime time = LocalDateTime.now();
+
 			LocalDateTime timeLimit = order.getCreateDate().plusMinutes(5);
 			logger.info("now: " + time);
 			logger.info("limit: " + timeLimit);
