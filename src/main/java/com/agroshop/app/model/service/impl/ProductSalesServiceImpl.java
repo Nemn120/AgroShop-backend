@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
@@ -21,6 +22,7 @@ import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
 @Service
+@Transactional
 public class ProductSalesServiceImpl implements IProductSalesService {
 	
 
@@ -191,6 +193,23 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 		
 		
 		return productSalesOrganize;
+	}
+
+	@Override
+	public ProductSalesEntity saveAssessmentProductSalesById(Integer id, Integer assessment) {
+		
+		ProductSalesEntity pro = this.getOneById(id);
+		if(pro.getId()!= null) {
+			Integer as;
+			if(pro.getAssessment()==null)
+				as=assessment;
+			else
+				as=(int) Math.round((pro.getAssessment()+assessment)/2.0);
+			
+			salesRepository.updateAssessment(id, as);
+			pro.setAssessment(as);
+		}
+		return pro;
 	}
 	
 	

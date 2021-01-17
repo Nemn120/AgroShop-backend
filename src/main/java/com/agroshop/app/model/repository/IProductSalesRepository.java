@@ -3,6 +3,7 @@ package com.agroshop.app.model.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -28,4 +29,8 @@ public interface IProductSalesRepository extends JpaRepository<ProductSalesEntit
 	
 	@Query("SELECT p FROM ProductSalesEntity p WHERE  p.farmerNumber=:id AND p.product.id=:idp ")
 	public List<ProductSalesEntity> getListProductSalesByProductId(@Param("id") Integer id, @Param("idp") Integer idp);
+	
+	@Modifying
+	@Query("UPDATE ProductSalesEntity set assessment=:assessment where id=:id")
+	void updateAssessment(@Param("id") Integer id, @Param("assessment") Integer assessment);
 }
