@@ -24,4 +24,6 @@ public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, In
 	ProductSalesEntity checkProductSalesAndSave(ProductSalesEntity t);
 	
 	Map<String, List<ProductSalesEntity>> organizateProductByAttribute(Integer id, String attribute);
+	
+	ProductSalesEntity saveAssessmentProductSalesById(Integer id, Integer assessment);
 }

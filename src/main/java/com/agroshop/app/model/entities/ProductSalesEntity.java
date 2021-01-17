@@ -33,6 +33,7 @@ public class ProductSalesEntity extends MainEntity {
 	private Double weight; //peso
 	private Double offerPrice;
 	private String statusSales;
+	private Integer assessment;
 	
 	@ManyToOne
 	@JoinColumn(name = "origin_place_id")
@@ -123,4 +124,11 @@ public class ProductSalesEntity extends MainEntity {
 	public void setFarmerNumber(Integer farmerNumber) {
 		this.farmerNumber = farmerNumber;
 	}
+	public Integer getAssessment() {
+		return assessment;
+	}
+	public void setAssessment(Integer assessment) {
+		this.assessment = assessment;
+	}
+	
 }
