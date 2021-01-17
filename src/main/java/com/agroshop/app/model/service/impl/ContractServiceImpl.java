@@ -68,9 +68,9 @@ public class ContractServiceImpl implements IContractService {
 
 	@Override
 	public ContractEntity enableContract(ContractEntity contract) throws Throwable {
-		PostulationEntity postulation = new PostulationEntity();
+		PostulationEntity postulation;
 		postulation = postulationService.getOneById(contract.getPostulation().getId());
-		postulation.setHaveContract(true);
+		// postulation.setHaveContract(true);
 		contract.setStatus(Constants.STATUS_CONTRACT_NO_GENERATED);
 		contract.setCreateDate(LocalDateTime.now());
 		contract.setUpdateDate(LocalDateTime.now());
@@ -513,11 +513,10 @@ public class ContractServiceImpl implements IContractService {
 	}
 
 	@Override
-	public byte[] getContract(Integer id) throws Exception {
+	public byte[] getContract(Integer id) throws Throwable {
 		byte[] bArray;
 		try {
-			Optional<ContractEntity> op = repoContract.findById(id);	
-			ContractEntity contract = op.isPresent() ? op.get() : new ContractEntity();
+			ContractEntity contract = findByPostulationId(id);	
 			String directorio = System.getProperty("user.dir");
 			String separador = System.getProperty("file.separator");
 			String ruta = directorio + separador + Constants.RUTA_CONTRATO + separador + contract.getFileContract() + ".docx";
@@ -534,6 +533,11 @@ public class ContractServiceImpl implements IContractService {
 		}
 		return bArray;
 
+	}
+
+	@Override
+	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable {
+		return repoContract.findByPostulationId(postulationId);
 	}
 
 }

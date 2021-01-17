@@ -23,4 +23,6 @@ public interface IContractService {
 	
 	public byte[] getContract(Integer id) throws Throwable;
 	
+	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable;
+	
 }
