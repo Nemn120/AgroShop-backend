@@ -23,8 +23,9 @@ public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, In
 	List<ProductSalesEntity> getProdutSalesByStatusAndStatusSales(String status, String statusSales);
 	
 	ProductSalesEntity checkProductSalesAndSave(ProductSalesEntity t);
-	
-	Map<String, List<ProductSalesEntity>> organizateProductByAttribute(Integer id, String attribute);
 
 	List<ProductSalesEntity> getListProductSalesByFields(SearchProductSalesByFieldsDTO spsbf);
+	
+	ProductSalesEntity saveAssessmentProductSalesById(Integer id, Integer assessment);
+
 }

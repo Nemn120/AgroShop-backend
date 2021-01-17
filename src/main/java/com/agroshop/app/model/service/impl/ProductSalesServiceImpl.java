@@ -3,14 +3,16 @@ package com.agroshop.app.model.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
-
-import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
@@ -18,12 +20,8 @@ import com.agroshop.app.model.service.IPlaceService;
 import com.agroshop.app.model.service.IProductSalesService;
 import com.agroshop.app.util.Constants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 @Service
+@Transactional
 public class ProductSalesServiceImpl implements IProductSalesService {
 
 	private static final Logger logger = LogManager.getLogger(IProductSalesService.class);
@@ -143,59 +141,22 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	}
 
 	@Override
-	public Map<String, List<ProductSalesEntity>> organizateProductByAttribute(Integer id, String attribute) {
-		List<ProductSalesEntity> products = getListProductSalesByFarmer(id);
-
-		Map<String, List<ProductSalesEntity>> productSalesOrganize = new HashMap<>();
-
-		switch (attribute) {
-			case "category":
-
-				List<CategoryProductEntity> categoryProducts = categoryService.getListCategory(id);
-				Set<String> categoryName = new HashSet<>();
-
-				categoryProducts.forEach(category -> {
-					categoryName.add(category.getName());
-				});
-
-				for (String category : categoryName) {
-					List<ProductSalesEntity> productFilter = new ArrayList<>();
-					products.forEach(p -> {
-						if (p.getProduct().getCategory().getName().equals(category)) {
-							productFilter.add(p);
-						}
-					});
-					productSalesOrganize.put(category, productFilter);
-				}
-
-				break;
-
-			case "unit":
-
-				Set<String> unit = new HashSet<>();
-
-				products.forEach(product -> {
-					logger.info(product.getId());
-					unit.add(product.getMeasureUnite());
-				});
-
-				logger.info(unit);
-
-				for (String u : unit) {
-					List<ProductSalesEntity> productFilter = new ArrayList<>();
-					products.forEach(p -> {
-						if (p.getMeasureUnite().equals(u)) {
-							productFilter.add(p);
-						}
-					});
-					productSalesOrganize.put(u, productFilter);
-				}
-
-				break;
+	public ProductSalesEntity saveAssessmentProductSalesById(Integer id, Integer assessment) {
+		
+		ProductSalesEntity pro = this.getOneById(id);
+		if(pro.getId()!= null) {
+			Integer as;
+			if(pro.getAssessment()==null)
+				as=assessment;
+			else
+				as=(int) Math.round((pro.getAssessment()+assessment)/2.0);
+			
+			salesRepository.updateAssessment(id, as);
+			pro.setAssessment(as);
 		}
-		return productSalesOrganize;
+		return pro;
 	}
-
+	
 	@Override
 	public List<ProductSalesEntity> getListProductSalesByFields(SearchProductSalesByFieldsDTO spsbf) {
 		LocalDate date = LocalDate.now();

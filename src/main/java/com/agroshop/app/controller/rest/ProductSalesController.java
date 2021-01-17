@@ -4,15 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import com.agroshop.app.controller.request.GenericRequest;
-import com.agroshop.app.controller.response.AbstractResponse;
-import com.agroshop.app.controller.response.GenericResponse;
-import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
-import com.agroshop.app.model.entities.ProductSalesEntity;
-import com.agroshop.app.model.service.ICategoryProductService;
-import com.agroshop.app.model.service.IProductSalesService;
-import com.agroshop.app.util.Constants;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.agroshop.app.controller.request.GenericRequest;
+import com.agroshop.app.controller.response.AbstractResponse;
+import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.DTO.AssessmentDTO;
+import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
+import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.service.ICategoryProductService;
+import com.agroshop.app.model.service.IProductSalesService;
+import com.agroshop.app.util.Constants;
 
 @RestController
 @RequestMapping("/productsales")
@@ -209,7 +210,7 @@ public class ProductSalesController {
 
 	}
 
-	@PostMapping(path = "/glpsbf")
+	@PostMapping(path = "/glpsbfi")
 	public GenericResponse<ProductSalesEntity> getListProductSalesByFields(
 			@RequestBody GenericRequest<SearchProductSalesByFieldsDTO> request) throws Throwable {
 
@@ -231,6 +232,24 @@ public class ProductSalesController {
 			logger.error("ERROR => ", e.getMessage());
 		}
 		return response;
+	}
+	
+	@PostMapping(path="/sapsbi")
+	public GenericResponse<ProductSalesEntity> saveAssessmentProductSalesById(@RequestBody GenericRequest<AssessmentDTO> request){
+		logger.info("ProductSalesController.saveAssessmentProductSalesById");
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setData(productSalesService.saveAssessmentProductSalesById(request.getData().getId(), request.getData().getAssessment()));
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseMessage("Se guardó correctamente la valoración del producto");
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			logger.info(e);
+			response.setResponseMessage("Error al guardar valoracion");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+		
 	}
 
 }

@@ -87,6 +87,7 @@ public class PostulationServiceImpl implements IPostulationService {
 		}
 		
 		postulation.setStatus(Constants.POSTULATION_STATUS_SEND);
+		postulation.setHaveContract(false);
 		postulation.setStatusPostulation(Constants.POSTULATION_RECEIVED_STATUS_PENDING);
 		postulation.setPostulationDate(LocalDateTime.now());
 		if(!code.equals("0")) {

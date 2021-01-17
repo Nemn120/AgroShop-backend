@@ -25,9 +25,6 @@ public class ContractEntity implements Serializable {
 	@Column(nullable = false)
 	private LocalDate initDate;
 
-	// @Column(nullable = false)
-	// private LocalDate contractDate;
-
 	@Column(nullable = false)
 	private Integer timeContract;
 
@@ -70,14 +67,6 @@ public class ContractEntity implements Serializable {
 	public void setInitDate(LocalDate initDate) {
 		this.initDate = initDate;
 	}
-
-	// public LocalDate getContractDate() {
-	// return contractDate;
-	// }
-	//
-	// public void setContractDate(LocalDate contractDate) {
-	// this.contractDate = contractDate;
-	// }
 
 	public Integer getTimeContract() {
 		return timeContract;

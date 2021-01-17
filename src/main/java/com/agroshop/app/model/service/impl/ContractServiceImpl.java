@@ -39,8 +39,6 @@ public class ContractServiceImpl implements IContractService {
 	@Autowired
 	private IPostulationService postulationService;
 
-	private static final Logger logger = LogManager.getLogger(ContractServiceImpl.class);
-
 	private FileOutputStream out;
 	private FileInputStream fis;
 
@@ -70,9 +68,9 @@ public class ContractServiceImpl implements IContractService {
 
 	@Override
 	public ContractEntity enableContract(ContractEntity contract) throws Throwable {
-		// ContractEntity contractNew = new ContractEntity();
-		PostulationEntity postulation = new PostulationEntity();
+		PostulationEntity postulation;
 		postulation = postulationService.getOneById(contract.getPostulation().getId());
+		// postulation.setHaveContract(true);
 		contract.setStatus(Constants.STATUS_CONTRACT_NO_GENERATED);
 		contract.setCreateDate(LocalDateTime.now());
 		contract.setUpdateDate(LocalDateTime.now());
@@ -80,13 +78,11 @@ public class ContractServiceImpl implements IContractService {
 		contract.setIsDeleted(false);
 
 		contract.setPostulation(postulation);
-		// contract.setContractDate(contract.getContractDate());
 		contract.setEndContract(contract.getEndContract());
 		contract.setInitDate(contract.getInitDate());
 		contract.setNameContract(contract.getNameContract());
 		contract.setTimeContract(contract.getTimeContract());
-		// contractNew = repoContract.save(contract);
-
+		
 		return contract;
 	}
 
@@ -96,8 +92,7 @@ public class ContractServiceImpl implements IContractService {
 		String directory = System.getProperty("user.dir");
 		String separator = System.getProperty("file.separator");
 		String randomUIID = UUID.randomUUID().toString();
-
-		String ruta = Constants.RUTA_CONTRATO + randomUIID + ".docx";
+		String ruta = directory + separator + Constants.RUTA_CONTRATO + separator + randomUIID + ".docx";
 
 		File file = new File(ruta);
 		if (!file.createNewFile()) {
@@ -519,26 +514,18 @@ public class ContractServiceImpl implements IContractService {
 	}
 
 	@Override
-	public String getContract(Integer id) throws Exception {
-		Optional<ContractEntity> op = repoContract.findById(id);
-		ContractEntity contract = op.isPresent() ? op.get() : new ContractEntity();
-		return contract.getFileContract();
-
-	}
-
-	@Override
-	public byte[] obtenerContrato(Integer id) throws Exception {
+	public byte[] getContract(Integer id) throws Throwable {
 		byte[] bArray;
 		try {
-			Optional<ContractEntity> op = repoContract.findById(id);
-			ContractEntity contrato = op.isPresent() ? op.get() : new ContractEntity();
-			String ruta = Constants.RUTA_CONTRATO + contrato.getFileContract() + ".docx";
-
+			ContractEntity contract = findByPostulationId(id);	
+			String directorio = System.getProperty("user.dir");
+			String separador = System.getProperty("file.separator");
+			String ruta = directorio + separador + Constants.RUTA_CONTRATO + separador + contract.getFileContract() + ".docx";
 			File archivo = new File(ruta);
 			fis = new FileInputStream(archivo);
 			bArray = new byte[(int) archivo.length()];
-			while (fis.read(bArray) > 0) {
-
+			while(fis.read(bArray) > 0) {
+				
 			}
 		} catch (Exception e) {
 			throw e;
@@ -546,7 +533,11 @@ public class ContractServiceImpl implements IContractService {
 			fis.close();
 		}
 		return bArray;
+	}
 
+
+	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable {
+		return repoContract.findByPostulationId(postulationId);
 	}
 
 }
