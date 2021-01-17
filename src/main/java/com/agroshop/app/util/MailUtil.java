@@ -7,13 +7,13 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.agroshop.app.controller.rest.DriverController;
 @Service
 public class MailUtil {
-	
+
 	@Autowired
-	private  JavaMailSender javaMailSender;
-    private static final Logger logger = LogManager.getLogger(MailUtil.class);
+	private JavaMailSender javaMailSender;
+
+	private static final Logger logger = LogManager.getLogger(MailUtil.class);
 
 	public void sendEmail(String to, String body, String subject) {
 		logger.info("EmailUtil.sendEmail()");
@@ -26,6 +26,6 @@ public class MailUtil {
 		javaMailSender.send(simpleEmailMessage);
 		logger.info("EmailUtil.finalSendEmail()");
 
-		}
+	}
 
 }

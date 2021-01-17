@@ -26,6 +26,9 @@ public class PostulationEntity extends MainEntity{
 	private String detail;
 	private String reply;
 	
+	@Column(nullable = true)
+	private Boolean haveContract;
+	
 	@ManyToOne
 	@JoinColumn(name = "job_offer_id")
 	private JobOfferEntity jobOffer;
@@ -89,7 +92,13 @@ public class PostulationEntity extends MainEntity{
 	public void setDriver(DriverEntity driver) {
 		this.driver = driver;
 	}
-	
-	
+
+	public boolean getHaveContract() {
+		return haveContract;
+	}
+
+	public void setHaveContract(boolean haveContract) {
+		this.haveContract = haveContract;
+	}
 
 }

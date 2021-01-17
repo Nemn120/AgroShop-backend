@@ -1,5 +1,7 @@
 package com.agroshop.app.controller.rest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,6 @@ public class ContractController {
 	
 	@Autowired
 	IContractService contractService;
-
 	
 	@PostMapping("/rcontract")
 	public GenericResponse<String> registerContract(@RequestBody GenericRequest<ContractEntity> request) throws Throwable {
@@ -45,8 +46,8 @@ public class ContractController {
 	}
 	
 	@PostMapping("/dcontract")
-	public GenericResponse<String> dowloadContract(@RequestBody GenericRequest<Integer> request) throws Throwable {
-		GenericResponse<String> response = new GenericResponse<String>();
+	public GenericResponse<byte[]> dowloadContract(@RequestBody GenericRequest<Integer> request) throws Throwable {
+		GenericResponse<byte[]> response = new GenericResponse<byte[]>();
 		try {
 			response.setData(contractService.getContract(request.getData()));
 			response.setResponseCode(AbstractResponse.SUCCESS);
