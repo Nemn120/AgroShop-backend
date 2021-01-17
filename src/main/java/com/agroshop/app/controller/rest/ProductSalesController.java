@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.DTO.AssessmentDTO;
 import com.agroshop.app.model.entities.CategoryProductEntity;
 import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
@@ -227,5 +228,22 @@ public class ProductSalesController {
 		return response;
 	}
 	
+	@PostMapping(path="/sapsbi")
+	public GenericResponse<ProductSalesEntity> saveAssessmentProductSalesById(@RequestBody GenericRequest<AssessmentDTO> request){
+		logger.info("ProductSalesController.saveAssessmentProductSalesById");
+		GenericResponse<ProductSalesEntity> response = new GenericResponse<ProductSalesEntity>();
+		try {
+			response.setData(productSalesService.saveAssessmentProductSalesById(request.getData().getId(), request.getData().getAssessment()));
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseMessage("Se guardó correctamente la valoración del producto");
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		}catch(Exception e) {
+			logger.info(e);
+			response.setResponseMessage("Error al guardar valoracion");
+			response.setResponseCode(AbstractResponse.ERROR);
+		}
+		return response;
+		
+	}
 	
 }
