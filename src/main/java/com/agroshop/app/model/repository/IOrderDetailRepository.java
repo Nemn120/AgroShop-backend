@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.agroshop.app.model.entities.OrderDetailEntity;
 
-public interface IOrderDetailRepository extends JpaRepository<OrderDetailEntity, Integer>{
+public interface IOrderDetailRepository extends IOrderDetailCustomRepository,JpaRepository<OrderDetailEntity, Integer>{
 
 	@Query("SELECT od FROM OrderDetailEntity od WHERE  od.customOrder.id=:orderId and od.isDeleted=False ")
 	List<OrderDetailEntity> findByOrderId(@Param("orderId")Integer orderId);
