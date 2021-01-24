@@ -9,6 +9,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.agroshop.app.model.entities.ContractEntity;
+import com.agroshop.app.model.entities.PostulationEntity;
+import com.agroshop.app.model.repository.IContractRepository;
+import com.agroshop.app.model.service.IContractService;
+import com.agroshop.app.model.service.IPostulationService;
+import com.agroshop.app.util.Constants;
+import com.agroshop.app.util.ConvertNumberToLetter;
+import com.agroshop.app.util.WordConstant;
+import com.agroshop.app.util.WordFunction;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
@@ -20,16 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.agroshop.app.model.entities.ContractEntity;
-import com.agroshop.app.model.entities.PostulationEntity;
-import com.agroshop.app.model.repository.IContractRepository;
-import com.agroshop.app.model.service.IContractService;
-import com.agroshop.app.model.service.IPostulationService;
-import com.agroshop.app.util.Constants;
-import com.agroshop.app.util.ConvertNumberToLetter;
-import com.agroshop.app.util.WordConstant;
-import com.agroshop.app.util.WordFunction;
-
 @Service
 public class ContractServiceImpl implements IContractService {
 
@@ -38,8 +38,6 @@ public class ContractServiceImpl implements IContractService {
 
 	@Autowired
 	private IPostulationService postulationService;
-
-	private static final Logger logger = LogManager.getLogger(ContractServiceImpl.class);
 
 	private FileOutputStream out;
 	private FileInputStream fis;
@@ -70,9 +68,9 @@ public class ContractServiceImpl implements IContractService {
 
 	@Override
 	public ContractEntity enableContract(ContractEntity contract) throws Throwable {
-		// ContractEntity contractNew = new ContractEntity();
-		PostulationEntity postulation = new PostulationEntity();
+		PostulationEntity postulation;
 		postulation = postulationService.getOneById(contract.getPostulation().getId());
+		// postulation.setHaveContract(true);
 		contract.setStatus(Constants.STATUS_CONTRACT_NO_GENERATED);
 		contract.setCreateDate(LocalDateTime.now());
 		contract.setUpdateDate(LocalDateTime.now());
@@ -80,13 +78,11 @@ public class ContractServiceImpl implements IContractService {
 		contract.setIsDeleted(false);
 
 		contract.setPostulation(postulation);
-		// contract.setContractDate(contract.getContractDate());
 		contract.setEndContract(contract.getEndContract());
 		contract.setInitDate(contract.getInitDate());
 		contract.setNameContract(contract.getNameContract());
 		contract.setTimeContract(contract.getTimeContract());
-		// contractNew = repoContract.save(contract);
-
+		
 		return contract;
 	}
 
@@ -127,7 +123,7 @@ public class ContractServiceImpl implements IContractService {
 					.replace("$conductor_apellidos$", contract.getPostulation().getDriver().getUser().getLastName())
 					.replace("$dni_conductor$", contract.getPostulation().getDriver().getUser().getDocumentNumber())
 					.replace("$direccion_conductor$", contract.getPostulation().getDriver().getUser().getAddress())
-			.replace("$anio_experiencia$", contract.getPostulation().getDriver().getYearsOfExperience());
+					.replace("$anio_experiencia$", contract.getPostulation().getDriver().getYearsOfExperience());
 
 			String subtitleAntece = constante.subtituloAntecedente().getText1();
 
@@ -177,8 +173,9 @@ public class ContractServiceImpl implements IContractService {
 			String prfG4 = constante.parrafo7().getText4();
 			String prfG5 = constante.parrafo7().getText5();
 
-			String date_pay =  ConvertNumberToLetter.convertMonth(contract.getPostulation().getJobOffer().getOrder().getAttendDate().getDayOfMonth(),
-					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getMonthValue(), 
+			String date_pay = ConvertNumberToLetter.convertMonth(
+					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getDayOfMonth(),
+					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getMonthValue(),
 					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getYear());
 
 			String prfG6 = constante.parrafo7().getText6().replace("$dia_pago_mes$", date_pay);
@@ -186,23 +183,22 @@ public class ContractServiceImpl implements IContractService {
 			String subtitlePlazoContrat = constante.subtituloPlazoContrato().getText1();
 
 			String prfH1 = constante.parrafo8().getText1();
-			
-			String init_contract =  ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
-					contract.getInitDate().getDayOfMonth(), 
-					contract.getInitDate().getYear());
-			
-			String end_contract =  ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(),
-					contract.getEndContract().getDayOfMonth(), 
-					contract.getEndContract().getYear());
-			
+
+			String init_contract = ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
+					contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear());
+
+			String end_contract = ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(),
+					contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear());
+
 			String prfH2 = constante.parrafo8().getText2()
 					.replace("$tiempo_contrato$", contract.getTimeContract().toString())
-					.replace("$fecha_contrato_inicio$", init_contract)
-					.replace("$fecha_contrato_fin$", end_contract)
+					.replace("$fecha_contrato_inicio$", init_contract).replace("$fecha_contrato_fin$", end_contract)
 					.replace("$monto_costo$", contract.getPostulation().getJobOffer().getShippingCost().toString())
-					.replace("$origin$", "la región de " + contract.getPostulation().getJobOffer().getOriginRegion() + " provincia de " 
-							+ contract.getPostulation().getJobOffer().getOriginProvince() + " ubicado en el distrito de " 
-							+ contract.getPostulation().getJobOffer().getOriginDistrict())
+					.replace("$origin$",
+							"la región de " + contract.getPostulation().getJobOffer().getOriginRegion()
+									+ " provincia de " + contract.getPostulation().getJobOffer().getOriginProvince()
+									+ " ubicado en el distrito de "
+									+ contract.getPostulation().getJobOffer().getOriginDistrict())
 					.replace("$peso$", contract.getPostulation().getJobOffer().getTotalWeight().toString());
 
 			String subtitleObligacion = constante.subtituloObligaciones().getText1();
@@ -221,7 +217,6 @@ public class ContractServiceImpl implements IContractService {
 			String prfL1Arrendatario = constante.parrafo12ReparacionConductor().getText1();
 			String prfL2Arrendatario = constante.parrafo12ReparacionConductor().getText2();
 
-
 			String prfM1 = constante.parrafo13().getText1();
 			String prfM2 = constante.parrafo13().getText2();
 			String prfM3 = constante.parrafo13().getText3();
@@ -236,10 +231,8 @@ public class ContractServiceImpl implements IContractService {
 			String prfO2 = constante.parrafo15().getText2();
 			String prfO3 = constante.parrafo15().getText3();
 			Double penalidad = contract.getPostulation().getJobOffer().getShippingCost() * 0.1;
-			String prfO4 = constante.parrafo15().getText4()
-					.replace("$penalidad$", penalidad.toString())
-					.replace("$penalidad_letras$", convertidor
-							.convertir(penalidad + "", true));
+			String prfO4 = constante.parrafo15().getText4().replace("$penalidad$", penalidad.toString())
+					.replace("$penalidad_letras$", convertidor.convertir(penalidad + "", true));
 
 			String subtitleClausuGarant = constante.subtituloClausulaGarantia().getText1();
 
@@ -516,16 +509,35 @@ public class ContractServiceImpl implements IContractService {
 			out.close();
 		}
 
-		return ruta;
+		return randomUIID;
 
 	}
 
 	@Override
-	public String getContract(Integer id) throws Exception {
-			Optional<ContractEntity> op = repoContract.findById(id);
-			ContractEntity contract = op.isPresent() ? op.get() : new ContractEntity();
-			return contract.getFileContract();
-			
+	public byte[] getContract(Integer id) throws Throwable {
+		byte[] bArray;
+		try {
+			ContractEntity contract = findByPostulationId(id);	
+			String directorio = System.getProperty("user.dir");
+			String separador = System.getProperty("file.separator");
+			String ruta = directorio + separador + Constants.RUTA_CONTRATO + separador + contract.getFileContract() + ".docx";
+			File archivo = new File(ruta);
+			fis = new FileInputStream(archivo);
+			bArray = new byte[(int) archivo.length()];
+			while(fis.read(bArray) > 0) {
+				
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			fis.close();
+		}
+		return bArray;
+	}
+
+
+	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable {
+		return repoContract.findByPostulationId(postulationId);
 	}
 
 }

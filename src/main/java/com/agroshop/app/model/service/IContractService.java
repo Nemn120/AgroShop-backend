@@ -2,11 +2,9 @@ package com.agroshop.app.model.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.agroshop.app.model.entities.ContractEntity;
-import com.agroshop.app.model.entities.DriverEntity;
-import com.agroshop.app.model.entities.PostulationEntity;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public interface IContractService {
@@ -21,6 +19,8 @@ public interface IContractService {
 	
 	public String createContract(ContractEntity contract) throws Throwable;
 	
-	public String getContract(Integer id) throws Throwable;
+	public byte[] getContract(Integer id) throws Throwable;
+	
+	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable;
 	
 }

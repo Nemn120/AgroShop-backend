@@ -3,9 +3,10 @@ package com.agroshop.app.model.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
+import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, Integer> {
@@ -22,6 +23,9 @@ public interface IProductSalesService extends GenericCRUD<ProductSalesEntity, In
 	List<ProductSalesEntity> getProdutSalesByStatusAndStatusSales(String status, String statusSales);
 	
 	ProductSalesEntity checkProductSalesAndSave(ProductSalesEntity t);
+
+	List<ProductSalesEntity> getListProductSalesByFields(SearchProductSalesByFieldsDTO spsbf);
 	
-	Map<String, List<ProductSalesEntity>> organizateProductByAttribute(Integer id, String attribute);
+	ProductSalesEntity saveAssessmentProductSalesById(Integer id, Integer assessment);
+
 }

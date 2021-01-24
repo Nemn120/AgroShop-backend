@@ -10,4 +10,6 @@ import com.agroshop.app.model.entities.PostulationEntity;
 public interface IContractRepository extends JpaRepository<ContractEntity, Integer>{
 	
 	public List<ContractEntity> findByPostulation(PostulationEntity postulation);
+	
+	public ContractEntity findByPostulationId(Integer postulationId);
 }

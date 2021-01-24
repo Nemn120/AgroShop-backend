@@ -15,24 +15,24 @@ import com.agroshop.app.model.service.IContractService;
 @RestController
 @RequestMapping("/api/contrato")
 public class ContractController {
-	
+
 	@Autowired
 	IContractService contractService;
 
-	
 	@PostMapping("/rcontract")
-	public GenericResponse<String> registerContract(@RequestBody GenericRequest<ContractEntity> request) throws Throwable {
+	public GenericResponse<String> registerContract(@RequestBody GenericRequest<ContractEntity> request)
+			throws Throwable {
 		GenericResponse<String> response = new GenericResponse<String>();
 		ContractEntity contract = new ContractEntity();
 
 		try {
 			contract = request.getData();
-			
+
 			contract = contractService.enableContract(contract);
 			String path = contractService.createContract(contract);
 			contract.setFileContract(path);
 			contractService.registerContract(contract);
-			
+
 			response.setData(path);
 			response.setResponseCode(AbstractResponse.SUCCESS);
 			response.setResponseMessage("Contrato generado");
@@ -40,13 +40,13 @@ public class ContractController {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
 		}
-		
+
 		return response;
 	}
-	
+
 	@PostMapping("/dcontract")
-	public GenericResponse<String> dowloadContract(@RequestBody GenericRequest<Integer> request) throws Throwable {
-		GenericResponse<String> response = new GenericResponse<String>();
+	public GenericResponse<byte[]> dowloadContract(@RequestBody GenericRequest<Integer> request) throws Throwable {
+		GenericResponse<byte[]> response = new GenericResponse<byte[]>();
 		try {
 			response.setData(contractService.getContract(request.getData()));
 			response.setResponseCode(AbstractResponse.SUCCESS);

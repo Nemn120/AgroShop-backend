@@ -1,5 +1,7 @@
 package com.agroshop.app.controller.rest;
 
+import java.time.LocalDateTime;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agroshop.app.controller.request.GenericRequest;
+import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
+import com.agroshop.app.model.DTO.SalesReportDTO;
+import com.agroshop.app.model.DTO.SalesReportResponseDTO;
 import com.agroshop.app.model.entities.OrderDetailEntity;
 import com.agroshop.app.model.service.IOrderDetailService;
 import com.agroshop.app.util.Constants;
@@ -50,6 +55,26 @@ private static final Logger logger = LogManager.getLogger(OrderDetailController.
 			return response;		
 		}
 	}
+	
+	@PostMapping(path="/gsr")
+	public GenericResponse<SalesReportResponseDTO> getSalesReport(@RequestBody GenericRequest<SalesReportDTO> request) throws Throwable {
+		logger.info("OrderDetailController.getSalesReport()");
+		GenericResponse<SalesReportResponseDTO> response = new GenericResponse<SalesReportResponseDTO>();
+		try {
+			response.setDatalist(orderDetailService.getSalesReport(request.getData()));
+			response.setFinalTimesTamp(LocalDateTime.now());
+			response.setResponseMessage("Reporte de ventas elaborado correctamente");
+			response.setResponseCode(AbstractResponse.SUCCESS);
+			
+		}catch(Exception e){
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage("Ocurrio al obtener el reporte de ventas");
+			logger.error("ERORR ==> ",e);
+			return response;		
+		}
+		return response;
+	}
+	
 	
 
 }

@@ -1,5 +1,6 @@
 package com.agroshop.app.model.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -10,51 +11,45 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
-
-import com.agroshop.app.util.Constants;
 
 @Entity
 @Table(name = "contrato")
-public class ContractEntity {
+public class ContractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(nullable = false)
 	private LocalDate initDate;
-	
-	// @Column(nullable = false)
-	// private LocalDate contractDate;
-	
+
 	@Column(nullable = false)
 	private Integer timeContract;
-	
+
 	@Column(nullable = true)
 	private LocalDate endContract;
-	
+
 	@Column(nullable = true)
 	private String nameContract;
-	
+
 	@Column(nullable = false)
 	private Boolean expired;
-	
+
 	private String status;
-	
+
 	@Column(nullable = true)
 	private String fileContract;
-	
+
 	private LocalDateTime createDate;
-	
+
 	private Boolean isDeleted;
-	
+
 	private LocalDateTime updateDate;
-	
+
 	@OneToOne
-	@JoinColumn(name = "postulation_id" ,referencedColumnName = "id")
+	@JoinColumn(name = "postulation_id", referencedColumnName = "id")
 	private PostulationEntity postulation;
 
 	public Integer getId() {
@@ -72,14 +67,6 @@ public class ContractEntity {
 	public void setInitDate(LocalDate initDate) {
 		this.initDate = initDate;
 	}
-
-//	public LocalDate getContractDate() {
-//		return contractDate;
-//	}
-//
-//	public void setContractDate(LocalDate contractDate) {
-//		this.contractDate = contractDate;
-//	}
 
 	public Integer getTimeContract() {
 		return timeContract;
@@ -160,7 +147,5 @@ public class ContractEntity {
 	public void setUpdateDate(LocalDateTime updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	
-	
+
 }
