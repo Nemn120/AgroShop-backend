@@ -41,7 +41,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			//throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -75,7 +74,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -85,13 +83,12 @@ public class PostulationController {
 		logger.info("PostulationController.findPostulationByStatusPostulationAndFarmerId()");
 		GenericResponse<PostulationEntity> response = new GenericResponse<>();
 		try {
-			response.setDatalist(postulationService.findPostulationByStatusPostulationAndFarmerId(request.getData().getStatusPostulation(), request.getData().getJobOffer().getOrder().getFarmer().getId()));
+			response.setDatalist(postulationService.findPostulationByStatusPostulationAndFarmerId(request.getData().getStatusPostulation(), request.getData().getJobOffer().getOrder().getFarmer().getUser().getId()));
 			response.setResponseCode(AbstractResponse.SUCCESS);
 			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -107,7 +104,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -125,7 +121,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -141,7 +136,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
