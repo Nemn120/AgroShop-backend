@@ -23,6 +23,7 @@ import com.agroshop.app.model.entities.FarmerEntity;
 import com.agroshop.app.model.entities.OrderDetailEntity;
 import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.entities.PlaceEntity;
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.repository.IOrderRepository;
@@ -245,6 +246,18 @@ public class OrderServiceImpl implements IOrderService {
 	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id) {
 		
 		return orderRepo.getListOrderByStatusAndClientId(status, id);
+	}
+	
+	@Override
+	public OrderEntity confirmArriveOrder(OrderEntity order) throws Throwable{
+		OrderEntity ord = new OrderEntity();
+		if(order.getId()!=null) {
+			ord = orderRepo.findById(order.getId()).orElse(new OrderEntity());
+			if(order.getPhoto() != null && order.getPhoto().length>0)
+				orderRepo.updatePhoto(order.getId(),order.getPhoto());
+				orderRepo.updateOrderStatus(order.getId(), Constants.ORDER_STATUS_DELIVERED);
+		}
+		return ord;
 	}
 
 }

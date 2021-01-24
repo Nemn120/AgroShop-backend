@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.OrderBean;
 import com.agroshop.app.model.entities.OrderEntity;
+import com.agroshop.app.model.entities.ProductEntity;
 
 @Service
 public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
@@ -24,5 +25,7 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	public boolean cancelOrderAndListOrderDetail(Integer orderId);
 	
 	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id);
+	
+	public OrderEntity confirmArriveOrder(OrderEntity t) throws Throwable;
 
 }

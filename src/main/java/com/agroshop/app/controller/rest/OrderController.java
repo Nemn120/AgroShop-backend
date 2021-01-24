@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.GenericResponse;
@@ -159,5 +161,28 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 			logger.error("ERORR ==> ",e.getMessage());
 			return new ResponseEntity<GenericResponse<OrderEntity>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PostMapping(path = "/cao")
+	public GenericResponse<OrderEntity> confirmArriveOrder(@RequestPart("request") GenericRequest<OrderEntity> request,
+			@RequestPart("file") MultipartFile file) {
+
+		logger.info("OrderController.confirmArriveOrder()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+
+		try {
+
+			if (file.getBytes().length > 0)
+				request.getData().setPhoto(file.getBytes());
+			
+			response.setData(orderService.confirmArriveOrder(request.getData()));
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+
+		} catch (Throwable e) {
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			logger.error(e.getMessage());
+		}
+
+		return response;
 	}
 }

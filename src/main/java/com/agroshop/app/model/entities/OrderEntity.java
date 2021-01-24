@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="order_entity")
 public class OrderEntity extends MainEntity {
@@ -53,6 +55,10 @@ public class OrderEntity extends MainEntity {
 	@ManyToOne
 	@JoinColumn(name = "origin_place_id")
 	private PlaceEntity originPlace;
+	
+	@JsonIgnore
+	@Column(name = "photo", updatable = false)
+	private byte[] photo;
 	
 	public PlaceEntity getDestinyPlace() {
 		return destinyPlace;
@@ -177,7 +183,11 @@ public class OrderEntity extends MainEntity {
 	public void setDeliveredDate(LocalDateTime deliveredDate) {
 		this.deliveredDate = deliveredDate;
 	}
-	
-	
+	public byte[] getPhoto() {
+		return photo;
+	}
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
 }
