@@ -3,6 +3,11 @@ package com.agroshop.app.controller.rest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +18,7 @@ import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.DTO.LoginDTO;
 import com.agroshop.app.model.DTO.RegisterDTO;
 import com.agroshop.app.model.entities.DriverEntity;
+import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.entities.UserEntity;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.model.service.IUserService;
@@ -31,6 +37,7 @@ public class UserController {
 	
 	@PostMapping(value="/gubu")
 	public GenericResponse<Object> getUserByUsernameAndUserType(@RequestBody LoginDTO request ){
+		logger.info("UserController.getUserByUsernameAndUserType()");
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		Object object = null; 
 		try {
@@ -62,6 +69,7 @@ public class UserController {
 	
 	@PostMapping(value="/rubt")
 	public GenericResponse<Object> registerUserByUserType(@RequestBody RegisterDTO request ) throws Throwable{
+		logger.info("UserController.registerUserByUserType()");
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
 			Object o = userService.registerUserByTypeUser(request);
@@ -86,6 +94,7 @@ public class UserController {
 	
 	@PostMapping(value="/gubi")
 	public GenericResponse<Object> getUserById(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
+		logger.info("UserController.getUserById()");
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
 			UserEntity user = userService.getOneById(request.getId());
@@ -101,6 +110,7 @@ public class UserController {
 	
 	@PostMapping(value="/gubus")
 	public GenericResponse<Object> getUserByUsername(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
+		logger.info("UserController.getUserByUsername()");
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
 			UserEntity user = userService.getUserByUsername(request.getData().getUsername());
@@ -112,8 +122,31 @@ public class UserController {
 			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
 		}
 		return response;
+	}
+	
+	@PostMapping(value="/uu")
+	public GenericResponse<Object> updatedUser(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
+		logger.info("UserController.updatedUser()");
+		GenericResponse<Object> response = new GenericResponse<Object>();
+		try {
+			if(request.getData() == null)
+				return response;
+			UserEntity user = userService.register(request.getData());
+			response.setData(user);
+			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
+		}catch(Exception e) {
+			response.setResponseMessage("Error al registrar datos del usuario");
+			logger.error(e);
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+		}
+		return response;
+	}
+	
+	@GetMapping(value = "/gp/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public ResponseEntity<byte[]> getPhoto(@PathVariable("id") Integer id) {
+		logger.info("UserController.getPhoto()");
+		UserEntity c = userService.getOneById(id);
+		byte[] data = c.getPhoto();
+		return new ResponseEntity<byte[]>(data, HttpStatus.OK);
 	}	
-	
-	
-
 }

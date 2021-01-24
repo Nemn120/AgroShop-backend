@@ -26,7 +26,6 @@ public class FarmerController {
 	@Autowired
 	private IFarmerService farmerService;
 	
-	private GenericResponse<FarmerEntity> response; 
 	private static final Logger logger = LogManager.getLogger(FarmerController.class);
 	
 	@GetMapping(path="/glf")
@@ -36,7 +35,6 @@ public class FarmerController {
 	
 	@PostMapping(path="/gfbi")
 	public GenericResponse<FarmerEntity> getFarmerById(@RequestBody GenericRequest<FarmerEntity> request){
-		
 		GenericResponse<FarmerEntity> response = new GenericResponse<FarmerEntity>();
 		try {
 			FarmerEntity farmer = farmerService.getFarmerById(request.getId());
@@ -54,6 +52,5 @@ public class FarmerController {
 		
 		return response;
 	}
-
 	
 }

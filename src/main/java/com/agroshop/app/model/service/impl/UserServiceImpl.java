@@ -71,14 +71,20 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public UserEntity  register(UserEntity user) throws Throwable {
-		List<UserEntity> u = userRepo.getUserByUsername(user.getUsername());
-		if(u.size() >0)
-			throw new RuntimeException(Constants.USERNAME_DUPLICATE);
-		user.setPassword(bcrypt.encode(user.getPassword()));
-		ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
-		user.setProfile(new ProfileEntity());
-		user.setProfile(profileSelect);
-		return userRepo.save(user);
+		if(user.getId() == null) {
+			List<UserEntity> u = userRepo.getUserByUsername(user.getUsername());
+			if(u.size() >0)
+				throw new RuntimeException(Constants.USERNAME_DUPLICATE);
+			user.setPassword(bcrypt.encode(user.getPassword()));
+			ProfileEntity profileSelect =profileService.findProfileByName(user.getTypeUser());
+			user.setProfile(new ProfileEntity());
+			user.setProfile(profileSelect);
+		}
+		UserEntity userSave = userRepo.save(user);
+		if(user.getId() != null && user.getPhoto() != null && user.getPhoto().length>0) {
+			userRepo.updatePhoto(user.getId(),user.getPhoto());
+		}	
+		return userSave; 
 	}
 
 
