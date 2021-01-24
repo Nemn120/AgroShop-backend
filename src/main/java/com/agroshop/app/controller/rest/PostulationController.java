@@ -68,7 +68,7 @@ public class PostulationController {
 		logger.info("PostulationController.findPostulationByStatusPostulationAndDriverId()");
 		GenericResponse<PostulationEntity> response = new GenericResponse<>();
 		try {
-			response.setDatalist(postulationService.findByStatusPostulationAndDriverId(request.getData().getStatusPostulation(), request.getData().getDriver().getId()));
+			response.setDatalist(postulationService.findByStatusPostulationAndDriverId(request.getData().getStatusPostulation(), request.getData().getDriver().getUser().getId()));
 			response.setResponseCode(AbstractResponse.SUCCESS);
 			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 		} catch (Exception e) {
