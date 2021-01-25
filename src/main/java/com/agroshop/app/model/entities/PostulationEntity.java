@@ -27,7 +27,7 @@ public class PostulationEntity extends MainEntity{
 	private String reply;
 	
 	@Column(nullable = true)
-	private boolean haveContract;
+	private Boolean haveContract;
 	
 	@ManyToOne
 	@JoinColumn(name = "job_offer_id")

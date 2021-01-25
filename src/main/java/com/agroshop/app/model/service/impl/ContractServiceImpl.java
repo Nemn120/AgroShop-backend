@@ -70,12 +70,13 @@ public class ContractServiceImpl implements IContractService {
 	public ContractEntity enableContract(ContractEntity contract) throws Throwable {
 		PostulationEntity postulation;
 		postulation = postulationService.getOneById(contract.getPostulation().getId());
-		// postulation.setHaveContract(true);
+		postulation.setHaveContract(true);
 		contract.setStatus(Constants.STATUS_CONTRACT_NO_GENERATED);
 		contract.setCreateDate(LocalDateTime.now());
 		contract.setUpdateDate(LocalDateTime.now());
 		contract.setExpired(false);
 		contract.setIsDeleted(false);
+		contract.setId(postulation.getId());
 
 		contract.setPostulation(postulation);
 		contract.setEndContract(contract.getEndContract());

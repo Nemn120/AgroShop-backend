@@ -1,5 +1,9 @@
 package com.agroshop.app.model.service.impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.FarmerBean;
@@ -30,6 +35,7 @@ import com.agroshop.app.model.service.IOrderDetailService;
 import com.agroshop.app.model.service.IOrderService;
 import com.agroshop.app.model.service.IPlaceService;
 import com.agroshop.app.model.service.IProductSalesService;
+import com.agroshop.app.model.service.IUploadFileService;
 import com.agroshop.app.util.Constants;
 import com.agroshop.app.util.MailUtil;
 
@@ -53,6 +59,9 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Autowired
 	private MailUtil mailUtil;
+	
+	@Autowired
+	private IUploadFileService uploadService;
 	
 	@Override
 	public List<OrderEntity> getAll() {
@@ -245,6 +254,25 @@ public class OrderServiceImpl implements IOrderService {
 	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id) {
 		
 		return orderRepo.getListOrderByStatusAndClientId(status, id);
+	}
+	
+	@Override
+	public OrderEntity confirmArriveOrder(MultipartFile file, Integer id) throws Throwable{
+		
+		OrderEntity ord = orderRepo.findById(id).orElse(new OrderEntity());
+		if (!file.isEmpty()) {
+			String nameImage = null;
+			try {
+				nameImage = uploadService.copy(file);
+				ord.setPhoto(nameImage);
+				ord.setStatus(Constants.ORDER_STATUS_DELIVERED);
+				logger.info("IMAGE" + ord.getPhoto());
+				ord = orderRepo.save(ord);
+			} catch(IOException e) {
+				logger.error(e.getMessage());
+			}
+		}
+		return ord;
 	}
 
 }

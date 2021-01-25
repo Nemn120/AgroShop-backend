@@ -95,6 +95,8 @@ public class Constants {
 	public static final String RUTA_CONTRATO = "src/main/resources/Contrato";
 	public static final String STATUS_CONTRACT_GENERATED = "Generado";
 	public static final String STATUS_CONTRACT_NO_GENERATED = "No generado";
+	
+	public static final String DIRECTORY_UPLOAD = "src/main/resources/images";
 
 	// WORD
 	public static final String ARIAL_FONT = "Arial";
