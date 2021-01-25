@@ -3,6 +3,7 @@ package com.agroshop.app.model.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.OrderBean;
@@ -26,6 +27,6 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	
 	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id);
 	
-	public OrderEntity confirmArriveOrder(OrderEntity t) throws Throwable;
+	public OrderEntity confirmArriveOrder(MultipartFile file, Integer id) throws Throwable;
 
 }

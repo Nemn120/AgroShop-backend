@@ -56,9 +56,8 @@ public class OrderEntity extends MainEntity {
 	@JoinColumn(name = "origin_place_id")
 	private PlaceEntity originPlace;
 	
-	@JsonIgnore
-	@Column(name = "photo", updatable = false)
-	private byte[] photo;
+	@Column(name = "photo")
+	private String photo;
 	
 	public PlaceEntity getDestinyPlace() {
 		return destinyPlace;
@@ -183,10 +182,10 @@ public class OrderEntity extends MainEntity {
 	public void setDeliveredDate(LocalDateTime deliveredDate) {
 		this.deliveredDate = deliveredDate;
 	}
-	public byte[] getPhoto() {
+	public String getPhoto() {
 		return photo;
 	}
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 

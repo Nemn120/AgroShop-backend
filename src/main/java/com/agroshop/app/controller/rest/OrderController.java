@@ -1,31 +1,30 @@
 package com.agroshop.app.controller.rest;
 
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.GenericResponse;
-import com.agroshop.app.model.DTO.SearchJobOfferByFieldsDTO;
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.OrderBean;
-import com.agroshop.app.model.entities.JobOfferEntity;
 import com.agroshop.app.model.entities.OrderEntity;
-import com.agroshop.app.model.entities.ProductEntity;
 import com.agroshop.app.model.service.IOrderService;
+import com.agroshop.app.model.service.IUploadFileService;
 import com.agroshop.app.util.Constants;
 
 @RestController
@@ -36,6 +35,9 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 	
 	@Autowired
 	private IOrderService orderService;
+	
+	@Autowired
+	IUploadFileService uploadService;
 	
 	@PostMapping(path="/sobos")
 	public ResponseEntity<GenericResponse<OrderBean>> saveNewOrderByClient(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
@@ -163,19 +165,41 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 		}
 	}
 	
-	@PostMapping(path = "/cao")
-	public GenericResponse<OrderEntity> confirmArriveOrder(@RequestPart("request") GenericRequest<OrderEntity> request,
-			@RequestPart("file") MultipartFile file) {
+	@PostMapping(path = "/cao/{id}")
+	public GenericResponse<OrderEntity> confirmArriveOrder(@PathVariable("id") Integer id,
+			@RequestParam("file") MultipartFile file) {
 
 		logger.info("OrderController.confirmArriveOrder()");
 		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
 
 		try {
+			OrderEntity ord = new OrderEntity();
+			ord = orderService.confirmArriveOrder(file, id);
+			response.setData(ord);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 
-			if (file.getBytes().length > 0)
-				request.getData().setPhoto(file.getBytes());
-			
-			response.setData(orderService.confirmArriveOrder(request.getData()));
+		} catch (Throwable e) {
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			logger.error(e.getMessage());
+		}
+
+		return response;
+	}
+	
+	@PostMapping(path = "vi")
+	public GenericResponse<String> viewImage(@RequestBody GenericRequest<Integer> request) {
+
+		logger.info("OrderController.viewImage()");
+		GenericResponse<String> response = new GenericResponse<String>();
+		OrderEntity ord;
+		try {
+			try {
+				ord = orderService.getOneById(request.getData());
+				logger.info(ord.getPhoto());
+				response.setData(ord.getPhoto());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 
 		} catch (Throwable e) {
