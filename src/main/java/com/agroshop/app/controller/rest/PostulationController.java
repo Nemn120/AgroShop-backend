@@ -26,7 +26,7 @@ public class PostulationController {
 	IPostulationService postulationService;
 	
 	@GetMapping(path = "/gap")
-	public GenericResponse<PostulationEntity> getAllPostulation(@RequestBody GenericRequest<PostulationEntity> request) throws Throwable {
+	public GenericResponse<PostulationEntity> getAllPostulation() throws Throwable {
 		logger.info("PostulationController.getAllPostulation()");
 		GenericResponse<PostulationEntity> response = new GenericResponse<>();
 		try {
