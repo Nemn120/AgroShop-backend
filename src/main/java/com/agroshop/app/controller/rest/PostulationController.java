@@ -1,11 +1,9 @@
 package com.agroshop.app.controller.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
-import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.entities.PostulationEntity;
 import com.agroshop.app.model.service.IPostulationService;
 import com.agroshop.app.util.Constants;
@@ -27,6 +24,20 @@ public class PostulationController {
 
 	@Autowired
 	IPostulationService postulationService;
+	
+	@GetMapping(path = "/gap")
+	public GenericResponse<PostulationEntity> getAllPostulation() throws Throwable {
+		logger.info("PostulationController.getAllPostulation()");
+		GenericResponse<PostulationEntity> response = new GenericResponse<>();
+		try {
+			response.setDatalist(postulationService.getAll());;
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		} catch (Exception e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+		}
+		return response;
+	}
 
 	@PostMapping(path = "/afaj")
 	public GenericResponse<PostulationEntity> applyForAJob(@RequestBody GenericRequest<PostulationEntity> request) throws Throwable {
@@ -41,7 +52,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			//throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -75,7 +85,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -91,7 +100,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -107,7 +115,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -125,7 +132,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}
@@ -141,7 +147,6 @@ public class PostulationController {
 		} catch (Exception e) {
 			response.setResponseCode(AbstractResponse.ERROR);
 			response.setResponseMessage(e.getMessage());
-			throw new RuntimeException(Constants.ERROR_PETITION_MESSAGE);
 		}
 		return response;
 	}

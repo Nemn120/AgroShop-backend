@@ -57,4 +57,17 @@ public class ContractController {
 		}
 		return response;
 	}
+	
+	@PostMapping("/gac")
+	public GenericResponse<ContractEntity> getAllContract() throws Throwable {
+		GenericResponse<ContractEntity> response = new GenericResponse<>();
+		try {
+			response.setDatalist(contractService.getContracts());
+			response.setResponseCode(AbstractResponse.SUCCESS);
+		} catch(Error e) {
+			response.setResponseCode(AbstractResponse.ERROR);
+			response.setResponseMessage(e.getMessage());
+		}
+		return response;
+	}
 }
