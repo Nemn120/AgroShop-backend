@@ -11,8 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Entity
 @Table(name="postulation")
+@JsonInclude(Include.NON_NULL)
 public class PostulationEntity extends MainEntity{
 	
 	private static final long serialVersionUID = 1L;
@@ -26,7 +30,6 @@ public class PostulationEntity extends MainEntity{
 	private String detail;
 	private String reply;
 	
-	@Column(nullable = true)
 	private Boolean haveContract;
 	
 	@ManyToOne
@@ -36,6 +39,14 @@ public class PostulationEntity extends MainEntity{
 	@ManyToOne
 	@JoinColumn(name = "driver_id")
 	private DriverEntity driver;
+	
+	public Boolean getHaveContract() {
+		return haveContract;
+	}
+
+	public void setHaveContract(Boolean haveContract) {
+		this.haveContract = haveContract;
+	}
 
 	public Integer getId() {
 		return id;
@@ -91,14 +102,6 @@ public class PostulationEntity extends MainEntity{
 
 	public void setDriver(DriverEntity driver) {
 		this.driver = driver;
-	}
-
-	public boolean getHaveContract() {
-		return haveContract;
-	}
-
-	public void setHaveContract(boolean haveContract) {
-		this.haveContract = haveContract;
 	}
 
 }

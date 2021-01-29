@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.GenericResponse;
@@ -125,14 +127,15 @@ public class UserController {
 	}
 	
 	@PostMapping(value="/uu")
-	public GenericResponse<Object> updatedUser(@RequestBody GenericRequest<UserEntity> request ) throws Throwable{
+	public GenericResponse<Object> updatedUser(@RequestPart("request") GenericRequest<UserEntity> request,@RequestPart("file") MultipartFile file) throws Throwable{
 		logger.info("UserController.updatedUser()");
 		GenericResponse<Object> response = new GenericResponse<Object>();
 		try {
 			if(request.getData() == null)
 				return response;
-			UserEntity user = userService.register(request.getData());
-			response.setData(user);
+			if(file.getBytes().length>0)
+				request.getData().setPhoto(file.getBytes());
+			response.setData(userService.register(request.getData()));
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
 		}catch(Exception e) {
 			response.setResponseMessage("Error al registrar datos del usuario");

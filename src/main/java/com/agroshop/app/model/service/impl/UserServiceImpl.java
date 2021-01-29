@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.agroshop.app.model.DTO.RegisterDTO;
 import com.agroshop.app.model.entities.ClientEntity;
@@ -27,6 +28,7 @@ import com.agroshop.app.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
+@Transactional
 public class UserServiceImpl implements IUserService{
 	
 

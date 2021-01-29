@@ -1,5 +1,7 @@
 package com.agroshop.app.controller.rest;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +96,8 @@ public class PostulationController {
 		logger.info("PostulationController.findPostulationByStatusPostulationAndFarmerId()");
 		GenericResponse<PostulationEntity> response = new GenericResponse<>();
 		try {
-			response.setDatalist(postulationService.findPostulationByStatusPostulationAndFarmerId(request.getData().getStatusPostulation(), request.getData().getJobOffer().getOrder().getFarmer().getId()));
+			List<PostulationEntity> result = postulationService.findPostulationByStatusPostulationAndFarmerId(request.getData().getStatusPostulation(), request.getData().getJobOffer().getOrder().getFarmer().getId());
+			response.setDatalist(result);
 			response.setResponseCode(AbstractResponse.SUCCESS);
 			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 		} catch (Exception e) {
