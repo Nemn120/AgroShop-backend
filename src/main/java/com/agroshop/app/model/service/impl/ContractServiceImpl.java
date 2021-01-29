@@ -89,18 +89,44 @@ public class ContractServiceImpl implements IContractService {
 
 	@Override
 	public String createContract(ContractEntity contract) throws IOException {
+		
+		ConvertNumberToLetter convertidor = new ConvertNumberToLetter();
 
 		String directory = System.getProperty("user.dir");
 		String separator = System.getProperty("file.separator");
 		String randomUIID = UUID.randomUUID().toString();
 		String ruta = directory + separator + Constants.RUTA_CONTRATO + separator + randomUIID + ".docx";
-
+		String linea = "_____________________";
+		String agriNombres = contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName() ;
+		String agriApellidos = contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName();
+		String dniAgri = contract.getPostulation().getDriver().getUser().getDocumentNumber() == null ? linea : contract.getPostulation().getDriver().getUser().getDocumentNumber();
+		String direccionAgri = contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getAddress() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getAddress();
+		String conductorNombre = contract.getPostulation().getDriver().getUser().getName() == null ? linea : contract.getPostulation().getDriver().getUser().getName();
+		String conductorApellido = contract.getPostulation().getDriver().getUser().getLastName() == null ? linea : contract.getPostulation().getDriver().getUser().getLastName();
+		String dniConductor = contract.getPostulation().getDriver().getUser().getDocumentNumber() == null ? linea : contract.getPostulation().getDriver().getUser().getDocumentNumber();
+		String direccionConductor = contract.getPostulation().getDriver().getUser().getAddress() == null ? linea : contract.getPostulation().getDriver().getUser().getAddress();
+		String anioExperiencia = contract.getPostulation().getDriver().getYearsOfExperience() == null ? linea : contract.getPostulation().getDriver().getYearsOfExperience();
+		String licencia = contract.getPostulation().getDriver().getDriverLicenseNumber() == null ? linea : contract.getPostulation().getDriver().getDriverLicenseNumber();
+		String montoSalario = contract.getPostulation().getJobOffer().getShippingCost().toString() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
+		String montoSalarioLetras = montoSalario.equals(linea) ? linea : convertidor.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true);
+		String montoGarantia = contract.getPostulation().getJobOffer().getShippingCost().toString() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
+		String montoGarantiaLetras = montoGarantia.equals(linea) ? linea : convertidor.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true);
+		String tiempoContrato = contract.getTimeContract().toString() == null ? linea : contract.getTimeContract().toString();
+		String initContrato = ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(), contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear()) == null ? linea : ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
+				contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear());
+		String endContrato = ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(),
+				contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear()) == null ? linea : ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(), contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear());
+		String monto_costo = contract.getPostulation().getJobOffer().getShippingCost().toString() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
+		String originRegion = contract.getPostulation().getJobOffer().getOriginRegion() == null ? linea : contract.getPostulation().getJobOffer().getOriginRegion();
+		String originProvincia = contract.getPostulation().getJobOffer().getOriginProvince() == null ? linea : contract.getPostulation().getJobOffer().getOriginProvince();
+		String originDistrito = contract.getPostulation().getJobOffer().getOriginDistrict() == null ? linea : contract.getPostulation().getJobOffer().getOriginDistrict();
+		String peso = contract.getPostulation().getJobOffer().getTotalWeight().toString() == null ? linea : contract.getPostulation().getJobOffer().getTotalWeight().toString();
+		
 		File file = new File(ruta);
 		if (!file.createNewFile()) {
 			throw new IOException("No se pudo crear el contrato, la ruta no existe");
 		}
 
-		ConvertNumberToLetter convertidor = new ConvertNumberToLetter();
 		XWPFDocument documento = new XWPFDocument();
 
 		try {
@@ -111,26 +137,26 @@ public class ContractServiceImpl implements IContractService {
 			String prfA2 = constante.parrafo1().getText2();
 			String prfA3 = constante.parrafo1().getText3()
 					.replace("$agricultor_nombres$",
-							contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName())
+							agriNombres)
 					.replace("$agricultor_apellidos$",
-							contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName());
+							agriApellidos);
 			String prfA4 = constante.parrafo1().getText4().replace("$dni_agricultor$",
-					contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getDocumentNumber());
+					dniAgri);
 			String prfA5 = constante.parrafo1().getText5().replace("$direccion_agricultor$",
-					contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getAddress());
+					direccionAgri);
 			String prfA6 = constante.parrafo1().getText6();
 			String prfA7 = constante.parrafo1().getText7()
-					.replace("$conductor_nombre$", contract.getPostulation().getDriver().getUser().getName())
-					.replace("$conductor_apellidos$", contract.getPostulation().getDriver().getUser().getLastName())
-					.replace("$dni_conductor$", contract.getPostulation().getDriver().getUser().getDocumentNumber())
-					.replace("$direccion_conductor$", contract.getPostulation().getDriver().getUser().getAddress())
-					.replace("$anio_experiencia$", contract.getPostulation().getDriver().getYearsOfExperience());
+					.replace("$conductor_nombre$", conductorNombre)
+					.replace("$conductor_apellidos$", conductorApellido)
+					.replace("$dni_conductor$", dniConductor)
+					.replace("$direccion_conductor$", direccionConductor)
+					.replace("$anio_experiencia$", anioExperiencia);
 
 			String subtitleAntece = constante.subtituloAntecedente().getText1();
 
 			String prfB1 = constante.parrafo2().getText1();
 			String prfB2 = constante.parrafo2().getText2().replace("$licencia_vehiculo$",
-					contract.getPostulation().getDriver().getDriverLicenseNumber());
+					licencia);
 
 			String prfC1 = constante.parrafo3().getText1();
 			String prfC2 = constante.parrafo3().getText2();
@@ -154,18 +180,16 @@ public class ContractServiceImpl implements IContractService {
 			String prfE2 = constante.parrafo5().getText2();
 			String prfE3 = constante.parrafo5().getText3();
 			String prfE4 = constante.parrafo5().getText4()
-					.replace("$monto_salario$", contract.getPostulation().getJobOffer().getShippingCost().toString())
-					.replace("$monto_salario_letras$", convertidor
-							.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true));
+					.replace("$monto_salario$", montoSalario)
+					.replace("$monto_salario_letras$", montoSalarioLetras);
 
 			String prfF1 = constante.parrafo6().getText1();
 			String prfF2 = constante.parrafo6().getText2();
 			String prfF3 = constante.parrafo6().getText3();
 			String prfF4 = constante.parrafo6().getText4();
 			String prfF5 = constante.parrafo6().getText5()
-					.replace("$monto_garantia$", contract.getPostulation().getJobOffer().getShippingCost().toString())
-					.replace("$monto_garantia_letras$", convertidor
-							.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true));
+					.replace("$monto_garantia$", montoGarantia)
+					.replace("$monto_garantia_letras$", montoGarantiaLetras);
 			String prfF6 = constante.parrafo6().getText6();
 
 			String prfG1 = constante.parrafo7().getText1();
@@ -178,6 +202,7 @@ public class ContractServiceImpl implements IContractService {
 					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getDayOfMonth(),
 					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getMonthValue(),
 					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getYear());
+			date_pay = date_pay == null ? linea : date_pay; 
 
 			String prfG6 = constante.parrafo7().getText6().replace("$dia_pago_mes$", date_pay);
 
@@ -185,22 +210,20 @@ public class ContractServiceImpl implements IContractService {
 
 			String prfH1 = constante.parrafo8().getText1();
 
-			String init_contract = ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
-					contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear());
+			String init_contract = initContrato;
 
-			String end_contract = ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(),
-					contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear());
+			String end_contract = endContrato;
 
 			String prfH2 = constante.parrafo8().getText2()
-					.replace("$tiempo_contrato$", contract.getTimeContract().toString())
+					.replace("$tiempo_contrato$", tiempoContrato)
 					.replace("$fecha_contrato_inicio$", init_contract).replace("$fecha_contrato_fin$", end_contract)
-					.replace("$monto_costo$", contract.getPostulation().getJobOffer().getShippingCost().toString())
+					.replace("$monto_costo$", monto_costo)
 					.replace("$origin$",
-							"la región de " + contract.getPostulation().getJobOffer().getOriginRegion()
-									+ " provincia de " + contract.getPostulation().getJobOffer().getOriginProvince()
+							"la región de " + originRegion
+									+ " provincia de " + originProvincia
 									+ " ubicado en el distrito de "
-									+ contract.getPostulation().getJobOffer().getOriginDistrict())
-					.replace("$peso$", contract.getPostulation().getJobOffer().getTotalWeight().toString());
+									+ originDistrito)
+					.replace("$peso$", peso);
 
 			String subtitleObligacion = constante.subtituloObligaciones().getText1();
 
@@ -231,9 +254,11 @@ public class ContractServiceImpl implements IContractService {
 			String prfO1 = constante.parrafo15().getText1();
 			String prfO2 = constante.parrafo15().getText2();
 			String prfO3 = constante.parrafo15().getText3();
-			Double penalidad = contract.getPostulation().getJobOffer().getShippingCost() * 0.1;
-			String prfO4 = constante.parrafo15().getText4().replace("$penalidad$", penalidad.toString())
-					.replace("$penalidad_letras$", convertidor.convertir(penalidad + "", true));
+			Double pen = (contract.getPostulation().getJobOffer().getShippingCost() * 0.1);
+			String penalidad = pen.toString() == null ? linea : pen.toString();
+			String penalidadLetras = penalidad.equals(linea) ? linea : convertidor.convertir(penalidad + "", true);
+			String prfO4 = constante.parrafo15().getText4().replace("$penalidad$", penalidad)
+					.replace("$penalidad_letras$", penalidadLetras);
 
 			String subtitleClausuGarant = constante.subtituloClausulaGarantia().getText1();
 
