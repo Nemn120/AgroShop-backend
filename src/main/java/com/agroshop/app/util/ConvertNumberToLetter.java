@@ -11,7 +11,7 @@ public class ConvertNumberToLetter {
 
 	public String convertir(String numero, boolean mayusculas) {
 		String literal = "";
-		String parteDecimal;
+		String parteDecimal="";
 		numero = numero.replace(".", ",");
 		if (numero.indexOf(",") == -1) {
 			numero = numero + ",00";
