@@ -196,6 +196,11 @@ public class OrderServiceImpl implements IOrderService {
 	public List<OrderEntity> findByStatusAndFarmerId(String status, Integer farmerId) throws Throwable {
 		return orderRepo.findByStatusAndFarmerId(status, farmerId);
 	}
+	
+	@Override
+	public List<OrderEntity> findByStatusAndClientId(String status, Integer clientId) throws Throwable {
+		return orderRepo.getListOrderByStatusAndClientId(status, clientId);
+	}
 
 	@Override
 	public List<OrderEntity> getListOrderByFields(SearchOrderByFieldsDTO dto) {

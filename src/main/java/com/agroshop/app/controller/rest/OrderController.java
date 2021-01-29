@@ -88,6 +88,21 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 			return response;
 		}
 	}
+	
+	@PostMapping(path="/gobsc")
+	public GenericResponse<OrderEntity> getOrderByStatusAndClientId(@RequestBody GenericRequest<OrderEntity> request) throws Throwable {
+		logger.info("OrderController.getOrderByStatusAndClientId()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+		try {
+			response.setDatalist(orderService.findByStatusAndClientId(request.getData().getStatus(),request.getId()));
+			return response;
+		}catch(Exception e){
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			response.setResponseMessage("Ocurrio un error al buscar el pedido");
+			logger.error("ERROR ==> ",e.getMessage());
+			return response;
+		}
+	}
 
 	@PostMapping(path="/globf")
 	public ResponseEntity<GenericResponse<OrderEntity>> getListOrderByFields(@RequestBody GenericRequest<SearchOrderByFieldsDTO> request) throws Throwable {
