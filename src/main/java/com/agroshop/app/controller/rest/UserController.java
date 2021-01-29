@@ -135,7 +135,7 @@ public class UserController {
 				return response;
 			if(file.getBytes().length>0)
 				request.getData().setPhoto(file.getBytes());
-			response.setData(userService.register(request.getData()));
+			response.setData(userService.updateUser(request.getData()));
 			response.setResponseCode(Constants.SUCCESS_PETITION_REQUEST);
 		}catch(Exception e) {
 			response.setResponseMessage("Error al registrar datos del usuario");
