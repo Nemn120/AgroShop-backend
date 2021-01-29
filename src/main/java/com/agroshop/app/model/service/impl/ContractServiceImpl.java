@@ -107,20 +107,21 @@ public class ContractServiceImpl implements IContractService {
 		String direccionConductor = contract.getPostulation().getDriver().getUser().getAddress() == null ? linea : contract.getPostulation().getDriver().getUser().getAddress();
 		String anioExperiencia = contract.getPostulation().getDriver().getYearsOfExperience() == null ? linea : contract.getPostulation().getDriver().getYearsOfExperience();
 		String licencia = contract.getPostulation().getDriver().getDriverLicenseNumber() == null ? linea : contract.getPostulation().getDriver().getDriverLicenseNumber();
-		String montoSalario = contract.getPostulation().getJobOffer().getShippingCost().toString() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
+		String montoSalario = contract.getPostulation().getJobOffer().getShippingCost() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
 		String montoSalarioLetras = montoSalario.equals(linea) ? linea : convertidor.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true);
-		String montoGarantia = contract.getPostulation().getJobOffer().getShippingCost().toString() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
+		String montoGarantia = contract.getPostulation().getJobOffer().getShippingCost() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
 		String montoGarantiaLetras = montoGarantia.equals(linea) ? linea : convertidor.convertir(contract.getPostulation().getJobOffer().getShippingCost() + "", true);
-		String tiempoContrato = contract.getTimeContract().toString() == null ? linea : contract.getTimeContract().toString();
-		String initContrato = ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(), contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear()) == null ? linea : ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
+		String tiempoContrato = contract.getTimeContract() == null ? linea : contract.getTimeContract().toString();
+		
+		String initContrato = contract.getInitDate() == null ? linea : ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
 				contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear());
-		String endContrato = ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(),
-				contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear()) == null ? linea : ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(), contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear());
-		String monto_costo = contract.getPostulation().getJobOffer().getShippingCost().toString() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
+		
+		String endContrato = contract.getEndContract() == null ? linea : ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(), contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear());
+		String monto_costo = contract.getPostulation().getJobOffer().getShippingCost() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
 		String originRegion = contract.getPostulation().getJobOffer().getOriginRegion() == null ? linea : contract.getPostulation().getJobOffer().getOriginRegion();
 		String originProvincia = contract.getPostulation().getJobOffer().getOriginProvince() == null ? linea : contract.getPostulation().getJobOffer().getOriginProvince();
 		String originDistrito = contract.getPostulation().getJobOffer().getOriginDistrict() == null ? linea : contract.getPostulation().getJobOffer().getOriginDistrict();
-		String peso = contract.getPostulation().getJobOffer().getTotalWeight().toString() == null ? linea : contract.getPostulation().getJobOffer().getTotalWeight().toString();
+		String peso = contract.getPostulation().getJobOffer().getTotalWeight() == null ? linea : contract.getPostulation().getJobOffer().getTotalWeight().toString();
 		
 		File file = new File(ruta);
 		if (!file.createNewFile()) {
@@ -197,12 +198,17 @@ public class ContractServiceImpl implements IContractService {
 			String prfG3 = constante.parrafo7().getText3();
 			String prfG4 = constante.parrafo7().getText4();
 			String prfG5 = constante.parrafo7().getText5();
-
-			String date_pay = ConvertNumberToLetter.convertMonth(
-					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getDayOfMonth(),
-					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getMonthValue(),
-					contract.getPostulation().getJobOffer().getOrder().getAttendDate().getYear());
-			date_pay = date_pay == null ? linea : date_pay; 
+			
+			String date_pay = "";
+			
+			if( contract.getPostulation().getJobOffer().getOrder().getAttendDate() != null) {
+				date_pay = ConvertNumberToLetter.convertMonth(
+				contract.getPostulation().getJobOffer().getOrder().getAttendDate().getDayOfMonth(),
+				contract.getPostulation().getJobOffer().getOrder().getAttendDate().getMonthValue(),
+				contract.getPostulation().getJobOffer().getOrder().getAttendDate().getYear());
+			} else {
+				date_pay = linea; 
+			}
 
 			String prfG6 = constante.parrafo7().getText6().replace("$dia_pago_mes$", date_pay);
 
@@ -254,8 +260,14 @@ public class ContractServiceImpl implements IContractService {
 			String prfO1 = constante.parrafo15().getText1();
 			String prfO2 = constante.parrafo15().getText2();
 			String prfO3 = constante.parrafo15().getText3();
-			Double pen = (contract.getPostulation().getJobOffer().getShippingCost() * 0.1);
-			String penalidad = pen.toString() == null ? linea : pen.toString();
+			String penalidad = "";
+			if(contract.getPostulation().getJobOffer().getShippingCost() != null) {
+				Double pen = (contract.getPostulation().getJobOffer().getShippingCost() * 0.1);
+				penalidad = pen.toString();
+			} else {
+				penalidad = linea;
+			}
+			
 			String penalidadLetras = penalidad.equals(linea) ? linea : convertidor.convertir(penalidad + "", true);
 			String prfO4 = constante.parrafo15().getText4().replace("$penalidad$", penalidad)
 					.replace("$penalidad_letras$", penalidadLetras);
