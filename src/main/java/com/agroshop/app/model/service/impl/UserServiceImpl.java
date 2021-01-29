@@ -144,12 +144,11 @@ public class UserServiceImpl implements IUserService{
 			userEntity.get().setAddress(user.getAddress());
 			userEntity.get().setProvince(user.getProvince());
 			userEntity.get().setDistrict(user.getDistrict());
-			
-			user = this.userRepo.save(userEntity.get());
+			UserEntity userSave = this.userRepo.save(userEntity.get());
 			if(user.getPhoto() != null && user.getPhoto().length>0) {
 				userRepo.updatePhoto(user.getId(),user.getPhoto());
 			}
-			return user;
+			return userSave;
 		}
 		
 		return new UserEntity();
