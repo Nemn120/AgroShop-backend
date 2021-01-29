@@ -18,4 +18,6 @@ public interface IUserService extends GenericCRUD<UserEntity, Integer>{
 	
 	UserEntity getUserByUsername(String username)   throws Throwable;
 	
+	UserEntity updateUser(UserEntity user)throws Throwable;
+	
 }

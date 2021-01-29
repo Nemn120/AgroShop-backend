@@ -4,6 +4,7 @@ package com.agroshop.app.model.service.impl;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -129,6 +130,28 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public UserEntity getUserByUsername(String username) throws Throwable {
 		return this.userRepo.findOneByUsername(username);
+	}
+
+	@Override
+	public UserEntity updateUser(UserEntity user) throws Throwable {
+		Optional<UserEntity> userEntity = this.userRepo.findById(user.getId());
+		if(userEntity.isPresent()) {
+			userEntity.get().setName(user.getName());
+			userEntity.get().setLastName(user.getLastName());
+			userEntity.get().setRegion(user.getRegion());
+			userEntity.get().setCellPhone(user.getCellPhone());
+			userEntity.get().setEmail(user.getEmail());
+			userEntity.get().setAddress(user.getAddress());
+			userEntity.get().setProvince(user.getProvince());
+			userEntity.get().setDistrict(user.getDistrict());
+			UserEntity userSave = this.userRepo.save(userEntity.get());
+			if(user.getPhoto() != null && user.getPhoto().length>0) {
+				userRepo.updatePhoto(user.getId(),user.getPhoto());
+			}
+			return userSave;
+		}
+		
+		return new UserEntity();
 	}
 	
 
