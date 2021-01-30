@@ -32,6 +32,8 @@ public class PostulationEntity extends MainEntity{
 	
 	private Boolean haveContract;
 	
+	private byte[] fileContrato;
+	
 	@ManyToOne
 	@JoinColumn(name = "job_offer_id")
 	private JobOfferEntity jobOffer;
@@ -102,6 +104,14 @@ public class PostulationEntity extends MainEntity{
 
 	public void setDriver(DriverEntity driver) {
 		this.driver = driver;
+	}
+
+	public byte[] getFileContrato() {
+		return fileContrato;
+	}
+
+	public void setFileContrato(byte[] fileContrato) {
+		this.fileContrato = fileContrato;
 	}
 
 }

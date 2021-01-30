@@ -6,29 +6,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import com.agroshop.app.model.entities.ContractEntity;
-import com.agroshop.app.model.entities.PostulationEntity;
-import com.agroshop.app.model.repository.IContractRepository;
-import com.agroshop.app.model.service.IContractService;
-import com.agroshop.app.model.service.IPostulationService;
-import com.agroshop.app.util.Constants;
-import com.agroshop.app.util.ConvertNumberToLetter;
-import com.agroshop.app.util.WordConstant;
-import com.agroshop.app.util.WordFunction;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.TextAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.agroshop.app.model.entities.ContractEntity;
+import com.agroshop.app.model.entities.OrderEntity;
+import com.agroshop.app.model.entities.PostulationEntity;
+import com.agroshop.app.model.repository.IContractRepository;
+import com.agroshop.app.model.service.IContractService;
+import com.agroshop.app.model.service.IOrderService;
+import com.agroshop.app.model.service.IPostulationService;
+import com.agroshop.app.util.Constants;
+import com.agroshop.app.util.ConvertNumberToLetter;
+import com.agroshop.app.util.WordConstant;
+import com.agroshop.app.util.WordFunction;
 
 @Service
 public class ContractServiceImpl implements IContractService {
@@ -38,6 +39,12 @@ public class ContractServiceImpl implements IContractService {
 
 	@Autowired
 	private IPostulationService postulationService;
+	
+	@Autowired
+	private IOrderService orderService;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 
 	private FileOutputStream out;
 	private FileInputStream fis;
@@ -92,10 +99,13 @@ public class ContractServiceImpl implements IContractService {
 		
 		ConvertNumberToLetter convertidor = new ConvertNumberToLetter();
 
-		String directory = System.getProperty("user.dir");
-		String separator = System.getProperty("file.separator");
 		String randomUIID = UUID.randomUUID().toString();
-		String ruta = directory + separator + Constants.RUTA_CONTRATO + separator + randomUIID + ".docx";
+		
+		Resource fileResource = resourceLoader.getResource("classpath:Contrato");
+		File archivo = fileResource.getFile();
+		
+		String ruta = archivo.getAbsolutePath() + "/" + randomUIID + ".docx";
+		
 		String linea = "_____________________";
 		String agriNombres = contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName() ;
 		String agriApellidos = contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getLastName();
@@ -122,6 +132,11 @@ public class ContractServiceImpl implements IContractService {
 		String originProvincia = contract.getPostulation().getJobOffer().getOriginProvince() == null ? linea : contract.getPostulation().getJobOffer().getOriginProvince();
 		String originDistrito = contract.getPostulation().getJobOffer().getOriginDistrict() == null ? linea : contract.getPostulation().getJobOffer().getOriginDistrict();
 		String peso = contract.getPostulation().getJobOffer().getTotalWeight() == null ? linea : contract.getPostulation().getJobOffer().getTotalWeight().toString();
+		
+		
+		OrderEntity ord = orderService.getOneById(contract.getPostulation().getJobOffer().getOrder().getId());
+		ord.setStatus(Constants.ORDER_STATUS_DELIVERY);
+		orderService.save(ord);
 		
 		File file = new File(ruta);
 		if (!file.createNewFile()) {
@@ -547,7 +562,7 @@ public class ContractServiceImpl implements IContractService {
 			out.close();
 		}
 
-		return randomUIID;
+		return ruta;
 
 	}
 
@@ -556,9 +571,7 @@ public class ContractServiceImpl implements IContractService {
 		byte[] bArray;
 		try {
 			ContractEntity contract = findByPostulationId(id);	
-			String directorio = System.getProperty("user.dir");
-			String separador = System.getProperty("file.separator");
-			String ruta = directorio + separador + Constants.RUTA_CONTRATO + separador + contract.getFileContract() + ".docx";
+			String ruta = contract.getFileContract();
 			File archivo = new File(ruta);
 			fis = new FileInputStream(archivo);
 			bArray = new byte[(int) archivo.length()];
