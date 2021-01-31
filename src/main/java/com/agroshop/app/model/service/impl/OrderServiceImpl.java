@@ -280,5 +280,14 @@ public class OrderServiceImpl implements IOrderService {
 		return ord;
 	}
 
+	@Override
+	public OrderEntity changeStatusOrder(Integer id) throws Throwable {
+		OrderEntity ord = new OrderEntity();
+		ord = getOneById(id);
+		ord.setStatus(Constants.ORDER_STATUS_DELIVERY);
+		ord = save(ord);
+		return ord;
+	}
+
 }
 

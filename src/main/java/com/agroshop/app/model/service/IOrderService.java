@@ -30,5 +30,7 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	public List<OrderEntity> getListOrderByStatusAndClientId(String status,Integer id);
 	
 	public OrderEntity confirmArriveOrder(MultipartFile file, Integer id) throws Throwable;
+	
+	public OrderEntity changeStatusOrder(Integer id) throws Throwable;
 
 }

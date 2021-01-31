@@ -224,4 +224,24 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 
 		return response;
 	}
+	
+	@PostMapping(path = "cso")
+	public GenericResponse<OrderEntity> changeStatusOrder(@RequestBody GenericRequest<Integer> request) {
+
+		logger.info("OrderController.changeStatusOrder()");
+		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
+
+		try {
+			OrderEntity ord = new OrderEntity();
+			ord = orderService.changeStatusOrder(request.getData());
+			response.setData(ord);
+			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
+
+		} catch (Throwable e) {
+			response.setResponseCode(Constants.ERROR_PETITION_REQUEST);
+			logger.error(e.getMessage());
+		}
+
+		return response;
+	}
 }
