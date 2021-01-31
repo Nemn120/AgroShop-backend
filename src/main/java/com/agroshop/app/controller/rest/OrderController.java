@@ -201,7 +201,7 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 		return response;
 	}
 	
-	@PostMapping(path = "vi")
+	@PostMapping(path = "/vi")
 	public GenericResponse<String> viewImage(@RequestBody GenericRequest<Integer> request) {
 
 		logger.info("OrderController.viewImage()");
@@ -225,7 +225,7 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 		return response;
 	}
 	
-	@PostMapping(path = "cso")
+	@PostMapping(path = "/cso")
 	public GenericResponse<OrderEntity> changeStatusOrder(@RequestBody GenericRequest<Integer> request) {
 
 		logger.info("OrderController.changeStatusOrder()");
