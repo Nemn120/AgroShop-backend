@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.agroshop.app.model.entities.ProductSalesEntity;
-import com.agroshop.app.model.entities.VehicleEntity;
 
 public interface IProductSalesRepository extends JpaRepository<ProductSalesEntity, Integer> {
 	// List<ProductSalesEntity> findByIdSalesOrderByPriceAsc(int idSales);
@@ -28,4 +27,5 @@ public interface IProductSalesRepository extends JpaRepository<ProductSalesEntit
 	
 	@Query("SELECT p FROM ProductSalesEntity p WHERE  p.farmerNumber=:id AND p.product.id=:idp ")
 	public List<ProductSalesEntity> getListProductSalesByProductId(@Param("id") Integer id, @Param("idp") Integer idp);
+	
 }

@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.entities.OrderEntity;
+import com.agroshop.app.model.entities.ProductSalesEntity;
 import com.agroshop.app.model.repository.IOrderCustomRepository;
 
 public class IOrderCustomRepositoryImpl implements IOrderCustomRepository{
@@ -79,5 +80,14 @@ public class IOrderCustomRepositoryImpl implements IOrderCustomRepository{
 		
 		return query.getResultList();
 	}
-
+	
+	@Override
+	public List<OrderEntity> getListOrderRecentByStatusLimitedTo(Integer limit, String status, Integer id){
+		StringBuffer query = new StringBuffer("SELECT ord FROM OrderEntity ord WHERE ord.farmer.id=:id AND ord.status=:status ORDER BY ord.createDate DESC");
+		Query q = em.createQuery(query.toString(),OrderEntity.class).setMaxResults(limit);
+		q.setParameter("id", id);
+		q.setParameter("status", status);
+		return q.getResultList();
+	}
+	
 }
