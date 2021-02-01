@@ -262,23 +262,18 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	
 	@Override
-	public OrderEntity confirmArriveOrder(MultipartFile file, Integer id) throws Throwable{
-		
-		OrderEntity ord = new OrderEntity();
-		ord = getOneById(id);
+	public void confirmArriveOrder(MultipartFile file, Integer id) throws Throwable{
 		if (!file.isEmpty()) {
 			String nameImage = null;
 			try {
 				nameImage = uploadService.copy(file);
-				ord.setPhoto(nameImage);
-				ord.setStatus(Constants.ORDER_STATUS_DELIVERED);
-				logger.info("IMAGE" + ord.getPhoto());
-				ord = save(ord);
+				orderRepo.updateOrderStatus(id, Constants.ORDER_STATUS_DELIVERED);
+				orderRepo.updateOrderPhoto(id, nameImage);
+				logger.info("IMAGE" + nameImage);
 			} catch(IOException e) {
 				logger.error(e.getMessage());
 			}
 		}
-		return ord;
 	}
 
 	@Override

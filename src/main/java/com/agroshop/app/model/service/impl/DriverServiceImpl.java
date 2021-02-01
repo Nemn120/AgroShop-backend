@@ -2,16 +2,15 @@ package com.agroshop.app.model.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.agroshop.app.model.entities.DriverEntity;
 import com.agroshop.app.model.repository.IDriverRepository;
 import com.agroshop.app.model.service.IDriverService;
 import com.agroshop.app.model.service.IUserService;
 import com.agroshop.app.util.Constants;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.agroshop.app.util.MailUtil;
 
 
 @Service
@@ -22,6 +21,9 @@ public class DriverServiceImpl implements IDriverService{
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private MailUtil mailUtil;
 	
 	@Override
 	public List<DriverEntity> getAll() {
@@ -69,6 +71,9 @@ public class DriverServiceImpl implements IDriverService{
 			DriverEntity driver = this.getDriverById(id);
 			if(!isAcceptedDriver(driver)) {
 				driver.setStatus(Constants.DRIVER_STATUS_ACCEPTED);
+				if(driver.getUser().getEmail() != null) {
+					sendEmailConfirmDriverAccepted(driver);
+				}
 				driverAccepted.add(save(driver));
 			} 
 		});
@@ -97,6 +102,14 @@ public class DriverServiceImpl implements IDriverService{
 	public String getStatusOfDriver(String username) {
 		DriverEntity driver = getUserByUsername(username);
 		return driver.getStatus();
+	}
+	
+	private void sendEmailConfirmDriverAccepted(DriverEntity driver) {
+		String subject = "Sr. Conductor Su cuenta como conductor ha sido aceptada";
+		StringBuffer body = new StringBuffer("Agroshop le envía sus credenciales de acceso: \n");
+		body.append("Usuario: " + driver.getUser().getUsername() + "\n");
+		body.append("Password: " + driver.getUser().getPassword() + "\n");
+		mailUtil.sendEmail(driver.getUser().getEmail(), body.toString(), subject);
 	}
 }
 

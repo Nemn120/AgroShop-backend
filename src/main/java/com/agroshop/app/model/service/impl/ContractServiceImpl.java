@@ -30,6 +30,7 @@ import com.agroshop.app.model.service.IOrderService;
 import com.agroshop.app.model.service.IPostulationService;
 import com.agroshop.app.util.Constants;
 import com.agroshop.app.util.ConvertNumberToLetter;
+import com.agroshop.app.util.MailUtil;
 import com.agroshop.app.util.WordConstant;
 import com.agroshop.app.util.WordFunction;
 import com.google.common.io.Files;
@@ -48,7 +49,10 @@ public class ContractServiceImpl implements IContractService {
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
-
+	
+	@Autowired
+	private MailUtil mailUtil;
+	
 	private FileOutputStream out;
 	private FileInputStream fis;
 
@@ -560,6 +564,9 @@ public class ContractServiceImpl implements IContractService {
 			documento.close();
 			out.close();
 		}
+		if(contract.getPostulation().getJobOffer().getOrder().getClient().getUser().getEmail() != null) {
+			sendEmailConfirmContract(contract);
+		}
 
 		return ruta;
 
@@ -599,6 +606,12 @@ public class ContractServiceImpl implements IContractService {
 
         Path pathFile = Paths.get(Constants.RUTA_CONTRATO).resolve(nameFile).toAbsolutePath();
         return pathFile;
+	}
+	
+	private void sendEmailConfirmContract(ContractEntity contract) {
+		String subject = "El contrato ha sido generado exitosamente";
+		StringBuffer body = new StringBuffer("Estimado conductor Agroshop le informa que  su contrato ha sido generado con éxito \n");
+		mailUtil.sendEmail(contract.getPostulation().getJobOffer().getOrder().getClient().getUser().getEmail(), body.toString(), subject);
 	}
 
 }

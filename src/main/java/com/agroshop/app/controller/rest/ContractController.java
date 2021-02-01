@@ -10,6 +10,7 @@ import com.agroshop.app.controller.request.GenericRequest;
 import com.agroshop.app.controller.response.AbstractResponse;
 import com.agroshop.app.controller.response.GenericResponse;
 import com.agroshop.app.model.entities.ContractEntity;
+import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.service.IContractService;
 
 @RestController
@@ -70,4 +71,5 @@ public class ContractController {
 		}
 		return response;
 	}
+	
 }

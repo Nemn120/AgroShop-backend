@@ -188,9 +188,7 @@ private static final Logger logger = LogManager.getLogger(OrderController.class)
 		GenericResponse<OrderEntity> response = new GenericResponse<OrderEntity>();
 
 		try {
-			OrderEntity ord = new OrderEntity();
-			ord = orderService.confirmArriveOrder(file, id);
-			response.setData(ord);
+			orderService.confirmArriveOrder(file, id);
 			response.setResponseMessage(Constants.SUCCESS_PETITION_REQUEST);
 
 		} catch (Throwable e) {
