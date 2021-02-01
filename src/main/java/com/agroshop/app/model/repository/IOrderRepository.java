@@ -1,5 +1,6 @@
 package com.agroshop.app.model.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,9 +22,16 @@ public interface IOrderRepository extends IOrderCustomRepository, JpaRepository<
 	
 	@Query("Select ord From OrderEntity ord Where ord.status=:status and ord.client.id=:id and ord.isDeleted=False ORDER BY ord.createDate DESC")
 	List<OrderEntity> getListOrderByStatusAndClientId(@Param("status") String status, @Param("id") Integer id);
+
+
+	@Query("Select SUM(ord.total) FROM OrderEntity ord WHERE ord.farmer.id=:id and ord.createDate BETWEEN :initDate AND :finalDate")
+	Double getSales(@Param("id") Integer id, @Param("initDate") LocalDateTime initDate, @Param("finalDate") LocalDateTime finalDate);
 	
 	@Modifying
 	@Query("UPDATE OrderEntity set photo=:photo where id=:id")
 	void updateOrderPhoto(@Param("id") Integer id, @Param("photo") String photo);
 	
+	@Query("Select SUM(ord.quantity) FROM OrderEntity ord WHERE ord.farmer.id=:id and ord.createDate BETWEEN :initDate AND :finalDate")
+	Integer getQuantity(@Param("id") Integer id, @Param("initDate") LocalDateTime initDate, @Param("finalDate") LocalDateTime finalDate);
+
 }

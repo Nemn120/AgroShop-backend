@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.repository.IOrderCustomRepository;
+import com.agroshop.app.model.repository.IProductSalesCustomRepository;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
 import com.agroshop.app.model.service.IPlaceService;
@@ -30,10 +32,6 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Autowired
 	private IPlaceService placeService;
-
-	@Autowired
-	private IProductSalesRepository productSalesRepo;
-
 	
 	@Autowired
 	private ICategoryProductService categoryService;
@@ -161,7 +159,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	public List<ProductSalesEntity> getListProductSalesByFields(SearchProductSalesByFieldsDTO spsbf) {
 		LocalDate date = LocalDate.now();
 		logger.info("date: " + date);
-		return productSalesRepo.getListProductSalesByFields(spsbf, date);
+		return salesRepository.getListProductSalesByFields(spsbf, date);
 	}
 
 }

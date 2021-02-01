@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.agroshop.app.model.DTO.DashboardDTO;
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.OrderBean;
 import com.agroshop.app.model.entities.OrderEntity;
@@ -33,4 +34,5 @@ public interface IOrderService extends GenericCRUD<OrderEntity, Integer>{
 	
 	public OrderEntity changeStatusOrder(Integer id) throws Throwable;
 
+	public DashboardDTO getDashboard(Integer id);
 }
