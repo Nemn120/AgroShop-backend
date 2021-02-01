@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.agroshop.app.model.entities.ProductSalesEntity;
 
-public interface IProductSalesRepository extends JpaRepository<ProductSalesEntity, Integer> {
+public interface IProductSalesRepository extends IProductSalesCustomRepository, JpaRepository<ProductSalesEntity, Integer> {
 
 	// List<ProductSalesEntity> findByIdSalesOrderByPriceAsc(int idSales);
 
