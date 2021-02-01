@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.agroshop.app.model.DTO.DashboardDTO;
 import com.agroshop.app.model.DTO.SearchOrderByFieldsDTO;
 import com.agroshop.app.model.beans.FarmerBean;
 import com.agroshop.app.model.beans.OrderBean;
@@ -262,6 +263,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	
 	@Override
+
 	public OrderEntity confirmArriveOrder(MultipartFile file, Integer id) throws Throwable{
 		
 		OrderEntity ord = new OrderEntity();
@@ -288,6 +290,68 @@ public class OrderServiceImpl implements IOrderService {
 		ord.setStatus(Constants.ORDER_STATUS_DELIVERY);
 		ord = save(ord);
 		return ord;
+	}
+	public DashboardDTO getDashboard(Integer id) {
+		DashboardDTO dash = new DashboardDTO();
+		LocalDateTime time = LocalDateTime.now();
+		// sales and quantity today
+		LocalDateTime initDatet = time.withHour(0).withMinute(0).withSecond(0);
+		LocalDateTime finalDatet = time.withHour(23).withMinute(59).withSecond(59);
+		Double salesToday = orderRepo.getSales(id, initDatet, finalDatet);
+		Integer quantityToday = orderRepo.getQuantity(id, initDatet, finalDatet);
+		dash.setSalesToday(salesToday);
+		dash.setQuantityToday(quantityToday);
+		// sales and quantity yesterday
+		LocalDateTime initDatey =initDatet.minusDays(1);
+		LocalDateTime finalDatey =finalDatet.minusDays(1);
+		Double salesYesterday = orderRepo.getSales(id, initDatey, finalDatey);
+		Integer quantityYesterday = orderRepo.getQuantity(id, initDatey, finalDatey);
+		dash.setSalesYesterday(salesYesterday);
+		dash.setQuantityYesterday(quantityYesterday);
+		// sales and quantity last week
+		LocalDateTime initDatelw =time.withHour(0).withMinute(0).withSecond(0).minusDays(7+time.getDayOfWeek().getValue()-1);
+		LocalDateTime finalDatelw =time.withHour(23).withMinute(59).withSecond(59).minusDays(time.getDayOfWeek().getValue());
+		Double salesLastWeek = orderRepo.getSales(id, initDatelw, finalDatelw);
+		Integer quantityLastWeek = orderRepo.getQuantity(id, initDatelw, finalDatelw);
+		dash.setQuantityLastWeek(quantityLastWeek);
+		dash.setSalesLastWeek(salesLastWeek);
+		// sales and quantity this week
+		LocalDateTime initDatetw =initDatelw.plusWeeks(1);
+		LocalDateTime finalDatetw =finalDatelw.plusWeeks(1);
+		Double salesThisWeek = orderRepo.getSales(id, initDatetw, finalDatetw);
+		Integer quantityThisWeek = orderRepo.getQuantity(id, initDatetw, finalDatetw);
+		dash.setQuantityThisWeek(quantityThisWeek);
+		dash.setSalesThisWeek(salesThisWeek);
+		
+		if(salesToday!= null && salesYesterday != null) {
+			Double salesVariationDay = (((double)salesToday-(double)salesYesterday)/(double)salesYesterday)*100;
+			dash.setSalesVariationDay(salesVariationDay);
+		}
+		
+		if(quantityToday!= null && quantityYesterday != null) {
+			Double quantityVariationDay = (((double)quantityToday-(double)quantityYesterday)/(double)quantityYesterday)*100;
+			dash.setQuantityVariationDay(quantityVariationDay);
+		}
+		
+		if(salesLastWeek !=null && salesThisWeek !=null) {
+			Double variationSalesWeek = (((double)salesThisWeek-(double)salesLastWeek)/(double)salesLastWeek)*100;
+			variationSalesWeek = (double) Math.round(variationSalesWeek * 100);
+			dash.setSalesVariationWeek(variationSalesWeek/100);
+		}
+		if(quantityLastWeek != null && quantityThisWeek != null) {
+			Double variationQuantityWeeks =  ((((double)quantityThisWeek-(double)quantityLastWeek)/(double)quantityLastWeek)*100);
+			variationQuantityWeeks = (double) Math.round(variationQuantityWeeks * 100);
+			dash.setQuantityVariationWeek(variationQuantityWeeks/100);
+		}
+		
+		dash.setOrderPending(orderRepo.getListOrderRecentByStatusLimitedTo(5,Constants.ORDER_STATUS_PENDING, id));
+		dash.setOrderDelivery(orderRepo.getListOrderRecentByStatusLimitedTo(5,Constants.ORDER_STATUS_DELIVERY, id));
+		dash.setOrderDelivered(orderRepo.getListOrderRecentByStatusLimitedTo(5,Constants.ORDER_STATUS_DELIVERED, id));
+		
+		dash.setId(id);
+		
+		return dash;
+
 	}
 
 }

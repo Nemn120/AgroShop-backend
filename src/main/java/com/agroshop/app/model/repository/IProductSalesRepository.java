@@ -9,8 +9,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+<<<<<<< HEAD
 public interface IProductSalesRepository
 		extends IProductSalesCustomRepository, JpaRepository<ProductSalesEntity, Integer> {
+=======
+import com.agroshop.app.model.entities.ProductSalesEntity;
+
+public interface IProductSalesRepository extends JpaRepository<ProductSalesEntity, Integer> {
+>>>>>>> origin/felipe_jimenez
 	// List<ProductSalesEntity> findByIdSalesOrderByPriceAsc(int idSales);
 
 	@Query("SELECT p FROM ProductSalesEntity p INNER JOIN p.product pro where p.status=:status and p.statusSales=:statusSales and UPPER(pro.name) LIKE CONCAT('%',UPPER(:searchProduct),'%') order by p.farmerNumber asc")
@@ -31,7 +37,10 @@ public interface IProductSalesRepository
 	@Query("SELECT p FROM ProductSalesEntity p WHERE  p.farmerNumber=:id AND p.product.id=:idp ")
 	public List<ProductSalesEntity> getListProductSalesByProductId(@Param("id") Integer id, @Param("idp") Integer idp);
 	
+<<<<<<< HEAD
 	@Modifying
 	@Query("UPDATE ProductSalesEntity set assessment=:assessment where id=:id")
 	void updateAssessment(@Param("id") Integer id, @Param("assessment") Integer assessment);
+=======
+>>>>>>> origin/felipe_jimenez
 }
