@@ -1,5 +1,6 @@
 package com.agroshop.app.model.service;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import com.agroshop.app.model.entities.ContractEntity;
@@ -22,5 +23,7 @@ public interface IContractService {
 	public byte[] getContract(Integer id) throws Throwable;
 	
 	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable;
+	
+	public Path getPath(String nameFile) throws Throwable;
 	
 }

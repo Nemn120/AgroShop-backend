@@ -264,7 +264,8 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public OrderEntity confirmArriveOrder(MultipartFile file, Integer id) throws Throwable{
 		
-		OrderEntity ord = orderRepo.findById(id).orElse(new OrderEntity());
+		OrderEntity ord = new OrderEntity();
+		ord = getOneById(id);
 		if (!file.isEmpty()) {
 			String nameImage = null;
 			try {
@@ -272,7 +273,7 @@ public class OrderServiceImpl implements IOrderService {
 				ord.setPhoto(nameImage);
 				ord.setStatus(Constants.ORDER_STATUS_DELIVERED);
 				logger.info("IMAGE" + ord.getPhoto());
-				ord = orderRepo.save(ord);
+				ord = save(ord);
 			} catch(IOException e) {
 				logger.error(e.getMessage());
 			}

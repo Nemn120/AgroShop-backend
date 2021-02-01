@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,7 @@ import com.agroshop.app.util.Constants;
 import com.agroshop.app.util.ConvertNumberToLetter;
 import com.agroshop.app.util.WordConstant;
 import com.agroshop.app.util.WordFunction;
+import com.google.common.io.Files;
 
 @Service
 public class ContractServiceImpl implements IContractService {
@@ -98,13 +101,9 @@ public class ContractServiceImpl implements IContractService {
 	public String createContract(ContractEntity contract) throws IOException {
 		
 		ConvertNumberToLetter convertidor = new ConvertNumberToLetter();
-
 		String randomUIID = UUID.randomUUID().toString();
-		
-		Resource fileResource = resourceLoader.getResource("classpath:Contrato");
-		File archivo = fileResource.getFile();
-		
-		String ruta = archivo.getAbsolutePath() + "/" + randomUIID + ".docx";
+		Path pathAbsolute = Paths.get(Constants.RUTA_CONTRATO);
+		String ruta = pathAbsolute.toString() + "/" + randomUIID + ".docx";
 		
 		String linea = "_____________________";
 		String agriNombres = contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getFarmer().getUser().getName() ;
@@ -586,9 +585,20 @@ public class ContractServiceImpl implements IContractService {
 		return bArray;
 	}
 
-
+	@Override
 	public ContractEntity findByPostulationId(Integer postulationId) throws Throwable {
 		return repoContract.findByPostulationId(postulationId);
+	}
+
+	@Override
+	public Path getPath(String nameFile) throws Throwable {
+		String directory = System.getProperty("user.dir");
+		String separator = System.getProperty("file.separator");
+		String randomUIID = UUID.randomUUID().toString();
+		String ruta = directory + separator + Constants.RUTA_CONTRATO + separator + randomUIID + nameFile;
+
+        Path pathFile = Paths.get(Constants.RUTA_CONTRATO).resolve(nameFile).toAbsolutePath();
+        return pathFile;
 	}
 
 }
