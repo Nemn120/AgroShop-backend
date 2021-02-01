@@ -32,10 +32,6 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 
 	@Autowired
 	private IPlaceService placeService;
-
-	@Autowired
-	private IProductSalesCustomRepository productSalesRepo;
-
 	
 	@Autowired
 	private ICategoryProductService categoryService;
@@ -163,7 +159,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	public List<ProductSalesEntity> getListProductSalesByFields(SearchProductSalesByFieldsDTO spsbf) {
 		LocalDate date = LocalDate.now();
 		logger.info("date: " + date);
-		return productSalesRepo.getListProductSalesByFields(spsbf, date);
+		return salesRepository.getListProductSalesByFields(spsbf, date);
 	}
 
 }
