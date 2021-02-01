@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.agroshop.app.model.DTO.SearchProductSalesByFieldsDTO;
 import com.agroshop.app.model.entities.ProductSalesEntity;
+import com.agroshop.app.model.repository.IOrderCustomRepository;
+import com.agroshop.app.model.repository.IProductSalesCustomRepository;
 import com.agroshop.app.model.repository.IProductSalesRepository;
 import com.agroshop.app.model.service.ICategoryProductService;
 import com.agroshop.app.model.service.IPlaceService;
@@ -32,7 +34,7 @@ public class ProductSalesServiceImpl implements IProductSalesService {
 	private IPlaceService placeService;
 
 	@Autowired
-	private IProductSalesRepository productSalesRepo;
+	private IProductSalesCustomRepository productSalesRepo;
 
 	
 	@Autowired
