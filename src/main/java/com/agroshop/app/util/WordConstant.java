@@ -121,7 +121,7 @@ public class WordConstant {
 		parrafo.setText2("El plazo del presente contrato es de $tiempo_contrato$ meses, el cual regirá a partir del "
 				+ "$fecha_contrato_inicio$ hasta el $fecha_contrato_fin$, a cuyo vencimiento podrá renovarse "
 				+ "con el acuerdo de ambas partes, pudiendo variar las condiciones establecidas en el presente "
-				+ "contrato, en cuanto al plazo, el monto establecido por un valor de $monto_costo$ soles del servicio de envío de carga desde $origin$, con un total de carga equivalente a $peso$ KG");
+				+ "contrato, en cuanto al plazo, el monto establecido por un valor de $monto_costo$ soles del servicio de envío de carga desde $origin$ hasta $destino$, con un total de carga equivalente a $peso$ KG");
 		return parrafo;
 	}
 	

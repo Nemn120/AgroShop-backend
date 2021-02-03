@@ -268,6 +268,7 @@ public class OrderServiceImpl implements IOrderService {
 			String nameImage = null;
 			try {
 				nameImage = uploadService.copy(file);
+				orderDetailService.updateOrderDetailStatus(id, Constants.ORDER_STATUS_DELIVERED);
 				orderRepo.updateOrderStatus(id, Constants.ORDER_STATUS_DELIVERED);
 				orderRepo.updateOrderPhoto(id, nameImage);
 				logger.info("IMAGE" + nameImage);
@@ -279,11 +280,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public OrderEntity changeStatusOrder(Integer id) throws Throwable {
-		OrderEntity ord = new OrderEntity();
-		ord = getOneById(id);
-		ord.setStatus(Constants.ORDER_STATUS_DELIVERY);
-		ord = save(ord);
-		return ord;
+		orderDetailService.updateOrderDetailStatus(id, Constants.ORDER_STATUS_DELIVERY);
+		orderRepo.updateOrderStatus(id, Constants.ORDER_STATUS_DELIVERY);
+		return new OrderEntity();
 	}
 	
 	public DashboardDTO getDashboard(Integer id) {

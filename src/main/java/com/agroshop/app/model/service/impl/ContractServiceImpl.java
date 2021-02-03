@@ -127,19 +127,23 @@ public class ContractServiceImpl implements IContractService {
 		String tiempoContrato = contract.getTimeContract() == null ? linea : contract.getTimeContract().toString();
 		
 		String initContrato = contract.getInitDate() == null ? linea : ConvertNumberToLetter.convertMonth(contract.getInitDate().getDayOfMonth(),
-				contract.getInitDate().getDayOfMonth(), contract.getInitDate().getYear());
+				contract.getInitDate().getMonthValue(), contract.getInitDate().getYear());
 		
-		String endContrato = contract.getEndContract() == null ? linea : ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(), contract.getEndContract().getDayOfMonth(), contract.getEndContract().getYear());
+		String endContrato = contract.getEndContract() == null ? linea : ConvertNumberToLetter.convertMonth(contract.getEndContract().getDayOfMonth(), contract.getEndContract().getMonthValue(), contract.getEndContract().getYear());
 		String monto_costo = contract.getPostulation().getJobOffer().getShippingCost() == null ? linea : contract.getPostulation().getJobOffer().getShippingCost().toString();
 		String originRegion = contract.getPostulation().getJobOffer().getOriginRegion() == null ? linea : contract.getPostulation().getJobOffer().getOriginRegion();
 		String originProvincia = contract.getPostulation().getJobOffer().getOriginProvince() == null ? linea : contract.getPostulation().getJobOffer().getOriginProvince();
 		String originDistrito = contract.getPostulation().getJobOffer().getOriginDistrict() == null ? linea : contract.getPostulation().getJobOffer().getOriginDistrict();
+		
+		String destinoRegion = contract.getPostulation().getOrder().getDestinationRegion() == null ? linea : contract.getPostulation().getOrder().getDestinationRegion();
+		String destinoProvincia = contract.getPostulation().getOrder().getDestinationProvince() == null ? linea : contract.getPostulation().getOrder().getDestinationProvince();
+		String destinoDistrito = contract.getPostulation().getOrder().getDestinationDistrict() == null ? linea : contract.getPostulation().getOrder().getDestinationDistrict();
+		
 		String peso = contract.getPostulation().getJobOffer().getTotalWeight() == null ? linea : contract.getPostulation().getJobOffer().getTotalWeight().toString();
 		
 		
-		OrderEntity ord = orderService.getOneById(contract.getPostulation().getJobOffer().getOrder().getId());
-		ord.setStatus(Constants.ORDER_STATUS_DELIVERY);
-		orderService.save(ord);
+		orderDetailService.updateOrderDetailStatus(contract.getPostulation().getJobOffer().getOrder().getId(), Constants.ORDER_STATUS_DELIVERY);
+		orderRepo.updateOrderStatus(contract.getPostulation().getJobOffer().getOrder().getId(), Constants.ORDER_STATUS_DELIVERY);
 		
 		File file = new File(ruta);
 		if (!file.createNewFile()) {
@@ -247,6 +251,11 @@ public class ContractServiceImpl implements IContractService {
 									+ " provincia de " + originProvincia
 									+ " ubicado en el distrito de "
 									+ originDistrito)
+					.replace("$destino$", 
+						"la región de " + destinoRegion
+									+ " provincia de " + destinoProvincia
+									+ " ubicado en el distrito de "
+									+ destinoDistrito)
 					.replace("$peso$", peso);
 
 			String subtitleObligacion = constante.subtituloObligaciones().getText1();
