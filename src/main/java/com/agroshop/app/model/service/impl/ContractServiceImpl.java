@@ -25,7 +25,9 @@ import com.agroshop.app.model.entities.ContractEntity;
 import com.agroshop.app.model.entities.OrderEntity;
 import com.agroshop.app.model.entities.PostulationEntity;
 import com.agroshop.app.model.repository.IContractRepository;
+import com.agroshop.app.model.repository.IOrderRepository;
 import com.agroshop.app.model.service.IContractService;
+import com.agroshop.app.model.service.IOrderDetailService;
 import com.agroshop.app.model.service.IOrderService;
 import com.agroshop.app.model.service.IPostulationService;
 import com.agroshop.app.util.Constants;
@@ -43,6 +45,12 @@ public class ContractServiceImpl implements IContractService {
 
 	@Autowired
 	private IPostulationService postulationService;
+	
+	@Autowired
+	private IOrderDetailService orderDetailService;
+	
+	@Autowired
+	private IOrderRepository orderRepo;
 	
 	@Autowired
 	private IOrderService orderService;
@@ -135,9 +143,9 @@ public class ContractServiceImpl implements IContractService {
 		String originProvincia = contract.getPostulation().getJobOffer().getOriginProvince() == null ? linea : contract.getPostulation().getJobOffer().getOriginProvince();
 		String originDistrito = contract.getPostulation().getJobOffer().getOriginDistrict() == null ? linea : contract.getPostulation().getJobOffer().getOriginDistrict();
 		
-		String destinoRegion = contract.getPostulation().getOrder().getDestinationRegion() == null ? linea : contract.getPostulation().getOrder().getDestinationRegion();
-		String destinoProvincia = contract.getPostulation().getOrder().getDestinationProvince() == null ? linea : contract.getPostulation().getOrder().getDestinationProvince();
-		String destinoDistrito = contract.getPostulation().getOrder().getDestinationDistrict() == null ? linea : contract.getPostulation().getOrder().getDestinationDistrict();
+		String destinoRegion = contract.getPostulation().getJobOffer().getOrder().getDestinationRegion() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getDestinationRegion();
+		String destinoProvincia = contract.getPostulation().getJobOffer().getOrder().getDestinationProvince() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getDestinationProvince();
+		String destinoDistrito = contract.getPostulation().getJobOffer().getOrder().getDestinationDistrict() == null ? linea : contract.getPostulation().getJobOffer().getOrder().getDestinationDistrict();
 		
 		String peso = contract.getPostulation().getJobOffer().getTotalWeight() == null ? linea : contract.getPostulation().getJobOffer().getTotalWeight().toString();
 		
